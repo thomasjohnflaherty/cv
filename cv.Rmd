@@ -21,6 +21,7 @@ library(magrittr) # For the pipe
 library(tidyverse)
 library(viridis)
 library(ggridges)
+library(tweenr)
 source("cv_printing_functions.r")
 
 # Read in all data and initialize a CV printer object
@@ -29,6 +30,13 @@ CV <- create_CV_object(
   pdf_mode = params$pdf_mode
 )
 
+ht_tween <- function(x, n, val) {
+  c(
+    unlist(tween(c(val, max(head(x, n))), n, "sine-in-out")),
+    x[(n + 1):(length(x) - n)],
+    unlist(tween(c(max(tail(x, n)), val), n, "sine-in-out"))
+  )
+}
 ```
 
 ```{r}
@@ -74,12 +82,16 @@ read_csv("pulsar.csv", col_names = F, ) %>%
   mutate(
     lat = sub("^X", "", lat) %>% as.integer()
   ) %>% 
-  filter(lat %in% 65:235) %>% 
+  filter(lat %in% 50:250) %>% 
+  group_by(lng) %>% 
+  arrange(lat) %>% 
+  mutate(height = ht_tween(height, 10, 0)) %>% 
+  ungroup() %>% 
   as_tibble() -> pulsar
 
 ggplot(pulsar, aes(x = lat, y = lng, height = height, group = lng, fill = lng)) +
   geom_ridgeline(
-    min_height = -2,
+    min_height = .5,
     scale = 0.3,
     alpha = .75,
     color = "#f7fbff",
