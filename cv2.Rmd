@@ -1,0 +1,262 @@
+---
+title: "Thomas Flaherty's Resume"
+author: Thomas Flaherty
+date: "`r Sys.Date()`"
+params:
+  pdf_mode:
+    value: true
+output:
+  pagedown::html_resume:
+    css: ['dd_cv.css', 'resume']
+    self_contained: true
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  results='asis', 
+  echo = FALSE
+)
+
+library(magrittr) # For the pipe
+library(tidyverse)
+library(viridis)
+library(ggridges)
+library(tweenr)
+source("CV_printing_functions.r")
+
+# Read in all data and initialize a CV printer object
+CV <- create_CV_object(
+  data_location = "https://docs.google.com/spreadsheets/d/1Qph3VzuNKj0CTLpjO3rNogz5po6ZgOI0CVfY_YUw10E",  
+  pdf_mode = params$pdf_mode
+)
+
+ht_tween <- function(x, n, val) {
+  c(
+    unlist(tween(c(val, max(head(x, n))), n, "sine-in-out")),
+    x[(n + 1):(length(x) - n)],
+    unlist(tween(c(max(tail(x, n)), val), n, "sine-in-out"))
+  )
+}
+```
+
+```{r}
+# When in pdf export mode the little dots are unaligned, so fix that with some conditional CSS.
+if(params$pdf_mode) {
+    cat("
+<style>
+:root{
+  --decorator-outer-offset-left: -6.5px;
+}
+</style>")
+}
+```
+
+Aside
+================================================================================
+
+```{r dpi = 300, message = FALSE, fig.width=4, fig.height=5}
+# Build interactive network of positions colored by section
+# and connected if they occurred in the same year
+# datadrivencv::build_network_logo(CV$entries_data)
+# m_exp <- function(l, r, d) {
+#   x <- seq(0, d, length = l)
+#   y <- dexp(x, rate = r, log = F)
+#   z <- r
+#   tibble(x, y, z)
+# }
+# map(1:1000, ~m_exp(100, .x, .005)) %>%
+#   tibble() %>%
+#   unnest(everything()) %>% 
+#   filter(y > 0) %>% 
+#   ggplot(aes(x + 1, y, color = z, group = z)) +
+#   geom_line(show.legend = F, alpha = .75) +
+#   #scale_x_reverse() +
+#   scale_y_log10() +
+#   scale_color_viridis(option = "D") +
+#   theme_void() + 
+#   theme(panel.background = element_rect(fill = '#f7fbff', colour = '#f7fbff'))
+
+read_csv("pulsar.csv", col_names = F, ) %>%
+  mutate(lng = row_number()) %>% 
+  gather(lat, height, -lng) %>%
+  mutate(
+    lat = sub("^X", "", lat) %>% as.integer()
+  ) %>% 
+  filter(lat %in% 50:250) %>% 
+  group_by(lng) %>% 
+  arrange(lat) %>% 
+  mutate(height = ht_tween(height, 10, 0)) %>% 
+  ungroup() %>% 
+  as_tibble() -> pulsar
+
+ggplot(pulsar, aes(x = lat, y = lng, height = height, group = lng, fill = lng)) +
+  geom_ridgeline(
+    min_height = .5,
+    scale = 0.3,
+    alpha = .75,
+    color = "#f7fbff",
+    show.legend = F
+  ) +
+  scale_y_reverse() +
+  theme_void() +
+  scale_fill_viridis(option = "B", end = .8) +
+  theme(panel.background = element_rect(fill = '#f7fbff', colour = '#f7fbff'))
+```
+
+
+```{r}
+# if(params$pdf_mode){
+#   cat("View this CV online with links at _nickstrayer.me/cv/_")
+# } else {
+#   cat("[<i class='fas fa-download'></i> Download a PDF of this CV](https://github.com/nstrayer/cv/raw/master/strayer_cv.pdf)")
+# }
+```
+
+Contact {#contact}
+--------------------------------------------------------------------------------
+
+```{r}
+CV %>% print_contact_info()
+```
+
+
+
+Languages {#languages}
+--------------------------------------------------------------------------------
+
+```{r}
+CV$skills %>% filter(group == "language") %>% arrange(desc(level)) %>% print_skill_bars()
+```
+
+
+
+
+Packages {#packages}
+--------------------------------------------------------------------------------
+
+```{r}
+CV$skills %>% filter(group != "language") %>% arrange(desc(level)) %>% print_skill_bars()
+```
+
+
+
+Disclaimer {#disclaimer}
+--------------------------------------------------------------------------------
+
+Last updated on `r Sys.Date()`.
+
+
+
+Main
+================================================================================
+
+Thomas Flaherty {#title}
+--------------------------------------------------------------------------------
+
+```{r}
+# Note the special double pipe so we modify the CV object in place
+CV %<>% print_text_block("intro") 
+```
+
+
+
+Education {data-icon=graduation-cap}
+--------------------------------------------------------------------------------
+
+```{r}
+CV %<>% print_section('education')
+```
+
+
+
+<!-- Research Experience {data-icon=laptop} -->
+<!-- -------------------------------------------------------------------------------- -->
+
+<!-- ```{r} -->
+<!-- CV %<>% print_section('research_positions') -->
+<!-- ``` -->
+
+
+
+Industry Experience {data-icon=suitcase}
+--------------------------------------------------------------------------------
+
+<!-- ::: aside -->
+<!-- ```{r} -->
+<!-- CV %<>% print_text_block('industy_experience_aside') -->
+<!-- ``` -->
+<!-- ::: -->
+
+```{r}
+CV %<>% print_section('industry_positions')
+```
+
+<!-- These breaks just force a new page so section doesnt get cut off -->
+<!-- <br> -->
+<!-- <br> -->
+<!-- <br> -->
+
+<!-- Teaching Experience {data-icon=chalkboard-teacher} -->
+<!-- -------------------------------------------------------------------------------- -->
+
+<!-- ::: aside -->
+<!-- ```{r} -->
+<!-- CV %<>% print_text_block('teaching_experience_aside') -->
+<!-- ``` -->
+<!-- ::: -->
+
+<!-- ```{r} -->
+<!-- CV %<>% print_section('teaching_positions') -->
+<!-- ``` -->
+
+
+
+<!-- Selected Data Science Writing {data-icon=chart-line} -->
+<!-- -------------------------------------------------------------------------------- -->
+
+<!-- ::: aside -->
+<!-- ```{r} -->
+<!-- CV %<>% print_text_block('data_science_writing_aside') -->
+<!-- ``` -->
+<!-- ::: -->
+
+<!-- ```{r} -->
+<!-- CV %<>% print_section('data_science_writings') -->
+<!-- ``` -->
+
+
+
+<!-- Selected Press (About)  {data-icon=newspaper} -->
+<!-- -------------------------------------------------------------------------------- -->
+
+<!-- ```{r} -->
+<!-- CV %<>% print_section('about_me_press') -->
+<!-- ``` -->
+
+
+<!-- <br> -->
+<!-- <br> -->
+
+
+<!-- Selected Press (By)  {data-icon=newspaper} -->
+<!-- -------------------------------------------------------------------------------- -->
+
+<!-- ```{r} -->
+<!-- CV %<>% print_section('by_me_press') -->
+<!-- ``` -->
+
+
+
+<!-- Selected Publications, Posters, and Talks {data-icon=book} -->
+<!-- -------------------------------------------------------------------------------- -->
+
+<!-- ```{r} -->
+<!-- CV %<>% print_section('academic_articles') -->
+<!-- ``` -->
+
+
+
+<!-- ```{r} -->
+<!-- CV %<>% print_links() -->
+<!-- ``` -->
+

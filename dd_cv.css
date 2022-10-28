@@ -1,8 +1,8 @@
-@import url("https://fonts.googleapis.com/css?family=Montserrat|Playfair+Display&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Source+Serif+4|Public+Sans&display=swap");
 
 /* Main text is monserrat*/
 body {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Public Sans", sans-serif;
   font-weight: 300;
   line-height: 1.2;
   color: #444;
@@ -12,7 +12,7 @@ body {
 h1,
 h2,
 h3 {
-  font-family: "Playfair Display", serif;
+  font-family: "Source+Serif+4", serif;
   color: #000;
 }
 
@@ -37,13 +37,13 @@ sup {
 :root {
   --sidebar-width: 12rem; /* Shrink sidebar width  */
   --sidebar-background-color: #f7fbff; /* Make sidebar blue */
-  --sidebar-horizontal-padding: 0.1in; /* Reduce sidebar padding */
+  --sidebar-horizontal-padding: 0.01in; /* Reduce sidebar padding */
   --decorator-outer-dim: 10px; /* Make position deliniating circles larger */
   --decorator-border: 2px solid #bdd7e7; /* Make timeline a blue as well*/
 }
 
 .details .place {
-  margin-top: 0.125rem;
+  margin-top: .2rem;
 }
 
 .main-block:not(.concise) .details div {
@@ -72,7 +72,7 @@ sup {
 
 .aside li::before {
   position: relative;
-  margin-left: -4.25pt;
+  margin-left: -1.25pt;
   content: "• ";
 }
 
@@ -80,7 +80,7 @@ sup {
 .aside {
   width: calc(var(--sidebar-width) + 9px);
   line-height: 1.2;
-  font-size: 0.65rem;
+  font-size: 0.75rem;
 }
 
 /* Make little circle outline be a light blue */
@@ -95,10 +95,11 @@ sup {
 
 .skill-bar {
   color: white;
-  padding: 0.2rem 0.2rem;
-  margin-top: 4px;
+  padding: 0.1rem 0.25rem;
+  margin-top: 1px;
   position: relative;
   width: 100%;
+  height: 80%;
 }
 
 
@@ -116,9 +117,9 @@ sup {
 
 /* Add styles for little cards  */
 .info-card{
-  width: 220px;    
+  width: 150px;    
   float: left;    
-  padding: 0.5rem;
-  margin: 0.5rem;
+  padding: 0.25rem;
+  margin: 0.25rem;
   box-shadow: 1px 1px 4px black;
 }

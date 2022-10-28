@@ -1,6 +1,6 @@
 ---
-title: "Thomas Flaherty's Resume"
-author: Thomas Flaherty
+title: "Thom Flaherty's Resume"
+author: Thom Flaherty
 date: "`r Sys.Date()`"
 params:
   pdf_mode:
@@ -22,7 +22,7 @@ library(tidyverse)
 library(viridis)
 library(ggridges)
 library(tweenr)
-source("cv_printing_functions.r")
+source("CV_printing_functions.r")
 
 # Read in all data and initialize a CV printer object
 CV <- create_CV_object(
@@ -51,10 +51,9 @@ if(params$pdf_mode) {
 }
 ```
 
-Aside
-================================================================================
+# Aside
 
-```{r dpi = 300, message = FALSE, fig.width=4, fig.height=5}
+```{r dpi = 300, message = FALSE, fig.width=3, fig.height=4}
 # Build interactive network of positions colored by section
 # and connected if they occurred in the same year
 # datadrivencv::build_network_logo(CV$entries_data)
@@ -99,10 +98,9 @@ ggplot(pulsar, aes(x = lat, y = lng, height = height, group = lng, fill = lng)) 
   ) +
   scale_y_reverse() +
   theme_void() +
-  scale_fill_viridis(option = "B", end = .8) +
+  scale_fill_viridis(option = "F", end = .8) +
   theme(panel.background = element_rect(fill = '#f7fbff', colour = '#f7fbff'))
 ```
-
 
 ```{r}
 # if(params$pdf_mode){
@@ -112,79 +110,69 @@ ggplot(pulsar, aes(x = lat, y = lng, height = height, group = lng, fill = lng)) 
 # }
 ```
 
-Contact {#contact}
---------------------------------------------------------------------------------
+## Contact
 
 ```{r}
 CV %>% print_contact_info()
 ```
 
-
-
-Languages {#languages}
---------------------------------------------------------------------------------
+## Languages {#languages}
 
 ```{r}
 CV$skills %>% filter(group == "language") %>% arrange(desc(level)) %>% print_skill_bars()
 ```
 
-
-
-
-Packages {#packages}
---------------------------------------------------------------------------------
+## Packages {#packages}
 
 ```{r}
-CV$skills %>% filter(group != "language") %>% arrange(desc(level)) %>% print_skill_bars()
+CV$skills %>% filter(group == "packages") %>% arrange(desc(level)) %>% print_skill_bars()
 ```
 
+## Cloud {#cloud}
 
+```{r}
+CV$skills %>% filter(group == "cloud") %>% arrange(desc(level)) %>% print_skill_bars()
+```
 
-Disclaimer {#disclaimer}
---------------------------------------------------------------------------------
+<!-- ### Disclaimer {#disclaimer} -->
 
-Last updated on `r Sys.Date()`.
+<!-- Last updated on `r Sys.Date()`. -->
 
+# Main
 
-
-Main
-================================================================================
-
-Thomas Flaherty {#title}
---------------------------------------------------------------------------------
+## Thom Flaherty {#title}
 
 ```{r}
 # Note the special double pipe so we modify the CV object in place
 CV %<>% print_text_block("intro") 
 ```
 
-
-
-Education {data-icon=graduation-cap}
---------------------------------------------------------------------------------
+## Education {data-icon="graduation-cap"}
 
 ```{r}
 CV %<>% print_section('education')
 ```
 
-
-
 <!-- Research Experience {data-icon=laptop} -->
+
 <!-- -------------------------------------------------------------------------------- -->
 
 <!-- ```{r} -->
+
 <!-- CV %<>% print_section('research_positions') -->
+
 <!-- ``` -->
 
-
-
-Industry Experience {data-icon=suitcase}
---------------------------------------------------------------------------------
+## Industry Experience {data-icon="suitcase"}
 
 <!-- ::: aside -->
+
 <!-- ```{r} -->
+
 <!-- CV %<>% print_text_block('industy_experience_aside') -->
+
 <!-- ``` -->
+
 <!-- ::: -->
 
 ```{r}
@@ -192,71 +180,89 @@ CV %<>% print_section('industry_positions')
 ```
 
 <!-- These breaks just force a new page so section doesnt get cut off -->
+
 <!-- <br> -->
+
 <!-- <br> -->
+
 <!-- <br> -->
 
 <!-- Teaching Experience {data-icon=chalkboard-teacher} -->
+
 <!-- -------------------------------------------------------------------------------- -->
 
 <!-- ::: aside -->
+
 <!-- ```{r} -->
+
 <!-- CV %<>% print_text_block('teaching_experience_aside') -->
+
 <!-- ``` -->
+
 <!-- ::: -->
 
 <!-- ```{r} -->
+
 <!-- CV %<>% print_section('teaching_positions') -->
+
 <!-- ``` -->
-
-
 
 <!-- Selected Data Science Writing {data-icon=chart-line} -->
+
 <!-- -------------------------------------------------------------------------------- -->
 
 <!-- ::: aside -->
+
 <!-- ```{r} -->
+
 <!-- CV %<>% print_text_block('data_science_writing_aside') -->
+
 <!-- ``` -->
+
 <!-- ::: -->
 
 <!-- ```{r} -->
+
 <!-- CV %<>% print_section('data_science_writings') -->
+
 <!-- ``` -->
-
-
 
 <!-- Selected Press (About)  {data-icon=newspaper} -->
+
 <!-- -------------------------------------------------------------------------------- -->
 
 <!-- ```{r} -->
+
 <!-- CV %<>% print_section('about_me_press') -->
+
 <!-- ``` -->
 
-
-<!-- <br> -->
 <!-- <br> -->
 
+<!-- <br> -->
 
 <!-- Selected Press (By)  {data-icon=newspaper} -->
+
 <!-- -------------------------------------------------------------------------------- -->
 
 <!-- ```{r} -->
+
 <!-- CV %<>% print_section('by_me_press') -->
+
 <!-- ``` -->
-
-
 
 <!-- Selected Publications, Posters, and Talks {data-icon=book} -->
+
 <!-- -------------------------------------------------------------------------------- -->
 
 <!-- ```{r} -->
+
 <!-- CV %<>% print_section('academic_articles') -->
+
 <!-- ``` -->
-
-
 
 <!-- ```{r} -->
-<!-- CV %<>% print_links() -->
-<!-- ``` -->
 
+<!-- CV %<>% print_links() -->
+
+<!-- ``` -->
