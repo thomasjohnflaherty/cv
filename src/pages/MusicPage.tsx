@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { MusicHero } from "../components/music/MusicHero";
 import { WorkSection } from "../components/music/WorkSection";
@@ -7,6 +8,10 @@ import { GearGallery } from "../components/music/GearGallery";
 import { platforms } from "../data/music";
 
 export function MusicPage() {
+  useEffect(() => {
+    document.title = "Thom Clarity — Electronic Music & Sound Design";
+  }, []);
+
   return (
     <main className="max-w-3xl mx-auto px-4">
       <MusicHero />
