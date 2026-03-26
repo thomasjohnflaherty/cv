@@ -1,4 +1,4 @@
-import { bugGasReleases, bugGasBandcamp, masteringCredits } from "../../data/music";
+import { bugGasReleases, bugGasBandcamp, masteringCredits, pressQuotes } from "../../data/music";
 
 export function WorkSection({ youtubeVideoId }: { youtubeVideoId?: string }) {
   return (
@@ -66,6 +66,22 @@ export function WorkSection({ youtubeVideoId }: { youtubeVideoId?: string }) {
                 {release.title}
               </p>
             </a>
+          ))}
+        </div>
+        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {pressQuotes.map((quote) => (
+            <blockquote
+              key={quote.source}
+              className="p-4 rounded-lg border"
+              style={{ backgroundColor: "var(--color-surface)", borderColor: "var(--color-border)" }}
+            >
+              <p className="text-sm italic leading-relaxed" style={{ color: "var(--color-text)" }}>
+                "{quote.text}"
+              </p>
+              <cite className="block mt-2 text-xs font-semibold not-italic" style={{ color: "var(--color-accent)" }}>
+                — {quote.source}
+              </cite>
+            </blockquote>
           ))}
         </div>
         <div className="mt-6">

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { MusicHero } from "../components/music/MusicHero";
 import { WorkSection } from "../components/music/WorkSection";
-import { PressQuotes } from "../components/music/PressQuotes";
+
 import { ServicesSection } from "../components/music/ServicesSection";
 import { GearGallery } from "../components/music/GearGallery";
 import { platforms } from "../data/music";
@@ -17,7 +17,6 @@ export function MusicPage() {
       <MusicHero />
       <div className="space-y-16 pb-16">
         <WorkSection youtubeVideoId="yS2uzPJ7OO4" />
-        <PressQuotes />
         <ServicesSection />
         <GearGallery />
 
