@@ -88,11 +88,21 @@ export function SinglePage() {
 
         <div className="space-y-16 pb-16">
           <ScrollSection id="experience">
-            <ExperienceSection />
+            <div className="relative">
+              <div className="section-label absolute -left-4 sm:-left-8 top-0 -translate-y-4 opacity-40">Experience</div>
+              <div className="relative z-10">
+                <ExperienceSection />
+              </div>
+            </div>
           </ScrollSection>
 
           <ScrollSection id="skills">
-            <SkillsGrid />
+            <div className="relative">
+              <div className="section-label absolute -left-4 sm:-left-8 top-0 -translate-y-4 opacity-40">Skills</div>
+              <div className="relative z-10">
+                <SkillsGrid />
+              </div>
+            </div>
           </ScrollSection>
 
           <ScrollSection id="education">
@@ -103,29 +113,14 @@ export function SinglePage() {
         {/* ===== TRANSITION ZONE ===== */}
         <div className="py-32 flex items-center justify-center">
           <motion.div
-            className="w-full text-center"
+            className="w-full"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 1.5 }}
             viewport={{ once: true }}
           >
             <div
-              className="h-px w-full mb-12"
-              style={{ background: "linear-gradient(to right, transparent, var(--color-accent), transparent)" }}
-            />
-            <p
-              className="text-[0.65rem] sm:text-xs font-medium"
-              style={{
-                color: "var(--color-accent)",
-                fontFamily: "'Chakra Petch', system-ui, sans-serif",
-                letterSpacing: "0.5em",
-                textTransform: "uppercase",
-              }}
-            >
-              T H O M &nbsp;&nbsp; C L A R I T Y
-            </p>
-            <div
-              className="h-px w-full mt-12"
+              className="h-px w-full"
               style={{ background: "linear-gradient(to right, transparent, var(--color-accent), transparent)" }}
             />
           </motion.div>
@@ -138,7 +133,12 @@ export function SinglePage() {
 
         <div className="space-y-16 pb-16">
           <ScrollSection id="youtube">
-            <WorkSection youtubeVideoId="yS2uzPJ7OO4" />
+            <div className="relative">
+              <div className="section-label absolute -right-4 sm:-right-8 top-0 -translate-y-4 opacity-30 text-right">Work</div>
+              <div className="relative z-10">
+                <WorkSection youtubeVideoId="yS2uzPJ7OO4" />
+              </div>
+            </div>
           </ScrollSection>
 
           <ScrollSection id="services">
