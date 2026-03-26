@@ -18,22 +18,22 @@ export function ScrollNav({ scrollProgress }: ScrollNavProps) {
 
   const bgColor = useTransform(
     scrollProgress,
-    [0.3, 0.5],
+    [0.38, 0.42],
     ["rgba(250, 250, 250, 0.8)", "rgba(10, 10, 10, 0.8)"]
   );
   const borderColor = useTransform(
     scrollProgress,
-    [0.3, 0.5],
+    [0.38, 0.42],
     ["#e5e7eb", "#2a2a2a"]
   );
   const textColor = useTransform(
     scrollProgress,
-    [0.3, 0.5],
+    [0.38, 0.42],
     ["#6b7280", "#9ca3af"]
   );
   const accentColor = useTransform(
     scrollProgress,
-    [0.3, 0.5],
+    [0.38, 0.42],
     ["#2563eb", "#a78bfa"]
   );
 

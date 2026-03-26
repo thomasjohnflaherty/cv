@@ -22,12 +22,13 @@ export function SinglePage() {
   const { scrollYProgress } = useScroll();
   const [submitted, setSubmitted] = useState(false);
 
-  const bgColor = useTransform(scrollYProgress, [0.3, 0.5], ["#fafafa", "#0a0a0a"]);
-  const textColor = useTransform(scrollYProgress, [0.3, 0.5], ["#1a1a2e", "#e5e5e5"]);
-  const textMutedColor = useTransform(scrollYProgress, [0.3, 0.5], ["#6b7280", "#9ca3af"]);
-  const accentColor = useTransform(scrollYProgress, [0.3, 0.5], ["#2563eb", "#a78bfa"]);
-  const surfaceColor = useTransform(scrollYProgress, [0.3, 0.5], ["#ffffff", "#1a1a1a"]);
-  const borderColor = useTransform(scrollYProgress, [0.3, 0.5], ["#e5e7eb", "#2a2a2a"]);
+  // Quick snap transition — avoid the muddy middle ground
+  const bgColor = useTransform(scrollYProgress, [0.38, 0.42], ["#fafafa", "#0a0a0a"]);
+  const textColor = useTransform(scrollYProgress, [0.38, 0.42], ["#1a1a2e", "#e5e5e5"]);
+  const textMutedColor = useTransform(scrollYProgress, [0.38, 0.42], ["#6b7280", "#9ca3af"]);
+  const accentColor = useTransform(scrollYProgress, [0.38, 0.42], ["#2563eb", "#a78bfa"]);
+  const surfaceColor = useTransform(scrollYProgress, [0.38, 0.42], ["#ffffff", "#1a1a1a"]);
+  const borderColor = useTransform(scrollYProgress, [0.38, 0.42], ["#e5e7eb", "#2a2a2a"]);
 
   const { toPDF, targetRef } = usePDF({
     filename: "Thom_Flaherty_Resume.pdf",
@@ -101,7 +102,27 @@ export function SinglePage() {
         </div>
 
         {/* ===== TRANSITION ZONE ===== */}
-        <div className="py-24" />
+        <div className="py-32 flex items-center justify-center">
+          <motion.div
+            className="w-full max-w-md mx-auto text-center"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 1.2 }}
+            viewport={{ once: true }}
+          >
+            <div
+              className="h-px w-full mb-8"
+              style={{ background: "linear-gradient(to right, transparent, var(--color-accent), transparent)" }}
+            />
+            <p className="text-xs uppercase tracking-[0.3em] font-medium" style={{ color: "var(--color-accent)" }}>
+              Also known as
+            </p>
+            <div
+              className="h-px w-full mt-8"
+              style={{ background: "linear-gradient(to right, transparent, var(--color-accent), transparent)" }}
+            />
+          </motion.div>
+        </div>
 
         {/* ===== MUSIC SECTION ===== */}
         <ScrollSection id="music-hero">

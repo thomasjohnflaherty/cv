@@ -6,7 +6,7 @@ export function CursorGlow({ scrollProgress }: { scrollProgress: ReturnType<type
   const glowColor = useTransform(
     scrollProgress,
     [0.3, 0.5],
-    ["rgba(37, 99, 235, 0.05)", "rgba(167, 139, 250, 0.05)"]
+    ["rgba(37, 99, 235, 0.12)", "rgba(167, 139, 250, 0.12)"]
   );
 
   useEffect(() => {
