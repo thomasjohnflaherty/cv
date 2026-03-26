@@ -50,20 +50,45 @@ export const bugGasReleases: Release[] = [
     url: "https://bbuussggaass.bandcamp.com/album/live-on-leave-us",
     cover: "https://f4.bcbits.com/img/a3307675077_16.jpg",
   },
+];
+
+export interface MasteringCredit {
+  title: string;
+  artist: string;
+  url: string;
+  cover: string;
+}
+
+export const masteringCredits: MasteringCredit[] = [
+  {
+    title: "Tertiary Colors EP",
+    artist: "Bell Mountain",
+    url: "https://bellmountain.bandcamp.com/album/tertiary-colors-ep",
+    cover: "https://f4.bcbits.com/img/a0561851656_16.jpg",
+  },
+  {
+    title: "Soloists",
+    artist: "Ben Eisenberger",
+    url: "https://beneisenberger.bandcamp.com/album/soloists",
+    cover: "https://f4.bcbits.com/img/a1899808830_16.jpg",
+  },
+  {
+    title: "Screaming Plastic",
+    artist: "Screaming Plastic",
+    url: "https://screamingplastic.bandcamp.com/album/screaming-plastic-2",
+    cover: "https://f4.bcbits.com/img/a1751279411_16.jpg",
+  },
+  {
+    title: "High Ruler",
+    artist: "High Ruler",
+    url: "https://highruler.bandcamp.com/album/high-ruler",
+    cover: "https://f4.bcbits.com/img/a2112697761_16.jpg",
+  },
   {
     title: "Snake Hymns",
+    artist: "Bus Gas",
     url: "https://bbuussggaass.bandcamp.com/album/snake-hymns",
     cover: "https://f4.bcbits.com/img/a2716852377_16.jpg",
-  },
-  {
-    title: "Train Out",
-    url: "https://bbuussggaass.bandcamp.com/album/train-out",
-    cover: "https://f4.bcbits.com/img/a1550013334_16.jpg",
-  },
-  {
-    title: "Six Movements in Four Hours",
-    url: "https://bbuussggaass.bandcamp.com/album/six-movements-in-four-hours",
-    cover: "https://f4.bcbits.com/img/a0432760064_16.jpg",
   },
 ];
 

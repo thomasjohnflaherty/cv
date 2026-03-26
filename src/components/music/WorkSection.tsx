@@ -1,4 +1,4 @@
-import { bugGasReleases, bugGasBandcamp } from "../../data/music";
+import { bugGasReleases, bugGasBandcamp, masteringCredits } from "../../data/music";
 
 export function WorkSection({ youtubeVideoId }: { youtubeVideoId?: string }) {
   return (
@@ -7,7 +7,7 @@ export function WorkSection({ youtubeVideoId }: { youtubeVideoId?: string }) {
 
       {/* Solo — YouTube embed */}
       {youtubeVideoId && (
-        <div className="mb-8">
+        <div className="mb-12">
           <h3 className="text-lg font-semibold mb-3">Solo</h3>
           <div className="aspect-video rounded-lg overflow-hidden">
             <iframe
@@ -25,7 +25,7 @@ export function WorkSection({ youtubeVideoId }: { youtubeVideoId?: string }) {
 
       {/* Subvert placeholder */}
       <div
-        className="mb-8 p-6 rounded-lg border border-dashed text-center"
+        className="mb-12 p-6 rounded-lg border border-dashed text-center"
         style={{ borderColor: "var(--color-border)" }}
       >
         <p className="text-sm font-medium" style={{ color: "var(--color-text-muted)" }}>
@@ -34,12 +34,12 @@ export function WorkSection({ youtubeVideoId }: { youtubeVideoId?: string }) {
       </div>
 
       {/* Bug Gas */}
-      <div>
+      <div className="mb-12">
         <h3 className="text-lg font-semibold mb-3">Bug Gas</h3>
         <p className="text-sm mb-6" style={{ color: "var(--color-text-muted)" }}>
           Collaborative project — drone, post-rock, experimental
         </p>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 gap-4">
           {bugGasReleases.map((release) => (
             <a
               key={release.title}
@@ -50,9 +50,7 @@ export function WorkSection({ youtubeVideoId }: { youtubeVideoId?: string }) {
             >
               <div
                 className="aspect-square rounded-lg overflow-hidden border transition-all duration-200 group-hover:border-2"
-                style={{
-                  borderColor: "var(--color-border)",
-                }}
+                style={{ borderColor: "var(--color-border)" }}
               >
                 <img
                   src={release.cover}
@@ -62,7 +60,7 @@ export function WorkSection({ youtubeVideoId }: { youtubeVideoId?: string }) {
                 />
               </div>
               <p
-                className="mt-2 text-sm font-medium transition-colors duration-200"
+                className="mt-2 text-sm font-medium"
                 style={{ color: "var(--color-text)" }}
               >
                 {release.title}
@@ -80,6 +78,43 @@ export function WorkSection({ youtubeVideoId }: { youtubeVideoId?: string }) {
           >
             Full Discography on Bandcamp
           </a>
+        </div>
+      </div>
+
+      {/* Mastering Credits */}
+      <div>
+        <h3 className="text-lg font-semibold mb-3">Mastering Credits</h3>
+        <p className="text-sm mb-6" style={{ color: "var(--color-text-muted)" }}>
+          Selected releases mastered by Thom Clarity
+        </p>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+          {masteringCredits.map((credit) => (
+            <a
+              key={`${credit.artist}-${credit.title}`}
+              href={credit.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group block"
+            >
+              <div
+                className="aspect-square rounded-lg overflow-hidden border transition-all duration-200 group-hover:border-2"
+                style={{ borderColor: "var(--color-border)" }}
+              >
+                <img
+                  src={credit.cover}
+                  alt={`${credit.artist} — ${credit.title}`}
+                  className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+              <p className="mt-2 text-sm font-medium" style={{ color: "var(--color-text)" }}>
+                {credit.title}
+              </p>
+              <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>
+                {credit.artist}
+              </p>
+            </a>
+          ))}
         </div>
       </div>
     </section>
