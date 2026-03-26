@@ -4,6 +4,8 @@ export function WorkSection({ youtubeVideoId }: { youtubeVideoId?: string }) {
   return (
     <section>
       <h2 className="text-2xl font-bold mb-6">Work</h2>
+
+      {/* Solo — YouTube embed */}
       {youtubeVideoId && (
         <div className="mb-8">
           <h3 className="text-lg font-semibold mb-3">Solo</h3>
@@ -20,32 +22,65 @@ export function WorkSection({ youtubeVideoId }: { youtubeVideoId?: string }) {
           </div>
         </div>
       )}
-      <div className="mb-8 p-6 rounded-lg border border-dashed text-center" style={{ borderColor: "var(--color-border)" }}>
+
+      {/* Subvert placeholder */}
+      <div
+        className="mb-8 p-6 rounded-lg border border-dashed text-center"
+        style={{ borderColor: "var(--color-border)" }}
+      >
         <p className="text-sm font-medium" style={{ color: "var(--color-text-muted)" }}>
           New release on Subvert — Coming Soon
         </p>
       </div>
+
+      {/* Bug Gas */}
       <div>
         <h3 className="text-lg font-semibold mb-3">Bug Gas</h3>
-        <p className="text-sm mb-4" style={{ color: "var(--color-text-muted)" }}>
+        <p className="text-sm mb-6" style={{ color: "var(--color-text-muted)" }}>
           Collaborative project — drone, post-rock, experimental
         </p>
-        <ul className="space-y-1 mb-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           {bugGasReleases.map((release) => (
-            <li key={release} className="text-sm italic" style={{ color: "var(--color-text)" }}>
-              {release}
-            </li>
+            <a
+              key={release.title}
+              href={release.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group block"
+            >
+              <div
+                className="aspect-square rounded-lg overflow-hidden border transition-all duration-200 group-hover:border-2"
+                style={{
+                  borderColor: "var(--color-border)",
+                }}
+              >
+                <img
+                  src={release.cover}
+                  alt={release.title}
+                  className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+              <p
+                className="mt-2 text-sm font-medium transition-colors duration-200"
+                style={{ color: "var(--color-text)" }}
+              >
+                {release.title}
+              </p>
+            </a>
           ))}
-        </ul>
-        <a
-          href={bugGasBandcamp}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-block px-5 py-2 rounded-md text-sm font-medium text-white transition-opacity hover:opacity-90"
-          style={{ backgroundColor: "var(--color-accent)" }}
-        >
-          Listen on Bandcamp
-        </a>
+        </div>
+        <div className="mt-6">
+          <a
+            href={bugGasBandcamp}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block px-5 py-2 rounded-md text-sm font-medium text-white transition-opacity hover:opacity-90"
+            style={{ backgroundColor: "var(--color-accent)" }}
+          >
+            Full Discography on Bandcamp
+          </a>
+        </div>
       </div>
     </section>
   );

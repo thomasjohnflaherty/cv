@@ -28,13 +28,43 @@ export const pressQuotes: PressQuote[] = [
   },
 ];
 
-export const bugGasReleases = [
-  "Mercy View",
-  "Immortal Yeller / Mountains Past",
-  "Live On Leave Us",
-  "Snake Hymns",
-  "Train Out",
-  "Six Movements in Four Hours",
+export interface Release {
+  title: string;
+  url: string;
+  cover: string;
+}
+
+export const bugGasReleases: Release[] = [
+  {
+    title: "Mercy View",
+    url: "https://bbuussggaass.bandcamp.com/album/mercy-view",
+    cover: "https://f4.bcbits.com/img/a0045324856_16.jpg",
+  },
+  {
+    title: "Immortal Yeller / Mountains Past",
+    url: "https://bbuussggaass.bandcamp.com/album/immortal-yeller-mountains-past",
+    cover: "https://f4.bcbits.com/img/a2878293985_16.jpg",
+  },
+  {
+    title: "Live On Leave Us",
+    url: "https://bbuussggaass.bandcamp.com/album/live-on-leave-us",
+    cover: "https://f4.bcbits.com/img/a3307675077_16.jpg",
+  },
+  {
+    title: "Snake Hymns",
+    url: "https://bbuussggaass.bandcamp.com/album/snake-hymns",
+    cover: "https://f4.bcbits.com/img/a2716852377_16.jpg",
+  },
+  {
+    title: "Train Out",
+    url: "https://bbuussggaass.bandcamp.com/album/train-out",
+    cover: "https://f4.bcbits.com/img/a1550013334_16.jpg",
+  },
+  {
+    title: "Six Movements in Four Hours",
+    url: "https://bbuussggaass.bandcamp.com/album/six-movements-in-four-hours",
+    cover: "https://f4.bcbits.com/img/a0432760064_16.jpg",
+  },
 ];
 
 export const services = [
