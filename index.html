@@ -7,6 +7,13 @@
     <title>thom-portfolio</title>
   </head>
   <body>
+    <!-- Netlify Forms: hidden form for bot detection at deploy time -->
+    <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+      <input name="bot-field" />
+      <input name="name" />
+      <input name="email" />
+      <input name="message" />
+    </form>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
