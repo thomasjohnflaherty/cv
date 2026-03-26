@@ -16,7 +16,7 @@
   </head>
   <body>
     <!-- Netlify Forms: hidden form for bot detection at deploy time -->
-    <form name="contact" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+    <form name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" style="display:none">
       <input name="bot-field" />
       <input name="name" />
       <input name="email" />
