@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
-/* Flaherty (tech) theme — light, professional */
-.theme-flaherty {
+/* Default theme variables (tech/light) — overridden by scroll-driven JS */
+:root {
   --color-bg: #fafafa;
   --color-surface: #ffffff;
   --color-text: #1a1a2e;
@@ -10,22 +10,13 @@
   --color-border: #e5e7eb;
 }
 
-/* Clarity (music) theme — dark, atmospheric */
-.theme-clarity {
-  --color-bg: #0a0a0a;
-  --color-surface: #1a1a1a;
-  --color-text: #e5e5e5;
-  --color-text-muted: #9ca3af;
-  --color-accent: #a78bfa;
-  --color-border: #2a2a2a;
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
 }
 
 /* Clarity typography — lighter body, larger quotes */
-.theme-clarity {
-  font-weight: 300;
-}
-
-.theme-clarity .press-quote {
+.press-quote {
   font-size: 1.5rem;
   line-height: 2rem;
 }
