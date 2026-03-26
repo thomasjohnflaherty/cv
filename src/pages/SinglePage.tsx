@@ -3,7 +3,7 @@ import { useScroll, useTransform, motion } from "framer-motion";
 import { usePDF } from "react-to-pdf";
 
 import { ScrollNav } from "../components/ScrollNav";
-import { CursorGlow } from "../components/CursorGlow";
+
 import { ScrollSection } from "../components/ScrollSection";
 import { ResumeDocument } from "../components/ResumeDocument";
 
@@ -57,14 +57,13 @@ export function SinglePage() {
       className="min-h-screen"
       style={{ backgroundColor: bgColor, color: textColor }}
     >
-      <CursorGlow scrollProgress={scrollYProgress} />
       <ScrollNav scrollProgress={scrollYProgress} />
 
       <main className="max-w-3xl mx-auto px-4 relative z-10">
         {/* ===== TECH SECTION ===== */}
         <ScrollSection id="tech-hero">
           <section className="py-16 sm:py-24">
-            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">{hero.name}</h1>
+            <h1 className="text-5xl sm:text-7xl tracking-tight">{hero.name}</h1>
             <motion.p
               className="mt-2 text-lg sm:text-xl font-medium"
               style={{ color: accentColor }}
