@@ -61,6 +61,12 @@ export interface MasteringCredit {
 
 export const masteringCredits: MasteringCredit[] = [
   {
+    title: "Bell Mountain",
+    artist: "Bell Mountain",
+    url: "https://bellmountain.bandcamp.com/album/bell-mountain-2",
+    cover: "https://f4.bcbits.com/img/a2001170117_16.jpg",
+  },
+  {
     title: "Tertiary Colors EP",
     artist: "Bell Mountain",
     url: "https://bellmountain.bandcamp.com/album/tertiary-colors-ep",
