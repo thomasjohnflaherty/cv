@@ -1,8 +1,10 @@
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { roles } from "../../data/resume";
 import { ExperienceCard } from "./ExperienceCard";
 
-const containerVariants = {
+const ease: [number, number, number, number] = [0, 0, 0.2, 1];
+
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -10,9 +12,9 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0, 0, 0.2, 1] as const } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease } },
 };
 
 export function ExperienceSection() {
