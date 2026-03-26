@@ -11,7 +11,7 @@ const containerVariants = {
 
 const pillVariants = {
   hidden: { opacity: 0, scale: 0.8 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.3, ease: "easeOut" } },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.3, ease: [0, 0, 0.2, 1] as const } },
 };
 
 function SkillPill({ label }: { label: string }) {
