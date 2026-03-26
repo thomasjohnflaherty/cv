@@ -42,17 +42,6 @@ export const roles: Role[] = [
     ],
   },
   {
-    title: "Senior Analytics Developer",
-    company: "Nebraska Medicine",
-    dates: "Mar 2019 – Jun 2021",
-    location: "Omaha, NE",
-    bullets: [
-      "Built and deployed COVID-19 inpatient forecasting models",
-      "Developed community transmission rate calculator",
-      "Patient safety and value-driven analytics",
-    ],
-  },
-  {
     title: "Data Science Engineer",
     company: "Spreetail",
     dates: "Jun 2021 – Oct 2022",
@@ -61,6 +50,17 @@ export const roles: Role[] = [
       "End-to-end model development, deployment, and maintenance",
       "Stood up Azure Databricks environments with SOPs",
       "Apache Spark optimization for scalable parallelism",
+    ],
+  },
+  {
+    title: "Senior Analytics Developer",
+    company: "Nebraska Medicine",
+    dates: "Mar 2019 – Jun 2021",
+    location: "Omaha, NE",
+    bullets: [
+      "Built and deployed COVID-19 inpatient forecasting models",
+      "Developed community transmission rate calculator",
+      "Patient safety and value-driven analytics",
     ],
   },
 ];
