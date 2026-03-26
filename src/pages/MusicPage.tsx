@@ -16,7 +16,7 @@ export function MusicPage() {
     <main className="max-w-3xl mx-auto px-4">
       <MusicHero />
       <div className="space-y-16 pb-16">
-        <WorkSection youtubeVideoId="" />
+        <WorkSection youtubeVideoId="yS2uzPJ7OO4" />
         <PressQuotes />
         <ServicesSection />
         <GearGallery />
