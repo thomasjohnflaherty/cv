@@ -103,21 +103,29 @@ export function SinglePage() {
         {/* ===== TRANSITION ZONE ===== */}
         <div className="py-32 flex items-center justify-center">
           <motion.div
-            className="w-full max-w-md mx-auto text-center"
+            className="w-full text-center"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            transition={{ duration: 1.2 }}
+            transition={{ duration: 1.5 }}
             viewport={{ once: true }}
           >
             <div
-              className="h-px w-full mb-8"
+              className="h-px w-full mb-12"
               style={{ background: "linear-gradient(to right, transparent, var(--color-accent), transparent)" }}
             />
-            <p className="text-xs uppercase tracking-[0.3em] font-medium" style={{ color: "var(--color-accent)" }}>
-              Also known as
+            <p
+              className="text-[0.65rem] sm:text-xs font-medium"
+              style={{
+                color: "var(--color-accent)",
+                fontFamily: "'Chakra Petch', system-ui, sans-serif",
+                letterSpacing: "0.5em",
+                textTransform: "uppercase",
+              }}
+            >
+              T H O M &nbsp;&nbsp; C L A R I T Y
             </p>
             <div
-              className="h-px w-full mt-8"
+              className="h-px w-full mt-12"
               style={{ background: "linear-gradient(to right, transparent, var(--color-accent), transparent)" }}
             />
           </motion.div>
