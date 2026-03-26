@@ -91,6 +91,18 @@ export const masteringCredits: MasteringCredit[] = [
     cover: "https://f4.bcbits.com/img/a2112697761_16.jpg",
   },
   {
+    title: "From the Sun",
+    artist: "Those Far Out Arrows",
+    url: "https://thosefaroutarrows.bandcamp.com/album/from-the-sun",
+    cover: "https://f4.bcbits.com/img/a0315632449_16.jpg",
+  },
+  {
+    title: "Heavyweight: Volume I",
+    artist: "Jeremy Mercy and the Rapture Orphans",
+    url: "https://jeremymercy.bandcamp.com/album/heavyweight-volume-i",
+    cover: "https://f4.bcbits.com/img/a0644601383_16.jpg",
+  },
+  {
     title: "Snake Hymns",
     artist: "Bus Gas",
     url: "https://bbuussggaass.bandcamp.com/album/snake-hymns",

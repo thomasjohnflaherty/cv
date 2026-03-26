@@ -87,7 +87,7 @@ export function WorkSection({ youtubeVideoId }: { youtubeVideoId?: string }) {
         <p className="text-sm mb-6" style={{ color: "var(--color-text-muted)" }}>
           Selected releases mastered by Thom Clarity
         </p>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {masteringCredits.map((credit) => (
             <a
               key={`${credit.artist}-${credit.title}`}
