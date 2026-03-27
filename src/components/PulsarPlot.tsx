@@ -96,17 +96,23 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
       return { baseY: yBase(i), fillPath, strokePath, ...lineConfig[i] };
     });
 
-    let lastProgress = -1;
+    let smoothProgress = scrollProgress.get();
+    let lastRendered = -1;
 
     const animate = () => {
-      const progress = scrollProgress.get();
+      const raw = scrollProgress.get();
 
-      // Skip frame if nothing changed
-      if (Math.abs(progress - lastProgress) < 0.00001) {
+      // Ease toward raw — smoothProgress chases it with slight lag
+      smoothProgress += (raw - smoothProgress) * 0.15;
+
+      // Skip frame if nothing visually changed
+      if (Math.abs(smoothProgress - lastRendered) < 0.000005) {
         animRef.current = requestAnimationFrame(animate);
         return;
       }
-      lastProgress = progress;
+      lastRendered = smoothProgress;
+
+      const progress = smoothProgress;
       const music = isMusicRef.current;
       const fillColor = music ? "#0a0a0a" : "#fafafa";
       const gradId = music ? "url(#pg-music)" : "url(#pg-tech)";
