@@ -26,8 +26,8 @@ export const roles: Role[] = [
     dates: "Dec 2025 – Mar 2026",
     location: "Lincoln, NE",
     bullets: [
-      "Got the dev team using Claude. Turns out AI pair programming is a hard sell until it isn't",
-      "Built a reusable testing framework so nobody could ship broken code and blame it on vibes",
+      "Brought Claude into the dev workflow. Turns out AI pair programming is a hard sell until it isn't",
+      "Defined the strategy for reusable automated testing across all repos and guided the team on execution",
       "Played translator between the research PhDs and the engineers who had to build their ideas",
     ],
     tech: ["AWS", "Snowflake", "Claude", "Python", "CI/CD"],
