@@ -65,9 +65,10 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
       const rng = mulberry32(Math.floor(seed * 1000));
 
       const xScale = d3.scaleLinear().domain([1, 300]).range([0, width]);
-      const yScale = d3.scaleLinear().domain([0, pulses.length]).range([height * 0.03, height * 0.97]);
+      const lineSpacing = height / (pulses.length + 2);
+      const yScale = (_i: number) => lineSpacing * (_i + 1.5);
       const zMax = 5;
-      const zScale = d3.scaleLinear().domain([-2, zMax]).range([0, height * 0.09]);
+      const zScale = d3.scaleLinear().domain([-2, zMax]).range([0, lineSpacing * 3]);
 
       // Create gradient
       const defs = svg.append("defs");
@@ -80,25 +81,22 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
 
       const line = d3.line<{ x: number; z: number }>().curve(d3.curveBasis);
 
+      // Draw back-to-front (top lines first, bottom lines last) so later lines occlude earlier ones
       pulses.forEach((points, i) => {
         const baseY = yScale(i);
 
-        // Generate noisy variation — subtle height perturbation, no position shift
+        // Subtle height perturbation — only in peak areas, very gentle
         const noisyPoints = points.map((p) => {
           const peakFactor = Math.max(0, p.z) / zMax;
-          // Only perturb height, and only modestly in peak areas
-          const heightNoise = (rng() - 0.5) * 0.6 * (0.1 + peakFactor * 1.2);
-          return {
-            x: p.x,
-            z: p.z + heightNoise,
-          };
+          const heightNoise = (rng() - 0.5) * 0.4 * peakFactor;
+          return { x: p.x, z: p.z + heightNoise };
         });
 
-        // Area fill for overlap occlusion — fill from line down to just below baseline
+        // Area fill — extends well below baseline to fully occlude lines behind
         const areaGen = d3
           .area<{ x: number; z: number }>()
           .x((d) => xScale(d.x))
-          .y0(baseY + 2)
+          .y0(baseY + lineSpacing)
           .y1((d) => baseY - zScale(d.z))
           .curve(d3.curveBasis);
 
@@ -119,7 +117,7 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
           )
           .attr("fill", "none")
           .attr("stroke", "url(#pg)")
-          .attr("stroke-width", 1.2);
+          .attr("stroke-width", 1);
       });
     },
     [pulses]
