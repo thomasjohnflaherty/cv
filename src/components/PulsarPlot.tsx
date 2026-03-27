@@ -89,12 +89,26 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
       pulses.forEach((points, i) => {
         const baseY = yScale(i);
 
-        // All points get noise — flat lines shimmer gently, peaks vary dramatically
+        // Generate a few broad noise values that shift whole regions, not individual points
+        // This keeps peak shapes coherent — the whole peak rises/falls together
+        const regionCount = 12;
+        const regionNoise: number[] = [];
+        for (let r = 0; r < regionCount; r++) {
+          regionNoise.push((rng() - 0.5) * 2.0);
+        }
+
         const noisyPoints = points.map((p) => {
+          // Which region does this x fall into?
+          const regionIdx = Math.min(regionCount - 1, Math.floor((p.x / 300) * regionCount));
+          // Blend with neighboring region for smooth transitions
+          const nextIdx = Math.min(regionCount - 1, regionIdx + 1);
+          const blend = ((p.x / 300) * regionCount) - regionIdx;
+          const regionVal = regionNoise[regionIdx] * (1 - blend) + regionNoise[nextIdx] * blend;
+
+          // Scale noise by peak height — peaks move more, flats barely move
           const peakFactor = Math.max(0, p.z) / zMax;
-          // Flat areas: gentle shimmer. Peak areas: big height swings (like different pulsar observations)
-          const heightNoise = (rng() - 0.5) * (0.3 + peakFactor * 3.0);
-          return { x: p.x, z: Math.max(-1.5, p.z + heightNoise) };
+          const heightNoise = regionVal * (0.05 + peakFactor * 0.8);
+          return { x: p.x, z: p.z + heightNoise };
         });
 
         // Area fill for occlusion — extends one full line spacing below
