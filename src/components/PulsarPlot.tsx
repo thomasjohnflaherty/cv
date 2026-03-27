@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
-import { useTransform, motion } from "framer-motion";
 import type { MotionValue } from "framer-motion";
-import { THEME_TRANSITION } from "../utils/motion";
 
 interface PulsarPlotProps {
   scrollProgress: MotionValue<number>;
+  isMusic: boolean;
 }
 
 interface DataPoint {
@@ -13,13 +12,11 @@ interface DataPoint {
   z: number;
 }
 
-export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
+export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const [pulses, setPulses] = useState<DataPoint[][]>([]);
   const animRef = useRef<number>(0);
 
-  // Snap opacity — visible in tech section, gone by theme transition
-  const opacity = useTransform(scrollProgress, [THEME_TRANSITION[0] - 0.02, THEME_TRANSITION[0]], [0.7, 0]);
 
   // Load CSV — keep ALL 80 pulse observations for cycling through
   useEffect(() => {
@@ -60,14 +57,22 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
     const zMax = 5;
     const zScale = d3.scaleLinear().domain([-2, zMax]).range([0, lineSpacing * 0.8]);
 
-    // Gradient
+    // Gradient — blue/purple in tech, white in music
     const defs = svg.append("defs");
     const gradient = defs.append("linearGradient").attr("id", "pg").attr("x1", "0%").attr("x2", "100%");
-    gradient.append("stop").attr("offset", "0%").attr("stop-color", "#2563eb").attr("stop-opacity", 0.15);
-    gradient.append("stop").attr("offset", "30%").attr("stop-color", "#3b82f6").attr("stop-opacity", 0.6);
-    gradient.append("stop").attr("offset", "50%").attr("stop-color", "#7c3aed").attr("stop-opacity", 0.8);
-    gradient.append("stop").attr("offset", "70%").attr("stop-color", "#a78bfa").attr("stop-opacity", 0.6);
-    gradient.append("stop").attr("offset", "100%").attr("stop-color", "#2563eb").attr("stop-opacity", 0.15);
+    if (isMusic) {
+      gradient.append("stop").attr("offset", "0%").attr("stop-color", "#ffffff").attr("stop-opacity", 0.1);
+      gradient.append("stop").attr("offset", "30%").attr("stop-color", "#ffffff").attr("stop-opacity", 0.5);
+      gradient.append("stop").attr("offset", "50%").attr("stop-color", "#ffffff").attr("stop-opacity", 0.7);
+      gradient.append("stop").attr("offset", "70%").attr("stop-color", "#ffffff").attr("stop-opacity", 0.5);
+      gradient.append("stop").attr("offset", "100%").attr("stop-color", "#ffffff").attr("stop-opacity", 0.1);
+    } else {
+      gradient.append("stop").attr("offset", "0%").attr("stop-color", "#2563eb").attr("stop-opacity", 0.15);
+      gradient.append("stop").attr("offset", "30%").attr("stop-color", "#3b82f6").attr("stop-opacity", 0.6);
+      gradient.append("stop").attr("offset", "50%").attr("stop-color", "#7c3aed").attr("stop-opacity", 0.8);
+      gradient.append("stop").attr("offset", "70%").attr("stop-color", "#a78bfa").attr("stop-opacity", 0.6);
+      gradient.append("stop").attr("offset", "100%").attr("stop-color", "#2563eb").attr("stop-opacity", 0.15);
+    }
 
     const lineGen = d3.line<number[]>()
       .x((d) => d[0])
@@ -183,14 +188,14 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
 
     animRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animRef.current);
-  }, [pulses, scrollProgress]);
+  }, [pulses, scrollProgress, isMusic]);
 
   return (
-    <motion.div
+    <div
       className="fixed top-0 right-0 w-1/2 lg:w-2/5 h-screen pointer-events-none z-0"
-      style={{ opacity }}
+      style={{ opacity: 0.7 }}
     >
       <svg ref={svgRef} className="w-full h-full" preserveAspectRatio="xMidYMid meet" />
-    </motion.div>
+    </div>
   );
 }

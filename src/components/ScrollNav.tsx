@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { motion, useTransform, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import type { MotionValue } from "framer-motion";
-import { THEME_TRANSITION, THEME_MIDPOINT } from "../utils/motion";
+import { THEME_MIDPOINT } from "../utils/motion";
 
 interface ScrollNavProps {
   scrollProgress: MotionValue<number>;
@@ -11,23 +11,7 @@ export function ScrollNav({ scrollProgress }: ScrollNavProps) {
   const [isMusic, setIsMusic] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const bgColor = useTransform(
-    scrollProgress,
-    THEME_TRANSITION,
-    ["rgba(250, 250, 250, 0.85)", "rgba(10, 10, 10, 0.85)"]
-  );
-  const textColor = useTransform(
-    scrollProgress,
-    THEME_TRANSITION,
-    ["#6b7280", "#9ca3af"]
-  );
-  const accentColor = useTransform(
-    scrollProgress,
-    THEME_TRANSITION,
-    ["#2563eb", "#a78bfa"]
-  );
-
-  // Switch identity at the same point as the theme crossfade
+  // Binary switch — synced with theme
   useEffect(() => {
     const unsub = scrollProgress.on("change", (v) => {
       setIsMusic(v >= THEME_MIDPOINT);
@@ -50,28 +34,27 @@ export function ScrollNav({ scrollProgress }: ScrollNavProps) {
     }
   };
 
-  // Identity name (bold, prominent)
   const identityName = isMusic ? "Thom Clarity" : "Thom Flaherty";
-  // The "other side" link
   const otherLabel = isMusic ? "Technology" : "Music";
   const otherId = isMusic ? "tech-hero" : "music-hero";
 
   return (
-    <motion.nav
-      className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md"
-      style={{ backgroundColor: bgColor }}
+    <nav
+      className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md transition-colors duration-300"
+      style={{
+        backgroundColor: isMusic ? "rgba(10, 10, 10, 0.85)" : "rgba(250, 250, 250, 0.85)",
+      }}
     >
       <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
         {/* Desktop nav */}
         <div className="hidden md:flex items-center w-full justify-between">
-          {/* Identity name — left side */}
           <AnimatePresence mode="wait">
             <motion.button
               key={identityName}
               onClick={() => scrollTo(isMusic ? "music-hero" : "tech-hero")}
-              className="bg-transparent border-none cursor-pointer tracking-wide"
+              className="bg-transparent border-none cursor-pointer tracking-wide transition-colors"
               style={{
-                color: accentColor,
+                color: "var(--color-accent)",
                 fontFamily: "'Fraunces', Georgia, serif",
                 fontWeight: 500,
                 fontSize: "1.1rem",
@@ -85,30 +68,27 @@ export function ScrollNav({ scrollProgress }: ScrollNavProps) {
             </motion.button>
           </AnimatePresence>
 
-          {/* Links — right side */}
           <div className="flex items-center gap-6">
-            <motion.button
+            <button
               onClick={() => scrollTo(otherId)}
-              className="text-sm tracking-wide bg-transparent border-none cursor-pointer"
+              className="text-sm tracking-wide bg-transparent border-none cursor-pointer transition-colors"
               style={{
-                color: textColor,
+                color: "var(--color-text-muted)",
                 fontFamily: "'Fraunces', Georgia, serif",
-                fontWeight: 400,
               }}
             >
               {otherLabel}
-            </motion.button>
-            <motion.button
+            </button>
+            <button
               onClick={() => scrollTo("contact")}
-              className="text-sm tracking-wide bg-transparent border-none cursor-pointer"
+              className="text-sm tracking-wide bg-transparent border-none cursor-pointer transition-colors"
               style={{
-                color: textColor,
+                color: "var(--color-text-muted)",
                 fontFamily: "'Fraunces', Georgia, serif",
-                fontWeight: 400,
               }}
             >
               Contact
-            </motion.button>
+            </button>
           </div>
         </div>
 
@@ -119,7 +99,7 @@ export function ScrollNav({ scrollProgress }: ScrollNavProps) {
               key={identityName}
               className="text-sm tracking-wide"
               style={{
-                color: accentColor,
+                color: "var(--color-accent)",
                 fontFamily: "'Fraunces', Georgia, serif",
                 fontWeight: 500,
               }}
@@ -132,11 +112,11 @@ export function ScrollNav({ scrollProgress }: ScrollNavProps) {
             </motion.span>
           </AnimatePresence>
 
-          <motion.button
-            className="p-2 bg-transparent border-none cursor-pointer"
+          <button
+            className="p-2 bg-transparent border-none cursor-pointer transition-colors"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
-            style={{ color: textColor }}
+            style={{ color: "var(--color-text)" }}
           >
             <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.5">
               {menuOpen ? (
@@ -145,7 +125,7 @@ export function ScrollNav({ scrollProgress }: ScrollNavProps) {
                 <path d="M4 6h16M4 12h16M4 18h16" />
               )}
             </svg>
-          </motion.button>
+          </button>
         </div>
       </div>
 
@@ -159,29 +139,29 @@ export function ScrollNav({ scrollProgress }: ScrollNavProps) {
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <motion.button
+            <button
               onClick={() => scrollTo(otherId)}
               className="text-sm tracking-wide text-left bg-transparent border-none cursor-pointer py-1"
               style={{
-                color: textColor,
+                color: "var(--color-text-muted)",
                 fontFamily: "'Fraunces', Georgia, serif",
               }}
             >
               {otherLabel}
-            </motion.button>
-            <motion.button
+            </button>
+            <button
               onClick={() => scrollTo("contact")}
               className="text-sm tracking-wide text-left bg-transparent border-none cursor-pointer py-1"
               style={{
-                color: textColor,
+                color: "var(--color-text-muted)",
                 fontFamily: "'Fraunces', Georgia, serif",
               }}
             >
               Contact
-            </motion.button>
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </nav>
   );
 }
