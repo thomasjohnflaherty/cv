@@ -48,12 +48,12 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
 
     const displayLines = 25;
     const totalObs = pulses.length;
-    const lineSpacing = height / (displayLines + 2);
-    const plotWidth = lineSpacing * displayLines * 0.7;
+    const lineSpacing = height / displayLines;
+    const plotWidth = height * 0.7;
     const xOffset = (width - plotWidth) / 2;
 
     const xScale = d3.scaleLinear().domain([1, 300]).range([xOffset, xOffset + plotWidth]);
-    const yBase = (i: number) => lineSpacing * (i + 1);
+    const yBase = (i: number) => lineSpacing * i;
     const zMax = 5;
     const zScale = d3.scaleLinear().domain([-2, zMax]).range([0, lineSpacing * 0.8]);
 
