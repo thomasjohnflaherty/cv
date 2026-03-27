@@ -28,23 +28,8 @@ export function ScrollNav({ scrollProgress }: ScrollNavProps) {
     ["#2563eb", "#a78bfa"]
   );
 
-  // Hide on scroll down, show on scroll up
-  useEffect(() => {
-    const handler = () => {
-      const current = window.scrollY;
-      if (current < 100) {
-        setVisible(true);
-      } else if (current > lastScrollY.current + 10) {
-        setVisible(false);
-        setMenuOpen(false);
-      } else if (current < lastScrollY.current - 10) {
-        setVisible(true);
-      }
-      lastScrollY.current = current;
-    };
-    window.addEventListener("scroll", handler, { passive: true });
-    return () => window.removeEventListener("scroll", handler);
-  }, []);
+  // Keep nav always visible
+  void lastScrollY; // unused now
 
   // Track which identity is active
   useEffect(() => {
@@ -101,11 +86,6 @@ export function ScrollNav({ scrollProgress }: ScrollNavProps) {
     <motion.nav
       className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md"
       style={{ backgroundColor: bgColor }}
-      animate={{
-        y: visible ? 0 : -80,
-        opacity: visible ? 1 : 0,
-      }}
-      transition={{ duration: 0.3 }}
     >
       <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
         {/* Desktop nav */}
