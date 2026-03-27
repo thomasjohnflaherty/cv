@@ -104,7 +104,7 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
       const gradId = music ? "url(#pg-music)" : "url(#pg-tech)";
 
       pathEls.forEach(({ baseY, fillPath, strokePath, rate, offset, xDriftRate, xDriftAmp }) => {
-        const obsRaw = (progress * totalObs * 3 * rate + offset) % totalObs;
+        const obsRaw = (progress * totalObs * 0.5 * rate + offset) % totalObs;
         const obsFloat = obsRaw < 0 ? obsRaw + totalObs : obsRaw;
         const obsA = Math.floor(obsFloat) % totalObs;
         const obsB = (obsA + 1) % totalObs;
