@@ -36,7 +36,7 @@ export function ScrollNav({ scrollProgress }: ScrollNavProps) {
 
   const identityName = isMusic ? "Thom Clarity" : "Thom Flaherty";
   const otherLabel = isMusic ? "Technology" : "Music";
-  const otherId = isMusic ? "tech-hero" : "music-hero";
+  const otherId = isMusic ? "tech" : "music";
 
   return (
     <nav
@@ -51,7 +51,7 @@ export function ScrollNav({ scrollProgress }: ScrollNavProps) {
           <AnimatePresence mode="wait">
             <motion.button
               key={identityName}
-              onClick={() => scrollTo(isMusic ? "music-hero" : "tech-hero")}
+              onClick={() => scrollTo(isMusic ? "music" : "tech")}
               className="bg-transparent border-none cursor-pointer tracking-wide transition-colors"
               style={{
                 color: "var(--color-accent)",

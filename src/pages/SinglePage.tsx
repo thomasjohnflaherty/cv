@@ -41,7 +41,7 @@ export function SinglePage() {
 
   useEffect(() => {
     document.title = "Thom Flaherty / Thom Clarity";
-    // Handle hash navigation (e.g. #music-hero, #contact)
+    // Handle hash navigation (e.g. #music, #contact)
     const hash = window.location.hash;
     if (hash) {
       setTimeout(() => {
@@ -68,7 +68,7 @@ export function SinglePage() {
       style={{ backgroundColor: theme.bg, color: theme.text }}
     >
       <a
-        href="#tech-hero"
+        href="#tech"
         className="sr-only focus:not-sr-only focus:absolute focus:top-16 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:rounded-md focus:text-sm"
         style={{ backgroundColor: "var(--color-accent)", color: "#ffffff" }}
       >
@@ -79,7 +79,7 @@ export function SinglePage() {
 
       <main className="max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
         {/* ===== TECH SECTION ===== */}
-        <ScrollSection id="tech-hero">
+        <ScrollSection id="tech">
           <section className="py-16 sm:py-24">
             <h1 className="text-5xl sm:text-7xl tracking-tight">{hero.name}</h1>
             <p className="mt-2 text-lg sm:text-xl font-medium" style={{ color: "var(--color-accent)" }}>
@@ -123,7 +123,7 @@ export function SinglePage() {
         </div>
 
         {/* ===== MUSIC SECTION ===== */}
-        <ScrollSection id="music-hero">
+        <ScrollSection id="music">
           <MusicHero />
         </ScrollSection>
 
