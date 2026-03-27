@@ -69,7 +69,7 @@ export function SinglePage() {
       <PulsarPlot scrollProgress={scrollYProgress} isMusic={isMusic} />
       <ScrollNav scrollProgress={scrollYProgress} />
 
-      <main className="max-w-3xl mx-auto px-4 relative z-10">
+      <main className="max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
         {/* ===== TECH SECTION ===== */}
         <ScrollSection id="tech-hero">
           <section className="py-16 sm:py-24">

@@ -45,7 +45,7 @@ export function ScrollNav({ scrollProgress }: ScrollNavProps) {
         backgroundColor: isMusic ? "rgba(10, 10, 10, 0.85)" : "rgba(250, 250, 250, 0.85)",
       }}
     >
-      <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
+      <div className="max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto px-4 sm:px-8 lg:px-12 h-14 flex items-center justify-between">
         {/* Desktop nav */}
         <div className="hidden md:flex items-center w-full justify-between">
           <AnimatePresence mode="wait">

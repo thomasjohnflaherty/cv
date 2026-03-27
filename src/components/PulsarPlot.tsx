@@ -151,7 +151,7 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
       className="fixed top-0 h-screen pointer-events-none z-0"
       style={{
         left: "-10%",
-        width: "50%",
+        width: "55%",
         opacity: 0.7,
         maskImage: "linear-gradient(to right, black 30%, transparent 85%)",
         WebkitMaskImage: "linear-gradient(to right, black 30%, transparent 85%)",
