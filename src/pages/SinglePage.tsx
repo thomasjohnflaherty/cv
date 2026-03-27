@@ -41,6 +41,14 @@ export function SinglePage() {
 
   useEffect(() => {
     document.title = "Thom Flaherty / Thom Clarity";
+    // Handle hash navigation (e.g. #music-hero, #contact)
+    const hash = window.location.hash;
+    if (hash) {
+      setTimeout(() => {
+        const el = document.querySelector(hash);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 300);
+    }
   }, []);
 
   // Apply CSS custom properties from binary theme
