@@ -106,12 +106,34 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
       return { baseY: yBase(i), fillPath, strokePath, ...lineConfig[i] };
     });
 
-    // Animation loop — interpolate between two observations for smooth transitions
+    // Momentum system — smoothed progress that decays when scrolling stops
+    let smoothProgress = scrollProgress.get();
+    let velocity = 0;
+    let lastRawProgress = smoothProgress;
+    const friction = 0.95; // how slowly momentum decays (closer to 1 = longer coast)
+
     const animate = () => {
-      const progress = scrollProgress.get();
+      const rawProgress = scrollProgress.get();
+
+      // Calculate scroll velocity
+      const delta = rawProgress - lastRawProgress;
+      lastRawProgress = rawProgress;
+
+      if (Math.abs(delta) > 0.00001) {
+        // Actively scrolling — track velocity
+        velocity = delta;
+        smoothProgress = rawProgress;
+      } else {
+        // Not scrolling — coast with decaying velocity
+        velocity *= friction;
+        if (Math.abs(velocity) > 0.000001) {
+          smoothProgress += velocity;
+        }
+      }
+
+      const progress = smoothProgress;
 
       pathEls.forEach(({ baseY, fillPath, strokePath, rate, offset }) => {
-        // Continuous float index into observations
         const obsFloat = (progress * totalObservations * 3 * rate + offset) % totalObservations;
         const obsA = Math.floor(obsFloat) % totalObservations;
         const obsB = (obsA + 1) % totalObservations;
