@@ -18,18 +18,15 @@ export function ResumeDocument() {
         overflow: "hidden",
       }}
     >
-      {/* Pulsar ridge plot - right side, full height, fades left */}
+      {/* Pulsar ridge plot - right side, full page height, SVG gradient fade */}
       <div style={{
         position: "absolute",
         top: 0,
-        right: "-0.5in",
+        right: "-0.3in",
         width: "4in",
-        height: "100%",
-        opacity: 0.4,
-        maskImage: "linear-gradient(to left, black 30%, transparent 85%)",
-        WebkitMaskImage: "linear-gradient(to left, black 30%, transparent 85%)",
+        height: "11in",
       }}>
-        <PulsarStatic width={380} height={900} color="#2563eb" />
+        <PulsarStatic width={380} height={1056} color="#2563eb" />
       </div>
 
       {/* Header */}

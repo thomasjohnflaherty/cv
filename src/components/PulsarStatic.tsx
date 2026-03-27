@@ -79,10 +79,17 @@ export function PulsarStatic({ width = 250, height = 300, color = "#2563eb" }: {
 
   return (
     <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="pulsar-fade" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor={color} stopOpacity="0" />
+          <stop offset="40%" stopColor={color} stopOpacity="0.3" />
+          <stop offset="100%" stopColor={color} stopOpacity="0.5" />
+        </linearGradient>
+      </defs>
       {paths.map((d, i) => (
         <g key={i}>
           <path d={fills[i]} fill="#ffffff" stroke="none" />
-          <path d={d} fill="none" stroke={color} strokeWidth="0.8" opacity="0.5" />
+          <path d={d} fill="none" stroke="url(#pulsar-fade)" strokeWidth="0.8" />
         </g>
       ))}
     </svg>
