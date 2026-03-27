@@ -161,8 +161,8 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
     <div
       className="fixed top-0 right-0 w-1/2 lg:w-2/5 h-screen pointer-events-none z-0"
       style={{
-        opacity: isMusic ? 0 : 0.7,
-        transition: "opacity 0.15s",
+        opacity: 0.7,
+        display: isMusic ? "none" : "block",
       }}
     >
       <svg ref={svgRef} className="w-full h-full" preserveAspectRatio="xMidYMid meet" />
