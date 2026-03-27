@@ -21,12 +21,12 @@ export function ResumeDocument() {
       {/* Pulsar ridge plot - right side, full page height, SVG gradient fade */}
       <div style={{
         position: "absolute",
-        top: 0,
-        right: "-0.3in",
-        width: "4in",
-        height: "11in",
+        top: "-0.5in",
+        right: "-1.5in",
+        width: "3.5in",
+        height: "12in",
       }}>
-        <PulsarStatic width={380} height={1056} color="#2563eb" />
+        <PulsarStatic width={336} height={1152} color="#2563eb" />
       </div>
 
       {/* Header */}
