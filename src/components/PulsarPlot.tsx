@@ -106,12 +106,14 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
       return { baseY: yBase(i), fillPath, strokePath, ...lineConfig[i] };
     });
 
-    // Momentum system — smoothProgress chases rawProgress with inertia
+    // Momentum system with velocity cap, ease-in, and boundary coasting
     let smoothProgress = scrollProgress.get();
     let lastRawProgress = smoothProgress;
     let velocity = 0;
-    const chase = 0.15;   // how quickly smoothProgress catches up to raw (lower = more lag)
-    const friction = 0.92; // momentum decay when raw stops moving
+    let smoothVelocity = 0; // eased velocity (ramps up, doesn't snap)
+    const maxVelocity = 0.008;  // cap — prevents going insane on fast scroll
+    const easeIn = 0.12;        // how quickly velocity ramps up (lower = more gradual)
+    const friction = 0.92;      // coast decay
 
     const animate = () => {
       const rawProgress = scrollProgress.get();
@@ -121,17 +123,29 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
       const isScrolling = Math.abs(rawDelta) > 0.000005;
 
       if (isScrolling) {
-        // While scrolling: smoothProgress chases rawProgress, and we track velocity
-        velocity = rawDelta;
-        smoothProgress += (rawProgress - smoothProgress) * chase + velocity * 0.5;
+        // Clamp raw velocity
+        const clampedDelta = Math.max(-maxVelocity, Math.min(maxVelocity, rawDelta));
+        // Ease into the target velocity (don't snap to it)
+        smoothVelocity += (clampedDelta - smoothVelocity) * easeIn;
+        velocity = smoothVelocity;
+        // Chase raw position loosely
+        smoothProgress += (rawProgress - smoothProgress) * 0.1 + velocity * 0.5;
       } else {
-        // Coasting: apply decaying velocity
+        // Coast — decay velocity, ease smoothVelocity to zero too
         velocity *= friction;
+        smoothVelocity *= friction;
         smoothProgress += velocity;
       }
 
-      // Clamp
-      smoothProgress = Math.max(0, Math.min(1, smoothProgress));
+      // Soft clamp — allow coast to finish naturally near boundaries
+      if (smoothProgress < 0) {
+        smoothProgress = 0;
+        if (velocity < 0) velocity = 0;
+      }
+      if (smoothProgress > 1) {
+        smoothProgress = 1;
+        if (velocity > 0) velocity = 0;
+      }
       const progress = smoothProgress;
 
       pathEls.forEach(({ baseY, fillPath, strokePath, rate, offset }) => {
