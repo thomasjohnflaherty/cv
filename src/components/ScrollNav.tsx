@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion, useTransform, AnimatePresence } from "framer-motion";
 import type { MotionValue } from "framer-motion";
 
@@ -9,8 +9,6 @@ interface ScrollNavProps {
 export function ScrollNav({ scrollProgress }: ScrollNavProps) {
   const [isMusic, setIsMusic] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [visible, setVisible] = useState(true);
-  const lastScrollY = useRef(0);
 
   const bgColor = useTransform(
     scrollProgress,
@@ -27,9 +25,6 @@ export function ScrollNav({ scrollProgress }: ScrollNavProps) {
     [0.38, 0.42],
     ["#2563eb", "#a78bfa"]
   );
-
-  // Keep nav always visible
-  void lastScrollY; // unused now
 
   // Track which identity is active
   useEffect(() => {
