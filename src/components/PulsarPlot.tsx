@@ -106,18 +106,26 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
       return { baseY: yBase(i), fillPath, strokePath, ...lineConfig[i] };
     });
 
-    // Animation loop — each line shows a different pulse observation based on scroll
+    // Animation loop — interpolate between two observations for smooth transitions
     const animate = () => {
       const progress = scrollProgress.get();
 
       pathEls.forEach(({ baseY, fillPath, strokePath, rate, offset }) => {
-        // Pick which observation this line shows based on scroll position
-        const obsIdx = Math.floor(progress * totalObservations * 3 * rate + offset) % totalObservations;
-        const points = pulses[obsIdx];
+        // Continuous float index into observations
+        const obsFloat = (progress * totalObservations * 3 * rate + offset) % totalObservations;
+        const obsA = Math.floor(obsFloat) % totalObservations;
+        const obsB = (obsA + 1) % totalObservations;
+        const t = obsFloat - Math.floor(obsFloat); // 0-1 blend between A and B
 
-        const coords = points.map((p) => {
-          const px = xScale(p.x);
-          const py = baseY - zScale(p.z);
+        const pointsA = pulses[obsA];
+        const pointsB = pulses[obsB];
+
+        const coords = pointsA.map((pA, j) => {
+          const pB = pointsB[j];
+          // Lerp between the two observations
+          const z = pA.z * (1 - t) + pB.z * t;
+          const px = xScale(pA.x);
+          const py = baseY - zScale(z);
           return [px, py, baseY + lineSpacing * 1.2];
         });
 
