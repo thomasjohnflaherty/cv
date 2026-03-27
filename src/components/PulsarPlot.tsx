@@ -111,7 +111,7 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
     let lastRawProgress = smoothProgress;
     let velocity = 0;
     let smoothVelocity = 0; // eased velocity (ramps up, doesn't snap)
-    const maxVelocity = 0.003;  // tighter cap on max speed
+    const maxVelocity = 0.001;  // very tight cap — always gentle
     const easeIn = 0.2;         // faster ramp up
     const friction = 0.85;      // shorter coast
 
