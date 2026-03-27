@@ -26,7 +26,7 @@ export const roles: Role[] = [
     dates: "Dec 2025 – Mar 2026",
     location: "Lincoln, NE",
     bullets: [
-      "Got the dev team using Claude — turns out AI pair programming is a hard sell until it isn't",
+      "Got the dev team using Claude. Turns out AI pair programming is a hard sell until it isn't",
       "Built a reusable testing framework so nobody could ship broken code and blame it on vibes",
       "Played translator between the research PhDs and the engineers who had to build their ideas",
     ],
@@ -38,7 +38,7 @@ export const roles: Role[] = [
     dates: "Oct 2022 – Dec 2025",
     location: "Omaha, NE",
     bullets: [
-      "Ran 8 Databricks workspaces on GCP — all the infra, all the pipelines, all mine",
+      "Ran 8 Databricks workspaces on GCP. All the infra, all the pipelines, all mine",
       "Migrated an entire data warehouse from BigQuery to Databricks and killed a Fivetran bill along the way",
       "Taught data scientists and devs how to actually use MLflow instead of just saying they would",
     ],
@@ -51,7 +51,7 @@ export const roles: Role[] = [
     location: "Omaha, NE",
     bullets: [
       "Built the demand forecasting and pricing models that people actually made decisions with",
-      "Wrote the Databricks playbook — if you used Databricks at Spreetail, you followed my docs",
+      "Wrote the Databricks playbook. If you used Databricks at Spreetail, you followed my docs, used my notebooks and were beholden to my cluster policies",
       "Made models run 10x faster and cost 30-40% less by switching to Spark-native algorithms",
     ],
     tech: ["Azure Databricks", "PySpark", "H2O.ai", "Python", "Apache Spark"],
@@ -63,7 +63,7 @@ export const roles: Role[] = [
     location: "Omaha, NE",
     bullets: [
       "Built the COVID-19 forecasting models that hospital leadership used to make real decisions during a pandemic",
-      "Gave the org its first real analytics platform — RStudio Connect replaced a lot of \"email me the spreadsheet\" workflows",
+      "Gave the org its first real analytics platform. RStudio Connect replaced a lot of \"email me the spreadsheet\" workflows",
     ],
     tech: ["R", "RStudio Connect", "Shiny", "SQL", "Tableau"],
   },
