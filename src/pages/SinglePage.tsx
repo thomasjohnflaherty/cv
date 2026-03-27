@@ -37,7 +37,6 @@ export function SinglePage() {
   const { toPDF, targetRef } = usePDF({
     filename: "Thom_Flaherty_Resume.pdf",
     page: { format: "letter" },
-    canvas: { height: 1056, windowHeight: 1056 },
   });
 
   useEffect(() => {
