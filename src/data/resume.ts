@@ -16,7 +16,7 @@ export interface Education {
 export const hero = {
   name: "Thom Flaherty",
   tagline: "Data & AI Infrastructure Leader",
-  bio: "13+ years building data systems, deploying ML at scale, and enabling engineering teams. Based in Omaha, NE.",
+  bio: "13+ years building data platforms, shipping ML to production, and teaching teams how to use the tools. Based in Omaha, NE.",
 };
 
 export const roles: Role[] = [
@@ -26,9 +26,9 @@ export const roles: Role[] = [
     dates: "Dec 2025 – Mar 2026",
     location: "Lincoln, NE",
     bullets: [
-      "Brought Claude into the dev workflow. Turns out AI pair programming is a hard sell until it isn't",
-      "Defined the strategy for reusable automated testing across all repos and guided the team on execution",
-      "Played translator between the research PhDs and the engineers who had to build their ideas",
+      "Got the dev team coding with Claude. Most were skeptical until they shipped their first feature in half the time",
+      "Set the strategy for reusable automated testing across all repos, then guided the team through execution",
+      "Translated between research PhDs and the engineers who had to actually build their ideas",
     ],
     tech: ["AWS", "Snowflake", "Claude", "Python", "CI/CD"],
   },
@@ -62,8 +62,8 @@ export const roles: Role[] = [
     dates: "Mar 2019 – Jun 2021",
     location: "Omaha, NE",
     bullets: [
-      "Built the COVID-19 forecasting models that hospital leadership used to make real decisions during a pandemic",
-      "Gave the org its first real analytics platform. RStudio Connect replaced a lot of \"email me the spreadsheet\" workflows",
+      "Built COVID-19 forecasting models that hospital leadership actually used to make decisions during the pandemic",
+      "Stood up RStudio Connect as the org's first real analytics platform. Replaced a lot of \"just email me the spreadsheet\" workflows",
     ],
     tech: ["R", "RStudio Connect", "Shiny", "SQL", "Tableau"],
   },
@@ -76,7 +76,7 @@ export const expertise = [
   "Technology Leadership",
   "Cloud Infrastructure",
   "Platform Engineering",
-  "AI-Assisted Development",
+  "Agentic Development",
   "Healthcare Analytics",
 ];
 

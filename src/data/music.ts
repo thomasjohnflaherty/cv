@@ -113,15 +113,15 @@ export const masteringCredits: MasteringCredit[] = [
 export const services = [
   {
     title: "Sound Design",
-    description: "Custom patches, SFX, texture and atmosphere work",
+    description: "Patches, textures, SFX, atmosphere",
   },
   {
     title: "Soundtrack / Score",
-    description: "Electronic, ambient, experimental",
+    description: "Electronic, ambient, experimental composition",
   },
   {
     title: "Mastering",
-    description: "Hardware-chain finishing",
+    description: "Analog mastering through hardware",
   },
 ];
 
