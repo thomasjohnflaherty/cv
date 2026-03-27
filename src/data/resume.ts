@@ -15,8 +15,8 @@ export interface Education {
 
 export const hero = {
   name: "Thom Flaherty",
-  tagline: "Data & AI Infrastructure Leader",
-  bio: "13+ years building data platforms, shipping ML to production, and teaching teams how to use the tools. Based in Omaha, NE.",
+  tagline: "I build the infrastructure that data teams run on.",
+  bio: "13 years of Databricks workspaces, ML pipelines, and teaching people to stop emailing spreadsheets. Based in Omaha.",
 };
 
 export const roles: Role[] = [
@@ -26,8 +26,8 @@ export const roles: Role[] = [
     dates: "Dec 2025 – Mar 2026",
     location: "Lincoln, NE",
     bullets: [
-      "Got the dev team coding with Claude. Most were skeptical until they shipped their first feature in half the time",
-      "Set the strategy for reusable automated testing across all repos, then guided the team through execution",
+      "Got the dev team coding with Claude",
+      "Set the strategy for automated testing across all repos",
       "Translated between research PhDs and the engineers who had to actually build their ideas",
     ],
     tech: ["AWS", "Snowflake", "Claude", "Python", "CI/CD"],
@@ -50,7 +50,7 @@ export const roles: Role[] = [
     dates: "Jun 2021 – Oct 2022",
     location: "Omaha, NE",
     bullets: [
-      "Built the demand forecasting and pricing models that people actually made decisions with",
+      "Built demand forecasting and pricing models people actually used",
       "Wrote the Databricks playbook. If you used Databricks at Spreetail, you followed my docs, used my notebooks and were beholden to my cluster policies",
       "Made models run 10x faster and cost 30-40% less by switching to Spark-native algorithms",
     ],
@@ -62,7 +62,7 @@ export const roles: Role[] = [
     dates: "Mar 2019 – Jun 2021",
     location: "Omaha, NE",
     bullets: [
-      "Built COVID-19 forecasting models that hospital leadership actually used to make decisions during the pandemic",
+      "Built COVID-19 forecasting models that hospital leadership actually used",
       "Stood up RStudio Connect as the org's first real analytics platform. Replaced a lot of \"just email me the spreadsheet\" workflows",
     ],
     tech: ["R", "RStudio Connect", "Shiny", "SQL", "Tableau"],
