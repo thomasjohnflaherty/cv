@@ -44,10 +44,12 @@ export function SinglePage() {
     // Handle hash navigation (e.g. #music, #contact)
     const hash = window.location.hash;
     if (hash) {
-      setTimeout(() => {
+      const scrollToHash = () => {
         const el = document.querySelector(hash);
         if (el) el.scrollIntoView({ behavior: "smooth" });
-      }, 300);
+      };
+      setTimeout(scrollToHash, 500);
+      setTimeout(scrollToHash, 1500);
     }
   }, []);
 
