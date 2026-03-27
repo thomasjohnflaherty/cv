@@ -115,15 +115,37 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
       return oscs;
     });
 
-    // Each line's noise is driven by its own oscillators at unique positions
+    // Hash function for deterministic stepped noise
+    const hash = (a: number, b: number): number => {
+      let h = (a * 2654435761 + b * 340573321) | 0;
+      h = Math.imul(h ^ (h >>> 16), 0x45d9f3b);
+      h = Math.imul(h ^ (h >>> 13), 0x45d9f3b);
+      return ((h ^ (h >>> 16)) >>> 0) / 4294967296 - 0.5;
+    };
+
+    // Each line's noise: smooth oscillators + stepped jitter
     const noise = (lineIdx: number, xPos: number, scroll: number): number => {
       let total = 0;
+
+      // Smooth component from oscillators (spatial targeting)
       for (const osc of lineOscillators[lineIdx]) {
         const dx = (xPos - osc.xCenter) / osc.xWidth;
-        const spatial = Math.exp(-dx * dx * 2); // gaussian falloff from center
+        const spatial = Math.exp(-dx * dx * 2);
         const temporal = Math.sin(scroll * osc.freq + osc.phase);
-        total += spatial * temporal * osc.amp;
+        total += spatial * temporal * osc.amp * 0.5;
       }
+
+      // Stepped/jittery component — quantize scroll into discrete steps
+      // Each step produces a different random offset, creating micro-jumps
+      const step = Math.floor(scroll * 800);
+      const jitter = hash(lineIdx * 300 + Math.floor(xPos / 25), step) * 0.4;
+      // Blend: previous step -> current step based on sub-step position
+      const nextJitter = hash(lineIdx * 300 + Math.floor(xPos / 25), step + 1) * 0.4;
+      const blend = (scroll * 800) - step;
+      // Sharp blend — mostly snaps, with a tiny ease between steps
+      const sharpBlend = blend < 0.2 ? blend * 5 : 1;
+      total += jitter * (1 - sharpBlend) + nextJitter * sharpBlend;
+
       return total;
     };
 
