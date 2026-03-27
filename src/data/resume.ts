@@ -16,7 +16,7 @@ export interface Education {
 export const hero = {
   name: "Thom Flaherty",
   tagline: "Data & AI Infrastructure Leader",
-  bio: "13+ years building data systems, deploying ML at scale, and enabling engineering teams. Background in visual design, based in Omaha, NE.",
+  bio: "13+ years building data systems, deploying ML at scale, and enabling engineering teams. Based in Omaha, NE.",
 };
 
 export const roles: Role[] = [
