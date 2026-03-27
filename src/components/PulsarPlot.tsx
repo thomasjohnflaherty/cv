@@ -48,12 +48,12 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
 
     const displayLines = 25;
     const totalObs = pulses.length;
-    const lineSpacing = height / (displayLines + 4);
+    const lineSpacing = height / (displayLines + 2);
     const plotWidth = lineSpacing * displayLines * 0.7;
     const xOffset = (width - plotWidth) / 2;
 
     const xScale = d3.scaleLinear().domain([1, 300]).range([xOffset, xOffset + plotWidth]);
-    const yBase = (i: number) => lineSpacing * (i + 2);
+    const yBase = (i: number) => lineSpacing * (i + 1);
     const zMax = 5;
     const zScale = d3.scaleLinear().domain([-2, zMax]).range([0, lineSpacing * 0.8]);
 
@@ -147,8 +147,12 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
 
   return (
     <div
-      className="fixed top-0 right-0 w-1/2 lg:w-2/5 h-screen pointer-events-none z-0"
-      style={{ opacity: 0.7 }}
+      className="fixed top-0 left-0 w-1/2 lg:w-2/5 h-screen pointer-events-none z-0"
+      style={{
+        opacity: 0.7,
+        maskImage: "radial-gradient(ellipse 80% 70% at 30% 50%, black 40%, transparent 100%)",
+        WebkitMaskImage: "radial-gradient(ellipse 80% 70% at 30% 50%, black 40%, transparent 100%)",
+      }}
     >
       <svg ref={svgRef} className="w-full h-full" preserveAspectRatio="xMidYMid meet" />
     </div>
