@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import * as d3 from "d3";
 import { useTransform, motion } from "framer-motion";
 import type { MotionValue } from "framer-motion";
@@ -10,150 +10,148 @@ interface PulsarPlotProps {
 
 interface DataPoint {
   x: number;
-  y: number;
   z: number;
+}
+
+// Seeded pseudo-random number generator for deterministic noise per scroll position
+function mulberry32(seed: number) {
+  return function () {
+    let t = (seed += 0x6d2b79f5);
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
 }
 
 export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
   const svgRef = useRef<SVGSVGElement>(null);
-  const [data, setData] = useState<DataPoint[]>([]);
-  const animFrameRef = useRef<number>(0);
+  const [pulses, setPulses] = useState<DataPoint[][]>([]);
+  const drawnRef = useRef(false);
+  const lastSeedRef = useRef(-1);
 
   // Fade out as theme transitions
-  const opacity = useTransform(scrollProgress, [0, THEME_TRANSITION[0], THEME_TRANSITION[1]], [0.6, 0.6, 0]);
+  const opacity = useTransform(scrollProgress, [0, THEME_TRANSITION[0], THEME_TRANSITION[1]], [0.7, 0.7, 0]);
 
-  // Load the CSV data
+  // Load and group the CSV data
   useEffect(() => {
     fetch("/cp1919.csv")
       .then((res) => res.text())
       .then((text) => {
-        const parsed: DataPoint[] = [];
         const lines = text.trim().split("\n");
+        const grouped = new Map<number, DataPoint[]>();
         for (let i = 1; i < lines.length; i++) {
-          const [x, y, z] = lines[i].split(",").map(Number);
-          parsed.push({ x, y, z });
+          const parts = lines[i].split(",");
+          const y = Number(parts[1]);
+          const point = { x: Number(parts[0]), z: Number(parts[2]) };
+          if (!grouped.has(y)) grouped.set(y, []);
+          grouped.get(y)!.push(point);
         }
-        setData(parsed);
+        // Take every other pulse line
+        const allPulses = Array.from(grouped.values());
+        setPulses(allPulses.filter((_, i) => i % 2 === 0));
       });
   }, []);
 
-  // Draw and animate the plot
+  const draw = useCallback(
+    (seed: number) => {
+      if (!pulses.length || !svgRef.current) return;
+
+      const svg = d3.select(svgRef.current);
+      svg.selectAll("*").remove();
+
+      const width = svgRef.current.clientWidth;
+      const height = svgRef.current.clientHeight;
+
+      const rng = mulberry32(Math.floor(seed * 1000));
+
+      const xScale = d3.scaleLinear().domain([1, 300]).range([0, width]);
+      const yScale = d3.scaleLinear().domain([0, pulses.length]).range([height * 0.03, height * 0.97]);
+      const zMax = 5;
+      const zScale = d3.scaleLinear().domain([-2, zMax]).range([0, height * 0.09]);
+
+      // Create gradient
+      const defs = svg.append("defs");
+      const gradient = defs.append("linearGradient").attr("id", "pg").attr("x1", "0%").attr("x2", "100%");
+      gradient.append("stop").attr("offset", "0%").attr("stop-color", "#2563eb").attr("stop-opacity", 0.2);
+      gradient.append("stop").attr("offset", "35%").attr("stop-color", "#3b82f6").attr("stop-opacity", 0.8);
+      gradient.append("stop").attr("offset", "50%").attr("stop-color", "#7c3aed").attr("stop-opacity", 1);
+      gradient.append("stop").attr("offset", "65%").attr("stop-color", "#a78bfa").attr("stop-opacity", 0.8);
+      gradient.append("stop").attr("offset", "100%").attr("stop-color", "#2563eb").attr("stop-opacity", 0.2);
+
+      const line = d3.line<{ x: number; z: number }>().curve(d3.curveBasis);
+
+      pulses.forEach((points, i) => {
+        const baseY = yScale(i);
+
+        // Generate noisy variation of this pulse — perturb peak heights and positions
+        const noisyPoints = points.map((p) => {
+          // More noise in peak areas (where z > 0), less in flat areas
+          const peakFactor = Math.max(0, p.z) / zMax;
+          const heightNoise = (rng() - 0.5) * 2.5 * (0.3 + peakFactor * 2);
+          const posNoise = (rng() - 0.5) * 8 * peakFactor;
+          return {
+            x: p.x + posNoise,
+            z: p.z + heightNoise,
+          };
+        });
+
+        // Area fill for overlap occlusion
+        const areaGen = d3
+          .area<{ x: number; z: number }>()
+          .x((d) => xScale(d.x))
+          .y0(height)
+          .y1((d) => baseY - zScale(d.z))
+          .curve(d3.curveBasis);
+
+        svg
+          .append("path")
+          .datum(noisyPoints)
+          .attr("d", areaGen(noisyPoints) ?? "")
+          .attr("fill", "var(--color-bg)")
+          .attr("stroke", "none");
+
+        // Stroke line
+        svg
+          .append("path")
+          .datum(noisyPoints)
+          .attr(
+            "d",
+            line.x((d) => xScale(d.x)).y((d) => baseY - zScale(d.z))(noisyPoints) ?? ""
+          )
+          .attr("fill", "none")
+          .attr("stroke", "url(#pg)")
+          .attr("stroke-width", 1.2);
+      });
+    },
+    [pulses]
+  );
+
+  // Redraw on scroll with new noise seed — throttled to avoid thrashing
   useEffect(() => {
-    if (!data.length || !svgRef.current) return;
+    if (!pulses.length) return;
 
-    const svg = d3.select(svgRef.current);
-    svg.selectAll("*").remove();
+    // Initial draw
+    draw(0);
+    drawnRef.current = true;
 
-    const width = svgRef.current.clientWidth;
-    const height = svgRef.current.clientHeight;
-
-    // Group data by pulse (y value)
-    const pulses = d3.groups(data, (d) => d.y);
-    // Take every 3rd pulse for cleaner spacing
-    const selectedPulses = pulses.filter((_, i) => i % 3 === 0);
-
-    const xScale = d3.scaleLinear()
-      .domain([1, 300])
-      .range([0, width]);
-
-    const yScale = d3.scaleLinear()
-      .domain([0, selectedPulses.length])
-      .range([height * 0.05, height * 0.98]);
-
-    const zScale = d3.scaleLinear()
-      .domain([-2, d3.max(data, (d) => d.z) ?? 5])
-      .range([0, height * 0.08]);
-
-    // Create gradient — stronger colors for visibility on light bg
-    const defs = svg.append("defs");
-    const gradient = defs.append("linearGradient")
-      .attr("id", "pulsar-gradient")
-      .attr("x1", "0%").attr("x2", "100%");
-    gradient.append("stop").attr("offset", "0%").attr("stop-color", "#2563eb").attr("stop-opacity", 0.3);
-    gradient.append("stop").attr("offset", "30%").attr("stop-color", "#3b82f6").attr("stop-opacity", 0.7);
-    gradient.append("stop").attr("offset", "50%").attr("stop-color", "#7c3aed").attr("stop-opacity", 0.9);
-    gradient.append("stop").attr("offset", "70%").attr("stop-color", "#a78bfa").attr("stop-opacity", 0.7);
-    gradient.append("stop").attr("offset", "100%").attr("stop-color", "#2563eb").attr("stop-opacity", 0.3);
-
-    const line = d3.line<DataPoint>()
-      .x((d) => xScale(d.x))
-      .curve(d3.curveBasis);
-
-    // Draw each pulse line
-    const paths = selectedPulses.map(([, points], i) => {
-      const baseY = yScale(i);
-
-      // Fill path — covers area below line for overlap effect
-      svg.append("path")
-        .datum(points)
-        .attr("class", `pulse-fill-${i}`)
-        .attr("d", line.y((d) => baseY - zScale(d.z))(points) ?? "")
-        .attr("fill", "var(--color-bg)")
-        .attr("stroke", "none");
-
-      // Stroke path
-      svg.append("path")
-        .datum(points)
-        .attr("class", `pulse-line-${i}`)
-        .attr("d", line.y((d) => baseY - zScale(d.z))(points) ?? "")
-        .attr("fill", "none")
-        .attr("stroke", "url(#pulsar-gradient)")
-        .attr("stroke-width", 1.5)
-        .attr("opacity", 1);
-
-      return { points, index: i, baseY };
+    const unsub = scrollProgress.on("change", (v) => {
+      // Quantize to reduce redraws — regenerate every ~0.5% of scroll
+      const seed = Math.floor(v * 200);
+      if (seed !== lastSeedRef.current) {
+        lastSeedRef.current = seed;
+        draw(v);
+      }
     });
 
-    // Scroll-driven animation — horizontal jitter like a live signal
-    let lastProgress = scrollProgress.get();
-
-    const animate = () => {
-      const progress = scrollProgress.get();
-      const delta = progress - lastProgress;
-      lastProgress = progress;
-
-      // Only animate when actually scrolling
-      if (Math.abs(delta) > 0.00001) {
-        const wave = progress * Math.PI * 12;
-
-        paths.forEach(({ points, index, baseY }) => {
-          // Each line gets a horizontal shimmer — different phase per line
-          const linePhase = index * 1.7;
-
-          const jitteredLine = d3.line<DataPoint>()
-            .x((d) => {
-              const xPos = xScale(d.x);
-              // Horizontal noise: varies by position along the line and scroll
-              const noise = Math.sin(wave + d.x * 0.08 + linePhase) * 3
-                          + Math.sin(wave * 1.3 + d.x * 0.15 + linePhase * 0.7) * 2;
-              return xPos + noise;
-            })
-            .y((d) => baseY - zScale(d.z))
-            .curve(d3.curveBasis);
-
-          const newD = jitteredLine(points) ?? "";
-          svg.select(`.pulse-line-${index}`).attr("d", newD);
-          svg.select(`.pulse-fill-${index}`).attr("d", newD);
-        });
-      }
-
-      animFrameRef.current = requestAnimationFrame(animate);
-    };
-
-    animFrameRef.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animFrameRef.current);
-  }, [data, scrollProgress]);
+    return unsub;
+  }, [pulses, scrollProgress, draw]);
 
   return (
     <motion.div
       className="fixed top-0 right-0 w-1/2 lg:w-2/5 h-screen pointer-events-none z-0"
       style={{ opacity }}
     >
-      <svg
-        ref={svgRef}
-        className="w-full h-full"
-        preserveAspectRatio="xMidYMid meet"
-      />
+      <svg ref={svgRef} className="w-full h-full" preserveAspectRatio="xMidYMid meet" />
     </motion.div>
   );
 }
