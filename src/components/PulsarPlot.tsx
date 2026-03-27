@@ -20,6 +20,14 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
 
   useEffect(() => { isMusicRef.current = isMusic; }, [isMusic]);
 
+  // Track window resizes to trigger SVG rebuild
+  const [resizeKey, setResizeKey] = useState(0);
+  useEffect(() => {
+    const handler = () => setResizeKey((k) => k + 1);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, []);
+
   useEffect(() => {
     fetch("/cp1919.csv")
       .then((res) => res.text())
@@ -144,7 +152,7 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
 
     animRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animRef.current);
-  }, [pulses, scrollProgress]);
+  }, [pulses, scrollProgress, resizeKey]);
 
   return (
     <div
