@@ -22,11 +22,11 @@ export function ResumeDocument() {
       <div style={{
         position: "absolute",
         top: "-0.5in",
-        right: "-0.8in",
-        width: "3.5in",
+        right: "-1.2in",
+        width: "3in",
         height: "12in",
       }}>
-        <PulsarStatic width={336} height={1152} color="#2563eb" />
+        <PulsarStatic width={288} height={1152} color="#2563eb" />
       </div>
 
       {/* Header */}
