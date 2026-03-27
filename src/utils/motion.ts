@@ -1,8 +1,8 @@
 // Shared animation constants
 export const ease: [number, number, number, number] = [0, 0, 0.2, 1];
 
-// Theme transition scroll breakpoints
-export const THEME_TRANSITION: [number, number] = [0.38, 0.42];
+// Theme transition scroll breakpoints — very tight snap, no muddy grey zone
+export const THEME_TRANSITION: [number, number] = [0.39, 0.41];
 export const THEME_MIDPOINT = 0.40;
 
 // Color palettes

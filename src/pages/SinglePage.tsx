@@ -115,7 +115,7 @@ export function SinglePage() {
             className="w-full"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            transition={{ duration: 1.5 }}
+            transition={{ duration: 0.4 }}
             viewport={{ once: true }}
           >
             <div

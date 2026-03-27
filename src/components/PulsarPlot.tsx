@@ -18,7 +18,8 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
   const [pulses, setPulses] = useState<DataPoint[][]>([]);
   const animRef = useRef<number>(0);
 
-  const opacity = useTransform(scrollProgress, [0, THEME_TRANSITION[0], THEME_TRANSITION[1]], [0.7, 0.7, 0]);
+  // Snap opacity — visible in tech section, gone by theme transition
+  const opacity = useTransform(scrollProgress, [THEME_TRANSITION[0] - 0.02, THEME_TRANSITION[0]], [0.7, 0]);
 
   // Load CSV — keep ALL 80 pulse observations for cycling through
   useEffect(() => {
