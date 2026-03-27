@@ -15,7 +15,7 @@ export interface Education {
 
 export const hero = {
   name: "Thom Flaherty",
-  tagline: "I build the infrastructure that data teams run on.",
+  tagline: "I build the infrastructure that keeps data teams moving.",
   bio: "13 years of Databricks workspaces, ML pipelines, and teaching people to stop emailing spreadsheets. Based in Omaha.",
 };
 
@@ -26,7 +26,7 @@ export const roles: Role[] = [
     dates: "Dec 2025 – Mar 2026",
     location: "Lincoln, NE",
     bullets: [
-      "Got the dev team coding with Claude",
+      "Introduced agentic coding workflow to the dev team with Claude Code",
       "Set the strategy for automated testing",
       "Translated between research and engineering",
     ],
@@ -40,7 +40,7 @@ export const roles: Role[] = [
     bullets: [
       "Owned 8 Databricks workspaces on GCP",
       "Migrated BigQuery to Databricks, killed a Fivetran bill",
-      "Got teams to actually use MLflow",
+      "Made MLflow the standard, not just a suggestion",
     ],
     tech: ["Databricks", "GCP", "OpenTofu", "Terragrunt", "MLflow", "dbt", "Docker", "Python"],
   },
@@ -63,15 +63,16 @@ export const roles: Role[] = [
     location: "Omaha, NE",
     bullets: [
       "Built COVID-19 forecasting models for hospital leadership",
-      "Stood up RStudio Connect, killed the spreadsheet emails",
+      "Stood up Posit Connect, killed the spreadsheet emails",
     ],
-    tech: ["R", "RStudio Connect", "Shiny", "SQL", "Tableau"],
+    tech: ["R", "Posit Connect", "Shiny", "SQL", "Tableau"],
   },
 ];
 
 export const expertise = [
   "Data Science",
-  "Machine Learning / MLOps",
+  "Machine Learning",
+  "MLOps",
   "Data Engineering",
   "Technology Leadership",
   "Cloud Infrastructure",
@@ -81,7 +82,7 @@ export const expertise = [
 ];
 
 export const skills = {
-  tools: ["Python", "Databricks", "GCP", "AWS", "Azure", "OpenTofu/Terraform", "Docker", "MLflow", "Apache Spark", "dbt", "Snowflake", "SQL", "Git", "CI/CD"],
+  tools: ["Python", "Databricks", "GCP", "AWS", "Azure", "OpenTofu", "Terragrunt", "Docker", "MLflow", "Apache Spark", "dbt", "Snowflake", "SQL", "Git", "CI/CD"],
   strengths: [
     "Teaching & Mentorship",
     "Cross-Team Translation",
