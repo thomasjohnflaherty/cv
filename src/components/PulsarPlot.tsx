@@ -124,11 +124,14 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
 
         const pointsA = pulses[obsA];
         const pointsB = pulses[obsB];
-        const xShift = Math.sin(progress * 20 * xDriftRate) * xDriftAmp;
+        const xShiftBase = Math.sin(progress * 20 * xDriftRate) * xDriftAmp;
 
         const coords = pointsA.map((pA, j) => {
           const pB = pointsB[j];
           const z = pA.z * (1 - t) + pB.z * t;
+          // Taper x-shift to zero at edges — endpoints stay pinned
+          const edgeFactor = Math.sin((pA.x / 300) * Math.PI); // 0 at edges, 1 in middle
+          const xShift = xShiftBase * edgeFactor;
           return [xScale(pA.x + xShift), baseY - zScale(z), baseY + lineSpacing * 1.2];
         });
 
