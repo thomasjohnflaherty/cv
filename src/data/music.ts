@@ -1,6 +1,6 @@
 export const musicHero = {
   name: "Thom Clarity",
-  tagline: "Hardware synths, no laptop, no safety net.",
+  tagline: "Hardware synths, no laptop, no DAW, no problem.",
   bio: "Live electronic music, sound design, and mastering. Open to collaboration.",
 };
 
