@@ -19,24 +19,27 @@ export function ResumeDocument() {
         overflow: "hidden",
       }}
     >
-      {/* Pulsar ridge plot - right side, full page height, SVG gradient fade */}
+      {/* Pulsar ridge plot - right side, full page height, behind all content */}
       <div style={{
         position: "absolute",
         top: "-0.5in",
         right: "-1.2in",
         width: "3in",
         height: "12in",
+        zIndex: 0,
       }}>
         <PulsarStatic width={288} height={1152} color="#2563eb" />
       </div>
 
+      {/* All content above pulsar */}
+      <div style={{ position: "relative", zIndex: 1 }}>
       {/* Header */}
-      <h1 style={{ fontFamily: font, fontSize: "18pt", fontWeight: 600, margin: 0, letterSpacing: "-0.02em", textTransform: "none", position: "relative" }}>
+      <h1 style={{ fontFamily: font, fontSize: "18pt", fontWeight: 600, margin: 0, letterSpacing: "-0.02em", textTransform: "none" }}>
         {hero.name}
       </h1>
-      <p style={{ fontSize: "10pt", color: "#2563eb", margin: "2pt 0 0", fontWeight: 500, position: "relative" }}>{hero.tagline}</p>
-      <p style={{ fontSize: "8.5pt", color: "#6b7280", margin: "4pt 0 0", position: "relative" }}>{hero.bio}</p>
-      <p style={{ fontSize: "8pt", color: "#6b7280", margin: "2pt 0 10pt", position: "relative" }}>
+      <p style={{ fontSize: "10pt", color: "#2563eb", margin: "2pt 0 0", fontWeight: 500 }}>{hero.tagline}</p>
+      <p style={{ fontSize: "8.5pt", color: "#6b7280", margin: "4pt 0 0" }}>{hero.bio}</p>
+      <p style={{ fontSize: "8pt", color: "#6b7280", margin: "2pt 0 10pt" }}>
         thomasflaherty@gmail.com · linkedin.com/in/thomasjohnflaherty · thomflaherty.netlify.app
       </p>
 
@@ -109,6 +112,7 @@ export function ResumeDocument() {
           <span style={{ fontWeight: 400, color: "#6b7280" }}> · {teaching.org}</span>
         </p>
       </div>
+      </div>{/* close content wrapper */}
     </div>
   );
 }
