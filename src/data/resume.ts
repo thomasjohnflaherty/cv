@@ -4,6 +4,7 @@ export interface Role {
   dates: string;
   location: string;
   bullets: string[];
+  tech?: string[];
 }
 
 export interface Education {
@@ -29,6 +30,7 @@ export const roles: Role[] = [
       "Bridged research and development teams",
       "Modernized engineering practices",
     ],
+    tech: ["Claude", "Python", "Engineering Management"],
   },
   {
     title: "Staff Data Engineer",
@@ -40,6 +42,7 @@ export const roles: Role[] = [
       "Infrastructure-as-code with OpenTofu + Terragrunt",
       "Unity Catalog, Delta pipelines, MLflow",
     ],
+    tech: ["Databricks", "GCP", "OpenTofu", "Terragrunt", "MLflow", "Python"],
   },
   {
     title: "Data Science Engineer",
@@ -51,6 +54,7 @@ export const roles: Role[] = [
       "Stood up Azure Databricks environments with SOPs",
       "Apache Spark optimization for scalable parallelism",
     ],
+    tech: ["Azure Databricks", "PySpark", "Python", "H2O.ai"],
   },
   {
     title: "Senior Analytics Developer",
@@ -62,6 +66,7 @@ export const roles: Role[] = [
       "Developed community transmission rate calculator",
       "Patient safety and value-driven analytics",
     ],
+    tech: ["R", "RStudio Connect", "Shiny", "SQL", "Tableau"],
   },
 ];
 

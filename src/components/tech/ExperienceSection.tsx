@@ -8,7 +8,7 @@ const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.15 },
+    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
   },
 };
 
@@ -25,16 +25,14 @@ export function ExperienceSection() {
       whileInView="visible"
       viewport={{ once: true, margin: "-80px" }}
     >
-      <motion.h2 variants={itemVariants} className="text-2xl font-bold mb-6">
+      <motion.h2 variants={itemVariants} className="mb-8">
         Experience
       </motion.h2>
-      <div className="space-y-4">
-        {roles.map((role) => (
-          <motion.div key={`${role.company}-${role.dates}`} variants={itemVariants}>
-            <ExperienceCard role={role} />
-          </motion.div>
-        ))}
-      </div>
+      {roles.map((role, i) => (
+        <motion.div key={`${role.company}-${role.dates}`} variants={itemVariants}>
+          <ExperienceCard role={role} isLast={i === roles.length - 1} />
+        </motion.div>
+      ))}
     </motion.section>
   );
 }
