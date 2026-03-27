@@ -18,6 +18,11 @@ html {
 body {
   font-family: "Inter", system-ui, sans-serif;
   font-weight: 300;
+  background-color: var(--color-bg);
+}
+
+html, body {
+  min-height: 100%;
 }
 
 /* Fraunces for all headings — expressive old-style serif, light weights */

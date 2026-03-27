@@ -153,8 +153,8 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
         left: "-5%",
         width: "50%",
         opacity: 0.7,
-        maskImage: "linear-gradient(to right, black 60%, transparent 100%)",
-        WebkitMaskImage: "linear-gradient(to right, black 60%, transparent 100%)",
+        maskImage: "linear-gradient(to right, black 30%, transparent 85%)",
+        WebkitMaskImage: "linear-gradient(to right, black 30%, transparent 85%)",
       }}
     >
       <svg ref={svgRef} className="w-full h-full" preserveAspectRatio="xMidYMid meet" />
