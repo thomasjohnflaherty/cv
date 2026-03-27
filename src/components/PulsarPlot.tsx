@@ -156,10 +156,12 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
 
   return (
     <div
-      className="fixed top-0 h-screen pointer-events-none z-0"
+      className="fixed pointer-events-none z-0"
       style={{
-        left: "-10%",
+        top: "-5%",
+        left: "-11%",
         width: "55%",
+        height: "110%",
         opacity: 0.7,
         maskImage: "linear-gradient(to right, black 30%, transparent 85%)",
         WebkitMaskImage: "linear-gradient(to right, black 30%, transparent 85%)",
