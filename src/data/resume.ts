@@ -54,7 +54,7 @@ export const roles: Role[] = [
       "Wrote the Databricks playbook. If you used Databricks at Spreetail, you followed my docs, used my notebooks and were beholden to my cluster policies",
       "Made models run 10x faster and cost 30-40% less by switching to Spark-native algorithms",
     ],
-    tech: ["Azure Databricks", "PySpark", "H2O.ai", "Python", "Apache Spark"],
+    tech: ["Azure", "Databricks", "PySpark", "H2O.ai", "Python", "Apache Spark"],
   },
   {
     title: "Senior Analytics Developer",
