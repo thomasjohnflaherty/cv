@@ -6,14 +6,8 @@ interface ScrollNavProps {
   scrollProgress: MotionValue<number>;
 }
 
-const navItems = [
-  { id: "tech-hero", label: "Thom Flaherty" },
-  { id: "music-hero", label: "Thom Clarity" },
-  { id: "contact", label: "Contact" },
-];
-
 export function ScrollNav({ scrollProgress }: ScrollNavProps) {
-  const [activeSection, setActiveSection] = useState("tech-hero");
+  const [isMusic, setIsMusic] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [visible, setVisible] = useState(true);
   const lastScrollY = useRef(0);
@@ -52,26 +46,41 @@ export function ScrollNav({ scrollProgress }: ScrollNavProps) {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
-  // Track active section
+  // Track which identity is active
   useEffect(() => {
-    const sectionIds = ["contact", "music-hero", "tech-hero"];
+    const musicEl = document.getElementById("music-hero");
+    if (!musicEl) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
+            setIsMusic(true);
           }
         }
       },
-      { rootMargin: "-40% 0px -40% 0px" }
+      { rootMargin: "-30% 0px -60% 0px" }
     );
 
-    for (const id of sectionIds) {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    }
+    const techEl = document.getElementById("tech-hero");
+    const techObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setIsMusic(false);
+          }
+        }
+      },
+      { rootMargin: "-30% 0px -60% 0px" }
+    );
 
-    return () => observer.disconnect();
+    observer.observe(musicEl);
+    if (techEl) techObserver.observe(techEl);
+
+    return () => {
+      observer.disconnect();
+      techObserver.disconnect();
+    };
   }, []);
 
   const scrollTo = (id: string) => {
@@ -81,6 +90,12 @@ export function ScrollNav({ scrollProgress }: ScrollNavProps) {
       setMenuOpen(false);
     }
   };
+
+  // Identity name (bold, prominent)
+  const identityName = isMusic ? "Thom Clarity" : "Thom Flaherty";
+  // The "other side" link
+  const otherLabel = isMusic ? "Technology" : "Music";
+  const otherId = isMusic ? "tech-hero" : "music-hero";
 
   return (
     <motion.nav
@@ -94,62 +109,90 @@ export function ScrollNav({ scrollProgress }: ScrollNavProps) {
     >
       <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
         {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-1">
-          {navItems.map((item) => (
+        <div className="hidden md:flex items-center w-full justify-between">
+          {/* Identity name — left side */}
+          <AnimatePresence mode="wait">
             <motion.button
-              key={item.id}
-              onClick={() => scrollTo(item.id)}
-              className="relative px-4 py-2 text-sm tracking-wide bg-transparent border-none cursor-pointer"
+              key={identityName}
+              onClick={() => scrollTo(isMusic ? "music-hero" : "tech-hero")}
+              className="bg-transparent border-none cursor-pointer tracking-wide"
               style={{
-                color: activeSection === item.id ? accentColor : textColor,
-                fontWeight: activeSection === item.id ? 600 : 400,
+                color: accentColor,
                 fontFamily: "'Fraunces', Georgia, serif",
+                fontWeight: 500,
+                fontSize: "1.1rem",
+              }}
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 8 }}
+              transition={{ duration: 0.25 }}
+            >
+              {identityName}
+            </motion.button>
+          </AnimatePresence>
+
+          {/* Links — right side */}
+          <div className="flex items-center gap-6">
+            <motion.button
+              onClick={() => scrollTo(otherId)}
+              className="text-sm tracking-wide bg-transparent border-none cursor-pointer"
+              style={{
+                color: textColor,
+                fontFamily: "'Fraunces', Georgia, serif",
+                fontWeight: 400,
               }}
             >
-              {item.label}
-              {activeSection === item.id && (
-                <motion.div
-                  layoutId="nav-indicator"
-                  className="absolute bottom-0 left-2 right-2 h-0.5 rounded-full"
-                  style={{ backgroundColor: accentColor }}
-                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                />
-              )}
+              {otherLabel}
             </motion.button>
-          ))}
+            <motion.button
+              onClick={() => scrollTo("contact")}
+              className="text-sm tracking-wide bg-transparent border-none cursor-pointer"
+              style={{
+                color: textColor,
+                fontFamily: "'Fraunces', Georgia, serif",
+                fontWeight: 400,
+              }}
+            >
+              Contact
+            </motion.button>
+          </div>
         </div>
 
-        {/* Mobile hamburger */}
-        <motion.button
-          className="md:hidden p-2 bg-transparent border-none cursor-pointer"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
-          style={{ color: textColor }}
-        >
-          <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <AnimatePresence mode="wait">
+        {/* Mobile nav */}
+        <div className="md:hidden flex items-center w-full justify-between">
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={identityName}
+              className="text-sm tracking-wide"
+              style={{
+                color: accentColor,
+                fontFamily: "'Fraunces', Georgia, serif",
+                fontWeight: 500,
+              }}
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 8 }}
+              transition={{ duration: 0.25 }}
+            >
+              {identityName}
+            </motion.span>
+          </AnimatePresence>
+
+          <motion.button
+            className="p-2 bg-transparent border-none cursor-pointer"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle menu"
+            style={{ color: textColor }}
+          >
+            <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.5">
               {menuOpen ? (
-                <motion.path
-                  key="close"
-                  d="M6 6l12 12M6 18L18 6"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  exit={{ pathLength: 0 }}
-                  transition={{ duration: 0.2 }}
-                />
+                <path d="M6 6l12 12M6 18L18 6" />
               ) : (
-                <motion.path
-                  key="menu"
-                  d="M4 6h16M4 12h16M4 18h16"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  exit={{ pathLength: 0 }}
-                  transition={{ duration: 0.2 }}
-                />
+                <path d="M4 6h16M4 12h16M4 18h16" />
               )}
-            </AnimatePresence>
-          </svg>
-        </motion.button>
+            </svg>
+          </motion.button>
+        </div>
       </div>
 
       {/* Mobile menu */}
@@ -162,20 +205,26 @@ export function ScrollNav({ scrollProgress }: ScrollNavProps) {
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            {navItems.map((item) => (
-              <motion.button
-                key={item.id}
-                onClick={() => scrollTo(item.id)}
-                className="text-sm tracking-wide text-left bg-transparent border-none cursor-pointer py-1"
-                style={{
-                  color: activeSection === item.id ? accentColor : textColor,
-                  fontWeight: activeSection === item.id ? 600 : 400,
-                  fontFamily: "'Fraunces', Georgia, serif",
-                }}
-              >
-                {item.label}
-              </motion.button>
-            ))}
+            <motion.button
+              onClick={() => scrollTo(otherId)}
+              className="text-sm tracking-wide text-left bg-transparent border-none cursor-pointer py-1"
+              style={{
+                color: textColor,
+                fontFamily: "'Fraunces', Georgia, serif",
+              }}
+            >
+              {otherLabel}
+            </motion.button>
+            <motion.button
+              onClick={() => scrollTo("contact")}
+              className="text-sm tracking-wide text-left bg-transparent border-none cursor-pointer py-1"
+              style={{
+                color: textColor,
+                fontFamily: "'Fraunces', Georgia, serif",
+              }}
+            >
+              Contact
+            </motion.button>
           </motion.div>
         )}
       </AnimatePresence>
