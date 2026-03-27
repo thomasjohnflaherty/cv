@@ -92,15 +92,39 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
       return { points, index: i, baseY: yBase(i), fillPath, strokePath };
     });
 
-    // Continuous noise function using sine waves at different frequencies
-    // Returns smooth, continuously varying noise for a given line index, x position, and scroll
+    // Pre-generate unique noise oscillators per line
+    // Each line gets its own random "active zones" that move independently
+    let rngState = 42;
+    const rand = () => {
+      rngState = (rngState * 16807) % 2147483647;
+      return rngState / 2147483647;
+    };
+
+    const lineOscillators = pulses.map(() => {
+      const count = 4 + Math.floor(rand() * 3); // 4-6 oscillators per line
+      const oscs = [];
+      for (let j = 0; j < count; j++) {
+        oscs.push({
+          xCenter: rand() * 300,        // where on the line this is active
+          xWidth: 30 + rand() * 80,     // how wide the active zone is
+          freq: 15 + rand() * 40,       // how fast it cycles with scroll
+          phase: rand() * Math.PI * 2,  // unique starting phase
+          amp: 0.3 + rand() * 0.6,      // strength
+        });
+      }
+      return oscs;
+    });
+
+    // Each line's noise is driven by its own oscillators at unique positions
     const noise = (lineIdx: number, xPos: number, scroll: number): number => {
-      const s = scroll * 30; // amplify scroll to create visible change
-      // Several overlapping sine waves with different frequencies and phases per line
-      const n1 = Math.sin(s + lineIdx * 1.7 + xPos * 0.02) * 0.3;
-      const n2 = Math.sin(s * 0.7 + lineIdx * 2.3 + xPos * 0.05) * 0.2;
-      const n3 = Math.sin(s * 1.3 + lineIdx * 0.9 + xPos * 0.01) * 0.4;
-      return n1 + n2 + n3;
+      let total = 0;
+      for (const osc of lineOscillators[lineIdx]) {
+        const dx = (xPos - osc.xCenter) / osc.xWidth;
+        const spatial = Math.exp(-dx * dx * 2); // gaussian falloff from center
+        const temporal = Math.sin(scroll * osc.freq + osc.phase);
+        total += spatial * temporal * osc.amp;
+      }
+      return total;
     };
 
     // Animation loop
