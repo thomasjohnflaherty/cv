@@ -46,7 +46,7 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
     const width = svgRef.current.clientWidth;
     const height = svgRef.current.clientHeight;
 
-    const displayLines = 40;
+    const displayLines = 25;
     const totalObs = pulses.length;
     const lineSpacing = height / (displayLines + 4);
     const plotWidth = lineSpacing * displayLines * 0.7;
@@ -96,15 +96,23 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
       return { baseY: yBase(i), fillPath, strokePath, ...lineConfig[i] };
     });
 
-    // Simple direct scroll — no momentum, just raw progress
+    let lastProgress = -1;
+
     const animate = () => {
       const progress = scrollProgress.get();
+
+      // Skip frame if nothing changed
+      if (Math.abs(progress - lastProgress) < 0.00001) {
+        animRef.current = requestAnimationFrame(animate);
+        return;
+      }
+      lastProgress = progress;
       const music = isMusicRef.current;
       const fillColor = music ? "#0a0a0a" : "#fafafa";
       const gradId = music ? "url(#pg-music)" : "url(#pg-tech)";
 
       pathEls.forEach(({ baseY, fillPath, strokePath, rate, offset, xDriftRate, xDriftAmp }) => {
-        const obsRaw = (progress * totalObs * 0.5 * rate + offset) % totalObs;
+        const obsRaw = (progress * totalObs * 1.5 * rate + offset) % totalObs;
         const obsFloat = obsRaw < 0 ? obsRaw + totalObs : obsRaw;
         const obsA = Math.floor(obsFloat) % totalObs;
         const obsB = (obsA + 1) % totalObs;
