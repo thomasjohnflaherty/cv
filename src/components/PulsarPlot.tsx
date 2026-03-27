@@ -64,39 +64,44 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
 
       const rng = mulberry32(Math.floor(seed * 1000));
 
-      const xScale = d3.scaleLinear().domain([1, 300]).range([0, width]);
-      const lineSpacing = height / (pulses.length + 2);
-      const yScale = (_i: number) => lineSpacing * (_i + 1.5);
+      // Maintain natural aspect ratio — the data is ~300 wide by ~40 tall
+      // Use height to drive sizing, center horizontally
+      const lineSpacing = height / (pulses.length + 4);
+      const plotWidth = lineSpacing * pulses.length * 0.7; // roughly square-ish
+      const xOffset = (width - plotWidth) / 2;
+
+      const xScale = d3.scaleLinear().domain([1, 300]).range([xOffset, xOffset + plotWidth]);
+      const yScale = (_i: number) => lineSpacing * (_i + 2);
       const zMax = 5;
-      const zScale = d3.scaleLinear().domain([-2, zMax]).range([0, lineSpacing * 3]);
+      const zScale = d3.scaleLinear().domain([-2, zMax]).range([0, lineSpacing * 2.5]);
 
       // Create gradient
       const defs = svg.append("defs");
       const gradient = defs.append("linearGradient").attr("id", "pg").attr("x1", "0%").attr("x2", "100%");
-      gradient.append("stop").attr("offset", "0%").attr("stop-color", "#2563eb").attr("stop-opacity", 0.2);
-      gradient.append("stop").attr("offset", "35%").attr("stop-color", "#3b82f6").attr("stop-opacity", 0.8);
-      gradient.append("stop").attr("offset", "50%").attr("stop-color", "#7c3aed").attr("stop-opacity", 1);
-      gradient.append("stop").attr("offset", "65%").attr("stop-color", "#a78bfa").attr("stop-opacity", 0.8);
-      gradient.append("stop").attr("offset", "100%").attr("stop-color", "#2563eb").attr("stop-opacity", 0.2);
+      gradient.append("stop").attr("offset", "0%").attr("stop-color", "#2563eb").attr("stop-opacity", 0.15);
+      gradient.append("stop").attr("offset", "30%").attr("stop-color", "#3b82f6").attr("stop-opacity", 0.6);
+      gradient.append("stop").attr("offset", "50%").attr("stop-color", "#7c3aed").attr("stop-opacity", 0.8);
+      gradient.append("stop").attr("offset", "70%").attr("stop-color", "#a78bfa").attr("stop-opacity", 0.6);
+      gradient.append("stop").attr("offset", "100%").attr("stop-color", "#2563eb").attr("stop-opacity", 0.15);
 
       const line = d3.line<{ x: number; z: number }>().curve(d3.curveBasis);
 
-      // Draw back-to-front (top lines first, bottom lines last) so later lines occlude earlier ones
       pulses.forEach((points, i) => {
         const baseY = yScale(i);
 
-        // Subtle height perturbation — only in peak areas, very gentle
+        // All points get noise — flat lines shimmer gently, peaks shimmer more
         const noisyPoints = points.map((p) => {
           const peakFactor = Math.max(0, p.z) / zMax;
-          const heightNoise = (rng() - 0.5) * 0.4 * peakFactor;
+          // Base noise for everyone + extra for peaks
+          const heightNoise = (rng() - 0.5) * (0.15 + peakFactor * 0.5);
           return { x: p.x, z: p.z + heightNoise };
         });
 
-        // Area fill — extends well below baseline to fully occlude lines behind
+        // Area fill for occlusion — extends one full line spacing below
         const areaGen = d3
           .area<{ x: number; z: number }>()
           .x((d) => xScale(d.x))
-          .y0(baseY + lineSpacing)
+          .y0(baseY + lineSpacing * 1.2)
           .y1((d) => baseY - zScale(d.z))
           .curve(d3.curveBasis);
 
