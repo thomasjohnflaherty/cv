@@ -56,7 +56,7 @@ export function SinglePage() {
 
   return (
     <div
-      className="min-h-screen transition-colors duration-300"
+      className="min-h-screen"
       style={{ backgroundColor: theme.bg, color: theme.text }}
     >
       <a

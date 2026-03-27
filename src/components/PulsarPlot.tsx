@@ -16,12 +16,6 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const [pulses, setPulses] = useState<DataPoint[][]>([]);
   const animRef = useRef<number>(0);
-  const isMusicRef = useRef(isMusic);
-
-  // Keep ref in sync so the animation loop sees the latest value without rebuilding
-  useEffect(() => {
-    isMusicRef.current = isMusic;
-  }, [isMusic]);
 
   // Load CSV
   useEffect(() => {
@@ -41,7 +35,7 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
       });
   }, []);
 
-  // Build SVG once, animate via rAF — gradient and fill colors update every frame
+  // Build SVG once, animate via rAF
   useEffect(() => {
     if (!pulses.length || !svgRef.current) return;
 
@@ -62,16 +56,14 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
     const zMax = 5;
     const zScale = d3.scaleLinear().domain([-2, zMax]).range([0, lineSpacing * 0.8]);
 
-    // Gradient — stops will be updated every frame
+    // Gradient — blue/purple
     const defs = svg.append("defs");
     const gradient = defs.append("linearGradient").attr("id", "pg").attr("x1", "0%").attr("x2", "100%");
-    const stops = [
-      gradient.append("stop").attr("offset", "0%"),
-      gradient.append("stop").attr("offset", "30%"),
-      gradient.append("stop").attr("offset", "50%"),
-      gradient.append("stop").attr("offset", "70%"),
-      gradient.append("stop").attr("offset", "100%"),
-    ];
+    gradient.append("stop").attr("offset", "0%").attr("stop-color", "#2563eb").attr("stop-opacity", 0.15);
+    gradient.append("stop").attr("offset", "30%").attr("stop-color", "#3b82f6").attr("stop-opacity", 0.6);
+    gradient.append("stop").attr("offset", "50%").attr("stop-color", "#7c3aed").attr("stop-opacity", 0.8);
+    gradient.append("stop").attr("offset", "70%").attr("stop-color", "#a78bfa").attr("stop-opacity", 0.6);
+    gradient.append("stop").attr("offset", "100%").attr("stop-color", "#2563eb").attr("stop-opacity", 0.15);
 
     const lineGen = d3.line<number[]>()
       .x((d) => d[0])
@@ -99,7 +91,7 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
     }));
 
     const pathEls = Array.from({ length: displayLines }, (_, i) => {
-      const fillPath = svg.append("path").attr("stroke", "none");
+      const fillPath = svg.append("path").attr("fill", "#fafafa").attr("stroke", "none");
       const strokePath = svg.append("path")
         .attr("fill", "none")
         .attr("stroke", "url(#pg)")
@@ -107,7 +99,7 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
       return { baseY: yBase(i), fillPath, strokePath, ...lineConfig[i] };
     });
 
-    // Momentum system
+    // Momentum
     let smoothProgress = scrollProgress.get();
     let lastRawProgress = smoothProgress;
     let velocity = 0;
@@ -121,10 +113,10 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
       const rawDelta = rawProgress - lastRawProgress;
       lastRawProgress = rawProgress;
 
-      const isScrolling = Math.abs(rawDelta) > 0.000005;
-      if (isScrolling) {
-        const clampedDelta = Math.max(-maxVelocity, Math.min(maxVelocity, rawDelta));
-        smoothVelocity += (clampedDelta - smoothVelocity) * easeIn;
+      const scrolling = Math.abs(rawDelta) > 0.000005;
+      if (scrolling) {
+        const clamped = Math.max(-maxVelocity, Math.min(maxVelocity, rawDelta));
+        smoothVelocity += (clamped - smoothVelocity) * easeIn;
         velocity = smoothVelocity;
         smoothProgress += velocity;
       } else {
@@ -136,18 +128,6 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
       if (smoothProgress > 1) { smoothProgress = 1; if (velocity > 0) velocity = 0; }
 
       const progress = smoothProgress;
-      const music = isMusicRef.current;
-
-      // Update gradient colors every frame — instant switch, no rebuild
-      const bgColor = music ? "#0a0a0a" : "#fafafa";
-      if (music) {
-        const opacities = [0.1, 0.5, 0.7, 0.5, 0.1];
-        stops.forEach((s, i) => s.attr("stop-color", "#ffffff").attr("stop-opacity", opacities[i]));
-      } else {
-        const techColors = ["#2563eb", "#3b82f6", "#7c3aed", "#a78bfa", "#2563eb"];
-        const techOpacities = [0.15, 0.6, 0.8, 0.6, 0.15];
-        stops.forEach((s, i) => s.attr("stop-color", techColors[i]).attr("stop-opacity", techOpacities[i]));
-      }
 
       pathEls.forEach(({ baseY, fillPath, strokePath, rate, offset, xDriftRate, xDriftAmp }) => {
         const obsRaw = (progress * totalObservations * 3 * rate + offset) % totalObservations;
@@ -158,19 +138,14 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
 
         const pointsA = pulses[obsA];
         const pointsB = pulses[obsB];
-
         const xShift = Math.sin(progress * 20 * xDriftRate) * xDriftAmp;
 
         const coords = pointsA.map((pA, j) => {
           const pB = pointsB[j];
           const z = pA.z * (1 - t) + pB.z * t;
-          const px = xScale(pA.x + xShift);
-          const py = baseY - zScale(z);
-          return [px, py, baseY + lineSpacing * 1.2];
+          return [xScale(pA.x + xShift), baseY - zScale(z), baseY + lineSpacing * 1.2];
         });
 
-        // Update fill color every frame to match background
-        fillPath.attr("fill", bgColor);
         fillPath.attr("d", areaGen(coords));
         strokePath.attr("d", lineGen(coords));
       });
@@ -185,7 +160,10 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
   return (
     <div
       className="fixed top-0 right-0 w-1/2 lg:w-2/5 h-screen pointer-events-none z-0"
-      style={{ opacity: 0.7 }}
+      style={{
+        opacity: isMusic ? 0 : 0.7,
+        transition: "opacity 0.15s",
+      }}
     >
       <svg ref={svgRef} className="w-full h-full" preserveAspectRatio="xMidYMid meet" />
     </div>
