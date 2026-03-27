@@ -1,7 +1,7 @@
 export const musicHero = {
   name: "Thom Clarity",
   tagline: "Electronic Music Producer · Sound Design · Live DAWless Performance",
-  bio: "Hardware-first electronic music — tactile, improvisational, alive. Available for sound design, soundtrack, and mastering work.",
+  bio: "Hardware-first electronic music; tactile, improvisational, alive. Available for collaboration, sound design, soundtrack, and mastering work.",
 };
 
 export interface PressQuote {
