@@ -8,6 +8,7 @@ export function ResumeDocument() {
     <div
       style={{
         width: "8.5in",
+        minHeight: "11in",
         padding: "0.45in 0.55in",
         fontFamily: font,
         fontSize: "9.5pt",
