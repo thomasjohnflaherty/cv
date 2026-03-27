@@ -73,7 +73,7 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
       const xScale = d3.scaleLinear().domain([1, 300]).range([xOffset, xOffset + plotWidth]);
       const yScale = (_i: number) => lineSpacing * (_i + 2);
       const zMax = 5;
-      const zScale = d3.scaleLinear().domain([-2, zMax]).range([0, lineSpacing * 2.5]);
+      const zScale = d3.scaleLinear().domain([-2, zMax]).range([0, lineSpacing * 0.8]);
 
       // Create gradient
       const defs = svg.append("defs");
