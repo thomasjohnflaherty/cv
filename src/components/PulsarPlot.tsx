@@ -20,7 +20,7 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
 
   const opacity = useTransform(scrollProgress, [0, THEME_TRANSITION[0], THEME_TRANSITION[1]], [0.7, 0.7, 0]);
 
-  // Load CSV — keep ALL pulse lines for wrapping
+  // Load CSV — keep ALL 80 pulse observations for cycling through
   useEffect(() => {
     fetch("/cp1919.csv")
       .then((res) => res.text())
@@ -34,9 +34,8 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
           if (!grouped.has(y)) grouped.set(y, []);
           grouped.get(y)!.push(point);
         }
-        const allPulses = Array.from(grouped.values());
-        // Use every other line for display
-        setPulses(allPulses.filter((_, i) => i % 2 === 0));
+        // Keep ALL pulses — we'll cycle through them
+        setPulses(Array.from(grouped.values()));
       });
   }, []);
 
@@ -49,14 +48,13 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
     const width = svgRef.current.clientWidth;
     const height = svgRef.current.clientHeight;
 
-    const numLines = pulses.length;
-    const lineSpacing = height / (numLines + 4);
-    const plotWidth = lineSpacing * numLines * 0.7;
+    const displayLines = 40; // show 40 lines on screen
+    const totalObservations = pulses.length; // 80 different pulse observations to cycle through
+    const lineSpacing = height / (displayLines + 4);
+    const plotWidth = lineSpacing * displayLines * 0.7;
     const xOffset = (width - plotWidth) / 2;
-    const dataLen = pulses[0].length; // 300 points per line
-    const windowSize = 200; // show 200 of 300 points at a time
 
-    const xScale = d3.scaleLinear().domain([0, windowSize]).range([xOffset, xOffset + plotWidth]);
+    const xScale = d3.scaleLinear().domain([1, 300]).range([xOffset, xOffset + plotWidth]);
     const yBase = (i: number) => lineSpacing * (i + 2);
     const zMax = 5;
     const zScale = d3.scaleLinear().domain([-2, zMax]).range([0, lineSpacing * 0.8]);
@@ -81,16 +79,21 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
       .y1((d) => d[1])
       .curve(d3.curveBasis);
 
-    // Pre-generate a unique scroll rate per line
+    // Each displayed line cycles through observations at a unique rate
     let rngState = 42;
     const rand = () => {
       rngState = (rngState * 16807) % 2147483647;
       return rngState / 2147483647;
     };
-    const lineRates = pulses.map(() => 0.5 + rand() * 1.5); // each line scrolls at 0.5x to 2x speed
 
-    // Pre-create path elements
-    const pathData = pulses.map((points, i) => {
+    // Each line gets a different cycling speed and starting observation
+    const lineConfig = Array.from({ length: displayLines }, () => ({
+      rate: 0.3 + rand() * 1.7,  // how fast this line cycles through observations
+      offset: Math.floor(rand() * totalObservations), // starting observation
+    }));
+
+    // Pre-create path elements for display lines
+    const pathEls = Array.from({ length: displayLines }, (_, i) => {
       const fillPath = svg.append("path")
         .attr("fill", "var(--color-bg)")
         .attr("stroke", "none");
@@ -100,26 +103,23 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
         .attr("stroke", "url(#pg)")
         .attr("stroke-width", 1);
 
-      return { points, index: i, baseY: yBase(i), fillPath, strokePath, rate: lineRates[i] };
+      return { baseY: yBase(i), fillPath, strokePath, ...lineConfig[i] };
     });
 
-    // Animation loop — slide each line's data window at its own rate
+    // Animation loop — each line shows a different pulse observation based on scroll
     const animate = () => {
       const progress = scrollProgress.get();
 
-      pathData.forEach(({ points, index: _index, baseY, fillPath, strokePath, rate }) => {
-        // Calculate the x-offset for this line based on scroll and its unique rate
-        // Wraps around using modulo so it cycles continuously
-        const shift = Math.floor(progress * dataLen * 2 * rate) % dataLen;
+      pathEls.forEach(({ baseY, fillPath, strokePath, rate, offset }) => {
+        // Pick which observation this line shows based on scroll position
+        const obsIdx = Math.floor(progress * totalObservations * 3 * rate + offset) % totalObservations;
+        const points = pulses[obsIdx];
 
-        const coords: number[][] = [];
-        for (let j = 0; j < windowSize; j++) {
-          const srcIdx = (j + shift) % dataLen;
-          const p = points[srcIdx];
-          const px = xScale(j);
+        const coords = points.map((p) => {
+          const px = xScale(p.x);
           const py = baseY - zScale(p.z);
-          coords.push([px, py, baseY + lineSpacing * 1.2]);
-        }
+          return [px, py, baseY + lineSpacing * 1.2];
+        });
 
         strokePath.attr("d", lineGen(coords));
         fillPath.attr("d", areaGen(coords));
