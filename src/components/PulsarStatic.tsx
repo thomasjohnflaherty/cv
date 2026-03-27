@@ -35,9 +35,15 @@ export function PulsarStatic({ width = 250, height = 300, color = "#2563eb" }: {
         }
 
         const allPulses = Array.from(grouped.values());
-        const displayPulses = allPulses.filter((_, i) => i % 3 === 0); // every 3rd for compact view
+        // Use every other pulse, then tile to fill height
+        const basePulses = allPulses.filter((_, i) => i % 2 === 0);
+        const targetLines = 50;
+        const displayPulses: DataPoint[][] = [];
+        for (let i = 0; i < targetLines; i++) {
+          displayPulses.push(basePulses[i % basePulses.length]);
+        }
         const numLines = displayPulses.length;
-        const lineSpacing = height / numLines;
+        const lineSpacing = height / (numLines - 1);
         const plotWidth = width;
         const zMax = 5;
         const zHeight = lineSpacing * 0.8;

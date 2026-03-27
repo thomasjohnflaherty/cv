@@ -22,7 +22,7 @@ export function ResumeDocument() {
       <div style={{
         position: "absolute",
         top: "-0.5in",
-        right: "-1.5in",
+        right: "-0.8in",
         width: "3.5in",
         height: "12in",
       }}>
