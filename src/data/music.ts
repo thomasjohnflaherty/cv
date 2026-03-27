@@ -121,7 +121,7 @@ export const services = [
   },
   {
     title: "Mastering",
-    description: "Analog mastering through hardware",
+    description: "Hybrid analog mastering",
   },
 ];
 
