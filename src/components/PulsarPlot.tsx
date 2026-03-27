@@ -123,28 +123,35 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
       return ((h ^ (h >>> 16)) >>> 0) / 4294967296 - 0.5;
     };
 
-    // Each line's noise: smooth oscillators + stepped jitter
+    // Each line's noise: oscillators + stepped jitter + traveling wave
     const noise = (lineIdx: number, xPos: number, scroll: number): number => {
       let total = 0;
 
-      // Smooth component from oscillators (spatial targeting)
+      // 1. Spatially-targeted oscillators (unique per line)
       for (const osc of lineOscillators[lineIdx]) {
         const dx = (xPos - osc.xCenter) / osc.xWidth;
         const spatial = Math.exp(-dx * dx * 2);
         const temporal = Math.sin(scroll * osc.freq + osc.phase);
-        total += spatial * temporal * osc.amp * 0.5;
+        total += spatial * temporal * osc.amp * 0.35;
       }
 
-      // Stepped/jittery component — quantize scroll into discrete steps
-      // Each step produces a different random offset, creating micro-jumps
+      // 2. Stepped jitter (micro-jumps)
       const step = Math.floor(scroll * 800);
-      const jitter = hash(lineIdx * 300 + Math.floor(xPos / 25), step) * 0.4;
-      // Blend: previous step -> current step based on sub-step position
-      const nextJitter = hash(lineIdx * 300 + Math.floor(xPos / 25), step + 1) * 0.4;
+      const jitter = hash(lineIdx * 300 + Math.floor(xPos / 25), step) * 0.3;
+      const nextJitter = hash(lineIdx * 300 + Math.floor(xPos / 25), step + 1) * 0.3;
       const blend = (scroll * 800) - step;
-      // Sharp blend — mostly snaps, with a tiny ease between steps
       const sharpBlend = blend < 0.2 ? blend * 5 : 1;
       total += jitter * (1 - sharpBlend) + nextJitter * sharpBlend;
+
+      // 3. Traveling wave — a ripple that moves diagonally through the grid
+      // Scroll drives the wave position; it rolls across x and down through lines
+      const wavePos = scroll * 60;
+      // Wave moves diagonally: x position + line index creates the diagonal
+      const wavePhase = (xPos / 300) * 4 + lineIdx * 0.15 - wavePos;
+      // Narrow gaussian envelope so the wave is a localized pulse, not everywhere
+      const wavePulse = Math.exp(-((wavePhase % (Math.PI * 2)) ** 2) * 0.5);
+      const waveSign = Math.sin(wavePhase * 3); // oscillation within the pulse
+      total += wavePulse * waveSign * 0.4;
 
       return total;
     };
