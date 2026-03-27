@@ -1,4 +1,5 @@
 import { hero, roles, expertise, skills, education, teaching } from "../data/resume";
+import { PulsarStatic } from "./PulsarStatic";
 
 const font = "Inter, system-ui, sans-serif";
 
@@ -13,15 +14,22 @@ export function ResumeDocument() {
         lineHeight: 1.45,
         color: "#1a1a2e",
         backgroundColor: "#ffffff",
+        position: "relative",
+        overflow: "hidden",
       }}
     >
+      {/* Pulsar ridge plot - top right corner */}
+      <div style={{ position: "absolute", top: "0.2in", right: "0.2in", opacity: 0.35 }}>
+        <PulsarStatic width={220} height={280} color="#2563eb" />
+      </div>
+
       {/* Header */}
-      <h1 style={{ fontFamily: font, fontSize: "18pt", fontWeight: 600, margin: 0, letterSpacing: "-0.02em", textTransform: "none" }}>
+      <h1 style={{ fontFamily: font, fontSize: "18pt", fontWeight: 600, margin: 0, letterSpacing: "-0.02em", textTransform: "none", position: "relative" }}>
         {hero.name}
       </h1>
-      <p style={{ fontSize: "10pt", color: "#2563eb", margin: "2pt 0 0", fontWeight: 500 }}>{hero.tagline}</p>
-      <p style={{ fontSize: "8.5pt", color: "#6b7280", margin: "4pt 0 0" }}>{hero.bio}</p>
-      <p style={{ fontSize: "8pt", color: "#6b7280", margin: "2pt 0 10pt" }}>
+      <p style={{ fontSize: "10pt", color: "#2563eb", margin: "2pt 0 0", fontWeight: 500, position: "relative" }}>{hero.tagline}</p>
+      <p style={{ fontSize: "8.5pt", color: "#6b7280", margin: "4pt 0 0", position: "relative" }}>{hero.bio}</p>
+      <p style={{ fontSize: "8pt", color: "#6b7280", margin: "2pt 0 10pt", position: "relative" }}>
         thomasflaherty@gmail.com · linkedin.com/in/thomasjohnflaherty · thomflaherty.netlify.app
       </p>
 
