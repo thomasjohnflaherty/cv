@@ -98,7 +98,7 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
 
     const pathEls = Array.from({ length: displayLines }, (_, i) => {
       const fillPath = svg.append("path").attr("stroke", "none");
-      const strokePath = svg.append("path").attr("fill", "none").attr("stroke-width", 1);
+      const strokePath = svg.append("path").attr("fill", "none").attr("stroke-width", 1.4);
       return { baseY: yBase(i), fillPath, strokePath, ...lineConfig[i] };
     });
 
