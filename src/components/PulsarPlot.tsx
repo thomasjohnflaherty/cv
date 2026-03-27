@@ -61,18 +61,16 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
     const defs = svg.append("defs");
 
     const techGrad = defs.append("linearGradient").attr("id", "pg-tech").attr("x1", "0%").attr("x2", "100%");
-    techGrad.append("stop").attr("offset", "0%").attr("stop-color", "#2563eb").attr("stop-opacity", 0.15);
-    techGrad.append("stop").attr("offset", "30%").attr("stop-color", "#3b82f6").attr("stop-opacity", 0.6);
-    techGrad.append("stop").attr("offset", "50%").attr("stop-color", "#7c3aed").attr("stop-opacity", 0.8);
-    techGrad.append("stop").attr("offset", "70%").attr("stop-color", "#a78bfa").attr("stop-opacity", 0.6);
-    techGrad.append("stop").attr("offset", "100%").attr("stop-color", "#2563eb").attr("stop-opacity", 0.15);
+    techGrad.append("stop").attr("offset", "0%").attr("stop-color", "#2563eb").attr("stop-opacity", 0.7);
+    techGrad.append("stop").attr("offset", "40%").attr("stop-color", "#7c3aed").attr("stop-opacity", 0.8);
+    techGrad.append("stop").attr("offset", "60%").attr("stop-color", "#a78bfa").attr("stop-opacity", 0.7);
+    techGrad.append("stop").attr("offset", "100%").attr("stop-color", "#2563eb").attr("stop-opacity", 0.5);
 
     const musicGrad = defs.append("linearGradient").attr("id", "pg-music").attr("x1", "0%").attr("x2", "100%");
-    musicGrad.append("stop").attr("offset", "0%").attr("stop-color", "#ffffff").attr("stop-opacity", 0.1);
-    musicGrad.append("stop").attr("offset", "30%").attr("stop-color", "#ffffff").attr("stop-opacity", 0.4);
-    musicGrad.append("stop").attr("offset", "50%").attr("stop-color", "#ffffff").attr("stop-opacity", 0.6);
-    musicGrad.append("stop").attr("offset", "70%").attr("stop-color", "#ffffff").attr("stop-opacity", 0.4);
-    musicGrad.append("stop").attr("offset", "100%").attr("stop-color", "#ffffff").attr("stop-opacity", 0.1);
+    musicGrad.append("stop").attr("offset", "0%").attr("stop-color", "#ffffff").attr("stop-opacity", 0.6);
+    musicGrad.append("stop").attr("offset", "40%").attr("stop-color", "#ffffff").attr("stop-opacity", 0.6);
+    musicGrad.append("stop").attr("offset", "60%").attr("stop-color", "#ffffff").attr("stop-opacity", 0.5);
+    musicGrad.append("stop").attr("offset", "100%").attr("stop-color", "#ffffff").attr("stop-opacity", 0.4);
 
     const lineGen = d3.line<number[]>()
       .x((d) => d[0]).y((d) => d[1]).curve(d3.curveBasis);
