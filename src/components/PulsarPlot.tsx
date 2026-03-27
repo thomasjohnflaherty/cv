@@ -131,8 +131,15 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
         }
       }
 
-      // Clamp to valid range
-      smoothProgress = Math.max(0, smoothProgress);
+      // Clamp to valid range and kill velocity at boundaries
+      if (smoothProgress <= 0 || rawProgress <= 0) {
+        smoothProgress = Math.max(0, rawProgress);
+        velocity = 0;
+      }
+      if (smoothProgress >= 1) {
+        smoothProgress = 1;
+        velocity = 0;
+      }
       const progress = smoothProgress;
 
       pathEls.forEach(({ baseY, fillPath, strokePath, rate, offset }) => {
