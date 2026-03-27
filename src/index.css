@@ -32,28 +32,17 @@ h1 {
   font-variation-settings: "wonk" 1, "opsz" 144;
 }
 
-/* Section headings — light, editorial */
+/* Section headings — larger, light, editorial */
 h2 {
   font-weight: 400;
+  font-size: 1.75rem;
   letter-spacing: -0.01em;
 }
 
 /* Card/subsection headings */
 h3 {
   font-weight: 400;
-}
-
-/* Full-width background section labels */
-.section-label {
-  font-family: "Fraunces", Georgia, serif;
-  font-weight: 200;
-  font-size: clamp(4rem, 12vw, 10rem);
-  letter-spacing: -0.03em;
-  line-height: 1;
-  color: var(--color-border);
-  pointer-events: none;
-  user-select: none;
-  font-variation-settings: "wonk" 0, "opsz" 144;
+  font-size: 1.25rem;
 }
 
 /* Press quotes */

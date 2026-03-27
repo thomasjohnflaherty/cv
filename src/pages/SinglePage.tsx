@@ -88,21 +88,11 @@ export function SinglePage() {
 
         <div className="space-y-16 pb-16">
           <ScrollSection id="experience">
-            <div className="relative">
-              <div className="section-label absolute -left-4 sm:-left-8 top-0 -translate-y-4 opacity-40">Experience</div>
-              <div className="relative z-10">
-                <ExperienceSection />
-              </div>
-            </div>
+            <ExperienceSection />
           </ScrollSection>
 
           <ScrollSection id="skills">
-            <div className="relative">
-              <div className="section-label absolute -left-4 sm:-left-8 top-0 -translate-y-4 opacity-40">Skills</div>
-              <div className="relative z-10">
-                <SkillsGrid />
-              </div>
-            </div>
+            <SkillsGrid />
           </ScrollSection>
 
           <ScrollSection id="education">
@@ -133,12 +123,7 @@ export function SinglePage() {
 
         <div className="space-y-16 pb-16">
           <ScrollSection id="youtube">
-            <div className="relative">
-              <div className="section-label absolute -right-4 sm:-right-8 top-0 -translate-y-4 opacity-30 text-right">Work</div>
-              <div className="relative z-10">
-                <WorkSection youtubeVideoId="yS2uzPJ7OO4" />
-              </div>
-            </div>
+            <WorkSection youtubeVideoId="yS2uzPJ7OO4" />
           </ScrollSection>
 
           <ScrollSection id="services">
