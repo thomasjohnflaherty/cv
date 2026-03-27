@@ -1,5 +1,5 @@
 import { motion, type Variants } from "framer-motion";
-import { skills } from "../../data/resume";
+import { expertise, skills } from "../../data/resume";
 
 const ease: [number, number, number, number] = [0, 0, 0.2, 1];
 
@@ -16,7 +16,7 @@ const itemVariants: Variants = {
   visible: { opacity: 1, scale: 1, transition: { duration: 0.3, ease } },
 };
 
-function SkillPill({ label }: { label: string }) {
+function Pill({ label }: { label: string }) {
   return (
     <motion.span
       variants={itemVariants}
@@ -36,20 +36,31 @@ export function SkillsGrid() {
       whileInView="visible"
       viewport={{ once: true, margin: "-80px" }}
     >
-      <motion.h2 variants={itemVariants} className="text-2xl font-bold mb-6">
-        Skills
-      </motion.h2>
-      <div className="space-y-4">
+      <div className="space-y-8">
         <div>
-          <motion.p variants={itemVariants} className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "var(--color-text-muted)" }}>Core</motion.p>
+          <motion.h2 variants={itemVariants} className="mb-4">
+            Expertise
+          </motion.h2>
           <div className="flex flex-wrap gap-2">
-            {skills.core.map((s) => <SkillPill key={s} label={s} />)}
+            {expertise.map((s) => <Pill key={s} label={s} />)}
           </div>
         </div>
+
         <div>
-          <motion.p variants={itemVariants} className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "var(--color-text-muted)" }}>Supporting</motion.p>
+          <motion.h2 variants={itemVariants} className="mb-4">
+            Tools
+          </motion.h2>
           <div className="flex flex-wrap gap-2">
-            {skills.supporting.map((s) => <SkillPill key={s} label={s} />)}
+            {skills.tools.map((s) => <Pill key={s} label={s} />)}
+          </div>
+        </div>
+
+        <div>
+          <motion.h2 variants={itemVariants} className="mb-4">
+            Strengths
+          </motion.h2>
+          <div className="flex flex-wrap gap-2">
+            {skills.strengths.map((s) => <Pill key={s} label={s} />)}
           </div>
         </div>
       </div>

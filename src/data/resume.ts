@@ -69,9 +69,26 @@ export const roles: Role[] = [
   },
 ];
 
+export const expertise = [
+  "Data Science",
+  "Machine Learning / MLOps",
+  "Data Engineering",
+  "Technology Leadership",
+  "Cloud Infrastructure",
+  "Platform Engineering",
+  "AI-Assisted Development",
+  "Healthcare Analytics",
+];
+
 export const skills = {
-  core: ["Python", "Databricks", "GCP", "AWS", "Azure", "OpenTofu/Terraform", "Docker", "MLflow"],
-  supporting: ["Apache Spark", "dbt", "Snowflake", "SQL", "Git", "CI/CD"],
+  tools: ["Python", "Databricks", "GCP", "AWS", "Azure", "OpenTofu/Terraform", "Docker", "MLflow", "Apache Spark", "dbt", "Snowflake", "SQL", "Git", "CI/CD"],
+  strengths: [
+    "Teaching & Mentorship",
+    "Cross-Team Translation",
+    "Standards & Governance",
+    "Building from Zero",
+    "Open Source Tooling",
+  ],
 };
 
 export const education: Education[] = [
