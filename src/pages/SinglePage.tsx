@@ -230,11 +230,6 @@ export function SinglePage() {
                     </div>
                   </form>
 
-                  <div className="mt-12 flex gap-4">
-                    <motion.a href="https://linkedin.com/in/thomasjohnflaherty" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: accentColor }}>LinkedIn</motion.a>
-                    <motion.a href="https://github.com/thomasflaherty" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: accentColor }}>GitHub</motion.a>
-                    <motion.a href="mailto:thomasflaherty@gmail.com" className="text-sm hover:underline" style={{ color: accentColor }}>Email</motion.a>
-                  </div>
                 </>
               )}
             </section>
