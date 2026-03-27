@@ -3,7 +3,7 @@ import { bugGasReleases, bugGasBandcamp, masteringCredits, pressQuotes } from ".
 export function WorkSection({ youtubeVideoId }: { youtubeVideoId?: string }) {
   return (
     <section>
-      <h2 className="text-2xl font-bold mb-6">Work</h2>
+      <h2 className="mb-6">Work</h2>
 
       {/* Solo — YouTube embed */}
       {youtubeVideoId && (
@@ -14,9 +14,10 @@ export function WorkSection({ youtubeVideoId }: { youtubeVideoId?: string }) {
               width="100%"
               height="100%"
               src={`https://www.youtube.com/embed/${youtubeVideoId}`}
-              title="Thom Clarity — Live Performance"
+              title="Thom Clarity Live Performance"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
+              loading="lazy"
               className="border-0"
             />
           </div>
@@ -29,7 +30,7 @@ export function WorkSection({ youtubeVideoId }: { youtubeVideoId?: string }) {
         style={{ borderColor: "var(--color-border)" }}
       >
         <p className="text-sm font-medium" style={{ color: "var(--color-text-muted)" }}>
-          New release on Subvert — Coming Soon
+          New release on Subvert. Coming Soon
         </p>
       </div>
 
@@ -37,9 +38,9 @@ export function WorkSection({ youtubeVideoId }: { youtubeVideoId?: string }) {
       <div className="mb-12">
         <h3 className="text-lg font-semibold mb-3">Bug Gas</h3>
         <p className="text-sm mb-6" style={{ color: "var(--color-text-muted)" }}>
-          Collaborative project — drone, post-rock, experimental
+          Collaborative project; drone, post-rock, experimental
         </p>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           {bugGasReleases.map((release) => (
             <a
               key={release.title}
@@ -79,7 +80,7 @@ export function WorkSection({ youtubeVideoId }: { youtubeVideoId?: string }) {
                 "{quote.text}"
               </p>
               <cite className="block mt-2 text-xs font-semibold not-italic" style={{ color: "var(--color-accent)" }}>
-                — {quote.source}
+                - {quote.source}
               </cite>
             </blockquote>
           ))}
@@ -118,7 +119,7 @@ export function WorkSection({ youtubeVideoId }: { youtubeVideoId?: string }) {
               >
                 <img
                   src={credit.cover}
-                  alt={`${credit.artist} — ${credit.title}`}
+                  alt={`${credit.artist} - ${credit.title}`}
                   className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
                   loading="lazy"
                 />

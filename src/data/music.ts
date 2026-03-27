@@ -1,7 +1,7 @@
 export const musicHero = {
   name: "Thom Clarity",
-  tagline: "Electronic Music Producer · Sound Design · Live DAWless Performance",
-  bio: "Hardware-first electronic music — tactile, improvisational, alive. Available for sound design, soundtrack, and mastering work.",
+  tagline: "Hardware synths, no laptop, no DAW, no problem.",
+  bio: "Live electronic music, sound design, and mastering. Open to collaboration.",
 };
 
 export interface PressQuote {
@@ -113,15 +113,15 @@ export const masteringCredits: MasteringCredit[] = [
 export const services = [
   {
     title: "Sound Design",
-    description: "Custom patches, SFX, texture and atmosphere work",
+    description: "Patches, textures, SFX, atmosphere",
   },
   {
     title: "Soundtrack / Score",
-    description: "Electronic, ambient, experimental",
+    description: "Electronic, ambient, experimental composition",
   },
   {
     title: "Mastering",
-    description: "Hardware-chain finishing",
+    description: "Hybrid analog mastering",
   },
 ];
 

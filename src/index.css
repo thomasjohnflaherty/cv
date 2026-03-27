@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
-/* Flaherty (tech) theme — light, professional */
-.theme-flaherty {
+/* Default theme variables (tech/light) — overridden by scroll-driven JS */
+:root {
   --color-bg: #fafafa;
   --color-surface: #ffffff;
   --color-text: #1a1a2e;
@@ -10,26 +10,61 @@
   --color-border: #e5e7eb;
 }
 
-/* Clarity (music) theme — dark, atmospheric */
-.theme-clarity {
-  --color-bg: #0a0a0a;
-  --color-surface: #1a1a1a;
-  --color-text: #e5e5e5;
-  --color-text-muted: #9ca3af;
-  --color-accent: #a78bfa;
-  --color-border: #2a2a2a;
-}
-
-/* Clarity typography — lighter body, larger quotes */
-.theme-clarity {
-  font-weight: 300;
-}
-
-.theme-clarity .press-quote {
-  font-size: 1.5rem;
-  line-height: 2rem;
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   font-family: "Inter", system-ui, sans-serif;
+  font-weight: 300;
+  background-color: var(--color-bg);
+}
+
+html, body {
+  min-height: 100%;
+}
+
+/* Fraunces for all headings — expressive old-style serif, light weights */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Fraunces", Georgia, serif;
+}
+
+/* Hero names — large, light weight (April Taylor approach) */
+h1 {
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  font-variation-settings: "wonk" 1, "opsz" 144;
+}
+
+/* Section headings — larger, light, editorial */
+h2 {
+  font-weight: 400;
+  font-size: 1.75rem;
+  letter-spacing: -0.01em;
+}
+
+/* Card/subsection headings */
+h3 {
+  font-weight: 400;
+  font-size: 1.25rem;
+}
+
+/* Focus styles */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Press quotes */
+.press-quote {
+  font-family: "Fraunces", Georgia, serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  font-variation-settings: "wonk" 1;
 }

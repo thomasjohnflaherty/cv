@@ -1,31 +1,68 @@
-import { skills } from "../../data/resume";
+import { motion, type Variants } from "framer-motion";
+import { expertise, skills } from "../../data/resume";
+import { ease } from "../../utils/motion";
 
-function SkillPill({ label }: { label: string }) {
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.04, delayChildren: 0.1 },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.3, ease } },
+};
+
+function Pill({ label }: { label: string }) {
   return (
-    <span className="px-3 py-1.5 rounded-full text-sm font-medium border" style={{ borderColor: "var(--color-border)", color: "var(--color-text)" }}>
+    <motion.span
+      variants={itemVariants}
+      className="px-3 py-1.5 rounded-full text-sm font-medium border"
+      style={{ borderColor: "var(--color-border)", color: "var(--color-text)" }}
+    >
       {label}
-    </span>
+    </motion.span>
   );
 }
 
 export function SkillsGrid() {
   return (
-    <section>
-      <h2 className="text-2xl font-bold mb-6">Skills</h2>
-      <div className="space-y-4">
+    <motion.section
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-80px" }}
+    >
+      <div className="space-y-8">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "var(--color-text-muted)" }}>Core</p>
+          <motion.h2 variants={itemVariants} className="mb-4">
+            Expertise
+          </motion.h2>
           <div className="flex flex-wrap gap-2">
-            {skills.core.map((s) => <SkillPill key={s} label={s} />)}
+            {expertise.map((s) => <Pill key={s} label={s} />)}
           </div>
         </div>
+
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "var(--color-text-muted)" }}>Supporting</p>
+          <motion.h2 variants={itemVariants} className="mb-4">
+            Tools
+          </motion.h2>
           <div className="flex flex-wrap gap-2">
-            {skills.supporting.map((s) => <SkillPill key={s} label={s} />)}
+            {skills.tools.map((s) => <Pill key={s} label={s} />)}
+          </div>
+        </div>
+
+        <div>
+          <motion.h2 variants={itemVariants} className="mb-4">
+            Strengths
+          </motion.h2>
+          <div className="flex flex-wrap gap-2">
+            {skills.strengths.map((s) => <Pill key={s} label={s} />)}
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

@@ -3,7 +3,7 @@ import { services } from "../../data/music";
 export function ServicesSection() {
   return (
     <section>
-      <h2 className="text-2xl font-bold mb-6">Services</h2>
+      <h2 className="mb-6">Services</h2>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {services.map((service) => (
           <div

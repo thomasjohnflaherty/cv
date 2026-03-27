@@ -4,6 +4,7 @@ export interface Role {
   dates: string;
   location: string;
   bullets: string[];
+  tech?: string[];
 }
 
 export interface Education {
@@ -14,8 +15,8 @@ export interface Education {
 
 export const hero = {
   name: "Thom Flaherty",
-  tagline: "Data & AI Infrastructure Leader",
-  bio: "13+ years building data systems, deploying ML at scale, and enabling engineering teams. Background in visual design, based in Omaha, NE.",
+  tagline: "I build the infrastructure that data teams run on.",
+  bio: "13 years of Databricks workspaces, ML pipelines, and teaching people to stop emailing spreadsheets. Based in Omaha.",
 };
 
 export const roles: Role[] = [
@@ -25,10 +26,11 @@ export const roles: Role[] = [
     dates: "Dec 2025 – Mar 2026",
     location: "Lincoln, NE",
     bullets: [
-      "Enabled dev team with AI-assisted coding tools",
-      "Bridged research and development teams",
-      "Modernized engineering practices",
+      "Got the dev team coding with Claude",
+      "Set the strategy for automated testing",
+      "Translated between research and engineering",
     ],
+    tech: ["AWS", "Snowflake", "Claude", "Python", "CI/CD"],
   },
   {
     title: "Staff Data Engineer",
@@ -36,10 +38,11 @@ export const roles: Role[] = [
     dates: "Oct 2022 – Dec 2025",
     location: "Omaha, NE",
     bullets: [
-      "Led migration from BigQuery/Dataiku to Databricks Lakehouse on GCP",
-      "Infrastructure-as-code with OpenTofu + Terragrunt",
-      "Unity Catalog, Delta pipelines, MLflow",
+      "Owned 8 Databricks workspaces on GCP",
+      "Migrated BigQuery to Databricks, killed a Fivetran bill",
+      "Got teams to actually use MLflow",
     ],
+    tech: ["Databricks", "GCP", "OpenTofu", "Terragrunt", "MLflow", "dbt", "Docker", "Python"],
   },
   {
     title: "Data Science Engineer",
@@ -47,10 +50,11 @@ export const roles: Role[] = [
     dates: "Jun 2021 – Oct 2022",
     location: "Omaha, NE",
     bullets: [
-      "End-to-end model development, deployment, and maintenance",
-      "Stood up Azure Databricks environments with SOPs",
-      "Apache Spark optimization for scalable parallelism",
+      "Built demand forecasting and pricing models",
+      "Wrote the org's Databricks playbook",
+      "10x faster models, 30-40% cheaper",
     ],
+    tech: ["Azure", "Databricks", "PySpark", "H2O.ai", "Python", "Apache Spark"],
   },
   {
     title: "Senior Analytics Developer",
@@ -58,16 +62,33 @@ export const roles: Role[] = [
     dates: "Mar 2019 – Jun 2021",
     location: "Omaha, NE",
     bullets: [
-      "Built and deployed COVID-19 inpatient forecasting models",
-      "Developed community transmission rate calculator",
-      "Patient safety and value-driven analytics",
+      "Built COVID-19 forecasting models for hospital leadership",
+      "Stood up RStudio Connect, killed the spreadsheet emails",
     ],
+    tech: ["R", "RStudio Connect", "Shiny", "SQL", "Tableau"],
   },
 ];
 
+export const expertise = [
+  "Data Science",
+  "Machine Learning / MLOps",
+  "Data Engineering",
+  "Technology Leadership",
+  "Cloud Infrastructure",
+  "Platform Engineering",
+  "Agentic Development",
+  "Healthcare Analytics",
+];
+
 export const skills = {
-  core: ["Python", "Databricks", "GCP", "OpenTofu/Terraform", "Docker", "MLflow"],
-  supporting: ["Apache Spark", "SQL", "Git", "VS Code", "CI/CD"],
+  tools: ["Python", "Databricks", "GCP", "AWS", "Azure", "OpenTofu/Terraform", "Docker", "MLflow", "Apache Spark", "dbt", "Snowflake", "SQL", "Git", "CI/CD"],
+  strengths: [
+    "Teaching & Mentorship",
+    "Cross-Team Translation",
+    "Standards & Governance",
+    "Building from Zero",
+    "Open Source Tooling",
+  ],
 };
 
 export const education: Education[] = [
