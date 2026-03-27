@@ -104,19 +104,38 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
       return { points, index: i, baseY };
     });
 
-    // Scroll-driven animation
+    // Scroll-driven animation — horizontal jitter like a live signal
+    let lastProgress = scrollProgress.get();
+
     const animate = () => {
       const progress = scrollProgress.get();
-      const wave = progress * Math.PI * 8;
+      const delta = progress - lastProgress;
+      lastProgress = progress;
 
-      paths.forEach(({ points, index, baseY }) => {
-        const offset = Math.sin(wave + index * 0.4) * 6;
-        const newBaseY = baseY + offset;
-        const newD = line.y((d) => newBaseY - zScale(d.z))(points) ?? "";
+      // Only animate when actually scrolling
+      if (Math.abs(delta) > 0.00001) {
+        const wave = progress * Math.PI * 12;
 
-        svg.select(`.pulse-line-${index}`).attr("d", newD);
-        svg.select(`.pulse-fill-${index}`).attr("d", newD);
-      });
+        paths.forEach(({ points, index, baseY }) => {
+          // Each line gets a horizontal shimmer — different phase per line
+          const linePhase = index * 1.7;
+
+          const jitteredLine = d3.line<DataPoint>()
+            .x((d) => {
+              const xPos = xScale(d.x);
+              // Horizontal noise: varies by position along the line and scroll
+              const noise = Math.sin(wave + d.x * 0.08 + linePhase) * 3
+                          + Math.sin(wave * 1.3 + d.x * 0.15 + linePhase * 0.7) * 2;
+              return xPos + noise;
+            })
+            .y((d) => baseY - zScale(d.z))
+            .curve(d3.curveBasis);
+
+          const newD = jitteredLine(points) ?? "";
+          svg.select(`.pulse-line-${index}`).attr("d", newD);
+          svg.select(`.pulse-fill-${index}`).attr("d", newD);
+        });
+      }
 
       animFrameRef.current = requestAnimationFrame(animate);
     };
