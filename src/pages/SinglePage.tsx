@@ -4,6 +4,7 @@ import { usePDF } from "react-to-pdf";
 
 import { THEME_TRANSITION, colors } from "../utils/motion";
 import { ScrollNav } from "../components/ScrollNav";
+import { PulsarPlot } from "../components/PulsarPlot";
 
 import { ScrollSection } from "../components/ScrollSection";
 import { ResumeDocument } from "../components/ResumeDocument";
@@ -69,7 +70,12 @@ export function SinglePage() {
       <main className="max-w-3xl mx-auto px-4 relative z-10">
         {/* ===== TECH SECTION ===== */}
         <ScrollSection id="tech-hero">
-          <section className="py-16 sm:py-24">
+          <section className="relative py-16 sm:py-24">
+            {/* Pulsar ridge plot — top right, behind text */}
+            <div className="absolute top-0 right-0 w-1/2 sm:w-2/5 h-full pointer-events-none" style={{ opacity: 0.5 }}>
+              <PulsarPlot scrollProgress={scrollYProgress} />
+            </div>
+            <div className="relative z-10">
             <h1 className="text-5xl sm:text-7xl tracking-tight">{hero.name}</h1>
             <motion.p
               className="mt-2 text-lg sm:text-xl font-medium"
@@ -90,6 +96,7 @@ export function SinglePage() {
             >
               Download Resume
             </motion.button>
+            </div>
           </section>
         </ScrollSection>
 
