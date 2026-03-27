@@ -26,42 +26,13 @@ export function ScrollNav({ scrollProgress }: ScrollNavProps) {
     ["#2563eb", "#a78bfa"]
   );
 
-  // Track which identity is active
+  // Switch identity at the same point as the theme crossfade (0.40 scroll progress)
   useEffect(() => {
-    const musicEl = document.getElementById("music-hero");
-    if (!musicEl) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setIsMusic(true);
-          }
-        }
-      },
-      { rootMargin: "-30% 0px -60% 0px" }
-    );
-
-    const techEl = document.getElementById("tech-hero");
-    const techObserver = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setIsMusic(false);
-          }
-        }
-      },
-      { rootMargin: "-30% 0px -60% 0px" }
-    );
-
-    observer.observe(musicEl);
-    if (techEl) techObserver.observe(techEl);
-
-    return () => {
-      observer.disconnect();
-      techObserver.disconnect();
-    };
-  }, []);
+    const unsub = scrollProgress.on("change", (v) => {
+      setIsMusic(v >= 0.40);
+    });
+    return unsub;
+  }, [scrollProgress]);
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
