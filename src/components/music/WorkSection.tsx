@@ -3,7 +3,7 @@ import { bugGasReleases, bugGasBandcamp, masteringCredits, pressQuotes } from ".
 export function WorkSection({ youtubeVideoId }: { youtubeVideoId?: string }) {
   return (
     <section>
-      <h2 className="text-2xl font-bold mb-6">Work</h2>
+      <h2 className="mb-6">Work</h2>
 
       {/* Solo — YouTube embed */}
       {youtubeVideoId && (
@@ -17,6 +17,7 @@ export function WorkSection({ youtubeVideoId }: { youtubeVideoId?: string }) {
               title="Thom Clarity — Live Performance"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
+              loading="lazy"
               className="border-0"
             />
           </div>
@@ -39,7 +40,7 @@ export function WorkSection({ youtubeVideoId }: { youtubeVideoId?: string }) {
         <p className="text-sm mb-6" style={{ color: "var(--color-text-muted)" }}>
           Collaborative project — drone, post-rock, experimental
         </p>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           {bugGasReleases.map((release) => (
             <a
               key={release.title}

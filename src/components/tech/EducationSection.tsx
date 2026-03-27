@@ -3,7 +3,7 @@ import { education, teaching } from "../../data/resume";
 export function EducationSection() {
   return (
     <section>
-      <h2 className="text-2xl font-bold mb-6">Education</h2>
+      <h2 className="mb-6">Education</h2>
       <div className="space-y-3">
         {education.map((ed) => (
           <div key={ed.degree}>

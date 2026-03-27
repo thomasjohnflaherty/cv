@@ -1,5 +1,6 @@
 import { motion, type Variants } from "framer-motion";
 import type { ReactNode } from "react";
+import { ease } from "../utils/motion";
 
 interface ScrollSectionProps {
   children: ReactNode;
@@ -7,8 +8,6 @@ interface ScrollSectionProps {
   className?: string;
   stagger?: boolean;
 }
-
-const ease: [number, number, number, number] = [0, 0, 0.2, 1];
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -18,15 +17,6 @@ const containerVariants: Variants = {
       staggerChildren: 0.08,
       delayChildren: 0.1,
     },
-  },
-};
-
-const childVariants: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease },
   },
 };
 
@@ -55,14 +45,6 @@ export function ScrollSection({ children, id, className, stagger = false }: Scro
       transition={{ duration: 0.6, ease }}
       viewport={{ once: true, margin: "-100px" }}
     >
-      {children}
-    </motion.div>
-  );
-}
-
-export function StaggerChild({ children, className }: { children: ReactNode; className?: string }) {
-  return (
-    <motion.div variants={childVariants} className={className}>
       {children}
     </motion.div>
   );

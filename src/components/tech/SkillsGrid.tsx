@@ -1,7 +1,6 @@
 import { motion, type Variants } from "framer-motion";
 import { expertise, skills } from "../../data/resume";
-
-const ease: [number, number, number, number] = [0, 0, 0.2, 1];
+import { ease } from "../../utils/motion";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },

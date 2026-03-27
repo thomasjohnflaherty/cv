@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, useTransform, AnimatePresence } from "framer-motion";
 import type { MotionValue } from "framer-motion";
+import { THEME_TRANSITION, THEME_MIDPOINT } from "../utils/motion";
 
 interface ScrollNavProps {
   scrollProgress: MotionValue<number>;
@@ -12,27 +13,34 @@ export function ScrollNav({ scrollProgress }: ScrollNavProps) {
 
   const bgColor = useTransform(
     scrollProgress,
-    [0.38, 0.42],
+    THEME_TRANSITION,
     ["rgba(250, 250, 250, 0.85)", "rgba(10, 10, 10, 0.85)"]
   );
   const textColor = useTransform(
     scrollProgress,
-    [0.38, 0.42],
+    THEME_TRANSITION,
     ["#6b7280", "#9ca3af"]
   );
   const accentColor = useTransform(
     scrollProgress,
-    [0.38, 0.42],
+    THEME_TRANSITION,
     ["#2563eb", "#a78bfa"]
   );
 
-  // Switch identity at the same point as the theme crossfade (0.40 scroll progress)
+  // Switch identity at the same point as the theme crossfade
   useEffect(() => {
     const unsub = scrollProgress.on("change", (v) => {
-      setIsMusic(v >= 0.40);
+      setIsMusic(v >= THEME_MIDPOINT);
     });
     return unsub;
   }, [scrollProgress]);
+
+  // Close mobile menu on scroll
+  useEffect(() => {
+    const handler = () => setMenuOpen(false);
+    window.addEventListener("scroll", handler, { passive: true });
+    return () => window.removeEventListener("scroll", handler);
+  }, []);
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
@@ -145,7 +153,7 @@ export function ScrollNav({ scrollProgress }: ScrollNavProps) {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            className="md:hidden px-4 pb-4 flex flex-col gap-3"
+            className="md:hidden px-4 pb-4 flex flex-col gap-3 overflow-hidden"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}

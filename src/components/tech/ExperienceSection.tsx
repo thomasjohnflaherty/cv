@@ -1,8 +1,7 @@
 import { motion, type Variants } from "framer-motion";
 import { roles } from "../../data/resume";
 import { ExperienceCard } from "./ExperienceCard";
-
-const ease: [number, number, number, number] = [0, 0, 0.2, 1];
+import { ease } from "../../utils/motion";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },

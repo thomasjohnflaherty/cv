@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useScroll, useTransform, motion } from "framer-motion";
 import { usePDF } from "react-to-pdf";
 
+import { THEME_TRANSITION, colors } from "../utils/motion";
 import { ScrollNav } from "../components/ScrollNav";
 
 import { ScrollSection } from "../components/ScrollSection";
@@ -13,7 +14,6 @@ import { EducationSection } from "../components/tech/EducationSection";
 import { MusicHero } from "../components/music/MusicHero";
 import { WorkSection } from "../components/music/WorkSection";
 import { ServicesSection } from "../components/music/ServicesSection";
-import { GearGallery } from "../components/music/GearGallery";
 
 import { hero } from "../data/resume";
 import { platforms } from "../data/music";
@@ -23,12 +23,12 @@ export function SinglePage() {
   const [submitted, setSubmitted] = useState(false);
 
   // Quick snap transition — avoid the muddy middle ground
-  const bgColor = useTransform(scrollYProgress, [0.38, 0.42], ["#fafafa", "#0a0a0a"]);
-  const textColor = useTransform(scrollYProgress, [0.38, 0.42], ["#1a1a2e", "#e5e5e5"]);
-  const textMutedColor = useTransform(scrollYProgress, [0.38, 0.42], ["#6b7280", "#9ca3af"]);
-  const accentColor = useTransform(scrollYProgress, [0.38, 0.42], ["#2563eb", "#a78bfa"]);
-  const surfaceColor = useTransform(scrollYProgress, [0.38, 0.42], ["#ffffff", "#1a1a1a"]);
-  const borderColor = useTransform(scrollYProgress, [0.38, 0.42], ["#e5e7eb", "#2a2a2a"]);
+  const bgColor = useTransform(scrollYProgress, THEME_TRANSITION, [colors.flaherty.bg, colors.clarity.bg]);
+  const textColor = useTransform(scrollYProgress, THEME_TRANSITION, [colors.flaherty.text, colors.clarity.text]);
+  const textMutedColor = useTransform(scrollYProgress, THEME_TRANSITION, [colors.flaherty.textMuted, colors.clarity.textMuted]);
+  const accentColor = useTransform(scrollYProgress, THEME_TRANSITION, [colors.flaherty.accent, colors.clarity.accent]);
+  const surfaceColor = useTransform(scrollYProgress, THEME_TRANSITION, [colors.flaherty.surface, colors.clarity.surface]);
+  const borderColor = useTransform(scrollYProgress, THEME_TRANSITION, [colors.flaherty.border, colors.clarity.border]);
 
   const { toPDF, targetRef } = usePDF({
     filename: "Thom_Flaherty_Resume.pdf",
@@ -57,6 +57,13 @@ export function SinglePage() {
       className="min-h-screen"
       style={{ backgroundColor: bgColor, color: textColor }}
     >
+      <a
+        href="#tech-hero"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-16 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:rounded-md focus:text-sm"
+        style={{ backgroundColor: "var(--color-accent)", color: "#ffffff" }}
+      >
+        Skip to content
+      </a>
       <ScrollNav scrollProgress={scrollYProgress} />
 
       <main className="max-w-3xl mx-auto px-4 relative z-10">
@@ -130,10 +137,6 @@ export function SinglePage() {
             <ServicesSection />
           </ScrollSection>
 
-          <ScrollSection id="gear">
-            <GearGallery />
-          </ScrollSection>
-
           <ScrollSection id="platforms">
             <section className="flex flex-wrap gap-4">
               {platforms.map((p) => (
@@ -142,6 +145,7 @@ export function SinglePage() {
                   href={p.href}
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label={`${p.label} (opens in new tab)`}
                   className="text-sm font-medium hover:underline"
                   style={{ color: accentColor }}
                 >
@@ -156,14 +160,14 @@ export function SinglePage() {
             <section className="py-16">
               {submitted ? (
                 <div className="text-center">
-                  <h2 className="text-3xl font-bold">Thanks!</h2>
+                  <h2 className="text-3xl">Thanks!</h2>
                   <motion.p className="mt-2" style={{ color: textMutedColor }}>
                     I'll get back to you soon.
                   </motion.p>
                 </div>
               ) : (
                 <>
-                  <h2 className="text-3xl font-bold mb-2">Get in Touch</h2>
+                  <h2 className="text-3xl mb-2">Get in Touch</h2>
                   <motion.p className="mb-8" style={{ color: textMutedColor }}>
                     Whether it's a tech opportunity or a music collaboration, I'd love to hear from you.
                   </motion.p>
@@ -246,8 +250,8 @@ export function SinglePage() {
               Thom Flaherty / Thom Clarity
             </motion.p>
             <div className="flex gap-4">
-              <motion.a href="https://linkedin.com/in/thomasjohnflaherty" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: accentColor }}>LinkedIn</motion.a>
-              <motion.a href="https://github.com/thomasflaherty" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: accentColor }}>GitHub</motion.a>
+              <motion.a href="https://linkedin.com/in/thomasjohnflaherty" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn (opens in new tab)" className="text-sm hover:underline" style={{ color: accentColor }}>LinkedIn</motion.a>
+              <motion.a href="https://github.com/thomasflaherty" target="_blank" rel="noopener noreferrer" aria-label="GitHub (opens in new tab)" className="text-sm hover:underline" style={{ color: accentColor }}>GitHub</motion.a>
             </div>
           </div>
         </motion.footer>
