@@ -83,23 +83,22 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
       pulses.forEach((points, i) => {
         const baseY = yScale(i);
 
-        // Generate noisy variation of this pulse — perturb peak heights and positions
+        // Generate noisy variation — subtle height perturbation, no position shift
         const noisyPoints = points.map((p) => {
-          // More noise in peak areas (where z > 0), less in flat areas
           const peakFactor = Math.max(0, p.z) / zMax;
-          const heightNoise = (rng() - 0.5) * 2.5 * (0.3 + peakFactor * 2);
-          const posNoise = (rng() - 0.5) * 8 * peakFactor;
+          // Only perturb height, and only modestly in peak areas
+          const heightNoise = (rng() - 0.5) * 0.6 * (0.1 + peakFactor * 1.2);
           return {
-            x: p.x + posNoise,
+            x: p.x,
             z: p.z + heightNoise,
           };
         });
 
-        // Area fill for overlap occlusion
+        // Area fill for overlap occlusion — fill from line down to just below baseline
         const areaGen = d3
           .area<{ x: number; z: number }>()
           .x((d) => xScale(d.x))
-          .y0(height)
+          .y0(baseY + 2)
           .y1((d) => baseY - zScale(d.z))
           .curve(d3.curveBasis);
 
