@@ -20,7 +20,7 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
 
   const opacity = useTransform(scrollProgress, [0, THEME_TRANSITION[0], THEME_TRANSITION[1]], [0.7, 0.7, 0]);
 
-  // Load CSV
+  // Load CSV — keep ALL pulse lines for wrapping
   useEffect(() => {
     fetch("/cp1919.csv")
       .then((res) => res.text())
@@ -35,11 +35,11 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
           grouped.get(y)!.push(point);
         }
         const allPulses = Array.from(grouped.values());
+        // Use every other line for display
         setPulses(allPulses.filter((_, i) => i % 2 === 0));
       });
   }, []);
 
-  // Build SVG once, then animate via rAF
   useEffect(() => {
     if (!pulses.length || !svgRef.current) return;
 
@@ -49,11 +49,14 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
     const width = svgRef.current.clientWidth;
     const height = svgRef.current.clientHeight;
 
-    const lineSpacing = height / (pulses.length + 4);
-    const plotWidth = lineSpacing * pulses.length * 0.7;
+    const numLines = pulses.length;
+    const lineSpacing = height / (numLines + 4);
+    const plotWidth = lineSpacing * numLines * 0.7;
     const xOffset = (width - plotWidth) / 2;
+    const dataLen = pulses[0].length; // 300 points per line
+    const windowSize = 200; // show 200 of 300 points at a time
 
-    const xScale = d3.scaleLinear().domain([1, 300]).range([xOffset, xOffset + plotWidth]);
+    const xScale = d3.scaleLinear().domain([0, windowSize]).range([xOffset, xOffset + plotWidth]);
     const yBase = (i: number) => lineSpacing * (i + 2);
     const zMax = 5;
     const zScale = d3.scaleLinear().domain([-2, zMax]).range([0, lineSpacing * 0.8]);
@@ -78,7 +81,15 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
       .y1((d) => d[1])
       .curve(d3.curveBasis);
 
-    // Pre-create all path elements
+    // Pre-generate a unique scroll rate per line
+    let rngState = 42;
+    const rand = () => {
+      rngState = (rngState * 16807) % 2147483647;
+      return rngState / 2147483647;
+    };
+    const lineRates = pulses.map(() => 0.5 + rand() * 1.5); // each line scrolls at 0.5x to 2x speed
+
+    // Pre-create path elements
     const pathData = pulses.map((points, i) => {
       const fillPath = svg.append("path")
         .attr("fill", "var(--color-bg)")
@@ -89,87 +100,26 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
         .attr("stroke", "url(#pg)")
         .attr("stroke-width", 1);
 
-      return { points, index: i, baseY: yBase(i), fillPath, strokePath };
+      return { points, index: i, baseY: yBase(i), fillPath, strokePath, rate: lineRates[i] };
     });
 
-    // Pre-generate unique noise oscillators per line
-    // Each line gets its own random "active zones" that move independently
-    let rngState = 42;
-    const rand = () => {
-      rngState = (rngState * 16807) % 2147483647;
-      return rngState / 2147483647;
-    };
-
-    const lineOscillators = pulses.map(() => {
-      const count = 4 + Math.floor(rand() * 3); // 4-6 oscillators per line
-      const oscs = [];
-      for (let j = 0; j < count; j++) {
-        oscs.push({
-          xCenter: rand() * 300,        // where on the line this is active
-          xWidth: 30 + rand() * 80,     // how wide the active zone is
-          freq: 15 + rand() * 40,       // how fast it cycles with scroll
-          phase: rand() * Math.PI * 2,  // unique starting phase
-          amp: 0.3 + rand() * 0.6,      // strength
-        });
-      }
-      return oscs;
-    });
-
-    // Hash function for deterministic stepped noise
-    const hash = (a: number, b: number): number => {
-      let h = (a * 2654435761 + b * 340573321) | 0;
-      h = Math.imul(h ^ (h >>> 16), 0x45d9f3b);
-      h = Math.imul(h ^ (h >>> 13), 0x45d9f3b);
-      return ((h ^ (h >>> 16)) >>> 0) / 4294967296 - 0.5;
-    };
-
-    // Each line's noise: oscillators + stepped jitter + traveling wave
-    const noise = (lineIdx: number, xPos: number, scroll: number): number => {
-      let total = 0;
-
-      // 1. Spatially-targeted oscillators (unique per line)
-      for (const osc of lineOscillators[lineIdx]) {
-        const dx = (xPos - osc.xCenter) / osc.xWidth;
-        const spatial = Math.exp(-dx * dx * 2);
-        const temporal = Math.sin(scroll * osc.freq + osc.phase);
-        total += spatial * temporal * osc.amp * 0.35;
-      }
-
-      // 2. Stepped jitter (micro-jumps)
-      const step = Math.floor(scroll * 800);
-      const jitter = hash(lineIdx * 300 + Math.floor(xPos / 25), step) * 0.3;
-      const nextJitter = hash(lineIdx * 300 + Math.floor(xPos / 25), step + 1) * 0.3;
-      const blend = (scroll * 800) - step;
-      const sharpBlend = blend < 0.2 ? blend * 5 : 1;
-      total += jitter * (1 - sharpBlend) + nextJitter * sharpBlend;
-
-      // 3. Traveling wave — a ripple that moves diagonally through the grid
-      // Scroll drives the wave position; it rolls across x and down through lines
-      const wavePos = scroll * 60;
-      // Wave moves diagonally: x position + line index creates the diagonal
-      const wavePhase = (xPos / 300) * 4 + lineIdx * 0.15 - wavePos;
-      // Narrow gaussian envelope so the wave is a localized pulse, not everywhere
-      const wavePulse = Math.exp(-((wavePhase % (Math.PI * 2)) ** 2) * 0.5);
-      const waveSign = Math.sin(wavePhase * 3); // oscillation within the pulse
-      total += wavePulse * waveSign * 0.4;
-
-      return total;
-    };
-
-    // Animation loop
+    // Animation loop — slide each line's data window at its own rate
     const animate = () => {
       const progress = scrollProgress.get();
 
-      pathData.forEach(({ points, index, baseY, fillPath, strokePath }) => {
-        const coords = points.map((p) => {
-          const peakFactor = Math.max(0, p.z) / zMax;
-          // Noise scales with peak height — peaks move, flats barely shimmer
-          const n = noise(index, p.x, progress) * (0.05 + peakFactor * 0.7);
-          const zVal = p.z + n;
-          const px = xScale(p.x);
-          const py = baseY - zScale(zVal);
-          return [px, py, baseY + lineSpacing * 1.2];
-        });
+      pathData.forEach(({ points, index: _index, baseY, fillPath, strokePath, rate }) => {
+        // Calculate the x-offset for this line based on scroll and its unique rate
+        // Wraps around using modulo so it cycles continuously
+        const shift = Math.floor(progress * dataLen * 2 * rate) % dataLen;
+
+        const coords: number[][] = [];
+        for (let j = 0; j < windowSize; j++) {
+          const srcIdx = (j + shift) % dataLen;
+          const p = points[srcIdx];
+          const px = xScale(j);
+          const py = baseY - zScale(p.z);
+          coords.push([px, py, baseY + lineSpacing * 1.2]);
+        }
 
         strokePath.attr("d", lineGen(coords));
         fillPath.attr("d", areaGen(coords));
