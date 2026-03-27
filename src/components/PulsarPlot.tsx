@@ -131,10 +131,13 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
         }
       }
 
+      // Clamp to valid range
+      smoothProgress = Math.max(0, smoothProgress);
       const progress = smoothProgress;
 
       pathEls.forEach(({ baseY, fillPath, strokePath, rate, offset }) => {
-        const obsFloat = (progress * totalObservations * 3 * rate + offset) % totalObservations;
+        const obsRaw = (progress * totalObservations * 3 * rate + offset) % totalObservations;
+        const obsFloat = obsRaw < 0 ? obsRaw + totalObservations : obsRaw;
         const obsA = Math.floor(obsFloat) % totalObservations;
         const obsB = (obsA + 1) % totalObservations;
         const t = obsFloat - Math.floor(obsFloat); // 0-1 blend between A and B
