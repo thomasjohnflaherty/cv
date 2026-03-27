@@ -159,12 +159,12 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
       className="fixed pointer-events-none z-0"
       style={{
         top: "-5%",
-        left: "-13%",
+        right: "-13%",
         width: "55%",
         height: "110%",
         opacity: 0.7,
-        maskImage: "linear-gradient(to right, black 40%, transparent 90%)",
-        WebkitMaskImage: "linear-gradient(to right, black 40%, transparent 90%)",
+        maskImage: "linear-gradient(to left, black 40%, transparent 90%)",
+        WebkitMaskImage: "linear-gradient(to left, black 40%, transparent 90%)",
       }}
     >
       <svg ref={svgRef} className="w-full h-full" preserveAspectRatio="xMidYMid meet" />
