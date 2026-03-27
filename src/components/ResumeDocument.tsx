@@ -1,4 +1,4 @@
-import { hero, roles, skills, education, teaching } from "../data/resume";
+import { hero, roles, expertise, skills, education, teaching } from "../data/resume";
 
 export function ResumeDocument() {
   return (
@@ -41,12 +41,13 @@ export function ResumeDocument() {
 
       <hr style={{ border: "none", borderTop: "1px solid #e5e7eb", margin: "4pt 0 12pt" }} />
 
-      <h2 style={{ fontSize: "12pt", fontWeight: 700, margin: "0 0 6pt" }}>Skills</h2>
-      <p style={{ fontSize: "9.5pt", margin: "0 0 2pt" }}>
-        <strong>Core:</strong> {skills.core.join(" · ")}
+      <h2 style={{ fontSize: "12pt", fontWeight: 700, margin: "0 0 6pt" }}>Expertise</h2>
+      <p style={{ fontSize: "9.5pt", margin: "0 0 8pt" }}>
+        {expertise.join(" · ")}
       </p>
+      <h2 style={{ fontSize: "12pt", fontWeight: 700, margin: "0 0 6pt" }}>Tools</h2>
       <p style={{ fontSize: "9.5pt", margin: "0 0 12pt" }}>
-        <strong>Supporting:</strong> {skills.supporting.join(" · ")}
+        {skills.tools.join(" · ")}
       </p>
 
       <hr style={{ border: "none", borderTop: "1px solid #e5e7eb", margin: "0 0 12pt" }} />
