@@ -86,10 +86,12 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
       return rngState / 2147483647;
     };
 
-    // Each line gets a different cycling speed and starting observation
+    // Each line gets a different cycling speed, starting observation, and horizontal drift
     const lineConfig = Array.from({ length: displayLines }, () => ({
-      rate: 0.3 + rand() * 1.7,  // how fast this line cycles through observations
+      rate: 0.3 + rand() * 1.7,      // how fast this line cycles through observations
       offset: Math.floor(rand() * totalObservations), // starting observation
+      xDriftRate: (rand() - 0.5) * 2, // horizontal drift speed (-1 to 1) — unique per line
+      xDriftAmp: 8 + rand() * 20,     // how many data-points worth of drift (8-28)
     }));
 
     // Pre-create path elements for display lines
@@ -148,21 +150,25 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
       }
       const progress = smoothProgress;
 
-      pathEls.forEach(({ baseY, fillPath, strokePath, rate, offset }) => {
+      pathEls.forEach(({ baseY, fillPath, strokePath, rate, offset, xDriftRate, xDriftAmp }) => {
+        // Cycle through observations (vertical morphing)
         const obsRaw = (progress * totalObservations * 3 * rate + offset) % totalObservations;
         const obsFloat = obsRaw < 0 ? obsRaw + totalObservations : obsRaw;
         const obsA = Math.floor(obsFloat) % totalObservations;
         const obsB = (obsA + 1) % totalObservations;
-        const t = obsFloat - Math.floor(obsFloat); // 0-1 blend between A and B
+        const t = obsFloat - Math.floor(obsFloat);
 
         const pointsA = pulses[obsA];
         const pointsB = pulses[obsB];
 
+        // Horizontal drift — sine-based so it sways back and forth
+        const xShift = Math.sin(progress * 20 * xDriftRate) * xDriftAmp;
+
         const coords = pointsA.map((pA, j) => {
           const pB = pointsB[j];
-          // Lerp between the two observations
           const z = pA.z * (1 - t) + pB.z * t;
-          const px = xScale(pA.x);
+          // Shift x position — peaks slide left/right
+          const px = xScale(pA.x + xShift);
           const py = baseY - zScale(z);
           return [px, py, baseY + lineSpacing * 1.2];
         });
