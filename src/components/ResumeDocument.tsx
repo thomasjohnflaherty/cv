@@ -1,70 +1,98 @@
 import { hero, roles, expertise, skills, education, teaching } from "../data/resume";
 
+const font = "Inter, system-ui, sans-serif";
+
 export function ResumeDocument() {
   return (
     <div
       style={{
         width: "8.5in",
-        padding: "0.5in 0.6in",
-        fontFamily: "Inter, system-ui, sans-serif",
-        fontSize: "10pt",
-        lineHeight: 1.4,
+        padding: "0.45in 0.55in",
+        fontFamily: font,
+        fontSize: "9.5pt",
+        lineHeight: 1.45,
         color: "#1a1a2e",
         backgroundColor: "#ffffff",
       }}
     >
-      <h1 style={{ fontSize: "22pt", fontWeight: 700, margin: 0 }}>{hero.name}</h1>
-      <p style={{ fontSize: "11pt", color: "#2563eb", margin: "2pt 0 0" }}>{hero.tagline}</p>
-      <p style={{ fontSize: "9pt", color: "#6b7280", margin: "4pt 0 0" }}>{hero.bio}</p>
-      <p style={{ fontSize: "8pt", color: "#6b7280", margin: "2pt 0 12pt" }}>
-        thomasflaherty@gmail.com · linkedin.com/in/thomasjohnflaherty
+      {/* Header */}
+      <h1 style={{ fontFamily: font, fontSize: "18pt", fontWeight: 600, margin: 0, letterSpacing: "-0.02em", textTransform: "none" }}>
+        {hero.name}
+      </h1>
+      <p style={{ fontSize: "10pt", color: "#2563eb", margin: "2pt 0 0", fontWeight: 500 }}>{hero.tagline}</p>
+      <p style={{ fontSize: "8.5pt", color: "#6b7280", margin: "4pt 0 0" }}>{hero.bio}</p>
+      <p style={{ fontSize: "8pt", color: "#6b7280", margin: "2pt 0 10pt" }}>
+        thomasflaherty@gmail.com · linkedin.com/in/thomasjohnflaherty · thomflaherty.netlify.app
       </p>
 
-      <hr style={{ border: "none", borderTop: "1px solid #e5e7eb", margin: "0 0 12pt" }} />
+      <hr style={{ border: "none", borderTop: "1px solid #d1d5db", margin: "0 0 10pt" }} />
 
-      <h2 style={{ fontSize: "12pt", fontWeight: 700, margin: "0 0 8pt" }}>Experience</h2>
-      {roles.map((role) => (
-        <div key={`${role.company}-${role.dates}`} style={{ marginBottom: "10pt" }}>
-          <p style={{ fontWeight: 600, margin: 0 }}>
-            {role.title} — {role.company}
-          </p>
-          <p style={{ fontSize: "9pt", color: "#6b7280", margin: "1pt 0 3pt" }}>
-            {role.dates} · {role.location}
-          </p>
-          <ul style={{ margin: 0, paddingLeft: "14pt" }}>
-            {role.bullets.map((b, i) => (
-              <li key={i} style={{ fontSize: "9.5pt", marginBottom: "1pt" }}>{b}</li>
+      {/* Expertise */}
+      <h2 style={{ fontFamily: font, fontSize: "9pt", fontWeight: 600, margin: "0 0 4pt", textTransform: "uppercase", letterSpacing: "0.08em", color: "#374151" }}>
+        Expertise
+      </h2>
+      <p style={{ fontSize: "8.5pt", margin: "0 0 10pt", color: "#4b5563" }}>
+        {expertise.join("  ·  ")}
+      </p>
+
+      <hr style={{ border: "none", borderTop: "1px solid #d1d5db", margin: "0 0 10pt" }} />
+
+      {/* Experience */}
+      <h2 style={{ fontFamily: font, fontSize: "9pt", fontWeight: 600, margin: "0 0 6pt", textTransform: "uppercase", letterSpacing: "0.08em", color: "#374151" }}>
+        Experience
+      </h2>
+      {roles.map((role, i) => (
+        <div key={`${role.company}-${role.dates}`} style={{ marginBottom: i < roles.length - 1 ? "8pt" : "0" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+            <p style={{ fontWeight: 600, margin: 0, fontSize: "9.5pt" }}>
+              {role.title}, {role.company}
+            </p>
+            <p style={{ fontSize: "8pt", color: "#6b7280", margin: 0, whiteSpace: "nowrap" }}>
+              {role.dates}
+            </p>
+          </div>
+          <ul style={{ margin: "2pt 0 0", paddingLeft: "12pt" }}>
+            {role.bullets.map((b, j) => (
+              <li key={j} style={{ fontSize: "8.5pt", marginBottom: "1pt", color: "#374151" }}>{b}</li>
             ))}
           </ul>
         </div>
       ))}
 
-      <hr style={{ border: "none", borderTop: "1px solid #e5e7eb", margin: "4pt 0 12pt" }} />
+      <hr style={{ border: "none", borderTop: "1px solid #d1d5db", margin: "8pt 0 10pt" }} />
 
-      <h2 style={{ fontSize: "12pt", fontWeight: 700, margin: "0 0 6pt" }}>Expertise</h2>
-      <p style={{ fontSize: "9.5pt", margin: "0 0 8pt" }}>
-        {expertise.join(" · ")}
+      {/* Tools */}
+      <h2 style={{ fontFamily: font, fontSize: "9pt", fontWeight: 600, margin: "0 0 4pt", textTransform: "uppercase", letterSpacing: "0.08em", color: "#374151" }}>
+        Tools
+      </h2>
+      <p style={{ fontSize: "8.5pt", margin: "0 0 10pt", color: "#4b5563" }}>
+        {skills.tools.join("  ·  ")}
       </p>
-      <h2 style={{ fontSize: "12pt", fontWeight: 700, margin: "0 0 6pt" }}>Tools</h2>
-      <p style={{ fontSize: "9.5pt", margin: "0 0 12pt" }}>
-        {skills.tools.join(" · ")}
-      </p>
 
-      <hr style={{ border: "none", borderTop: "1px solid #e5e7eb", margin: "0 0 12pt" }} />
+      <hr style={{ border: "none", borderTop: "1px solid #d1d5db", margin: "0 0 10pt" }} />
 
-      <h2 style={{ fontSize: "12pt", fontWeight: 700, margin: "0 0 6pt" }}>Education</h2>
+      {/* Education */}
+      <h2 style={{ fontFamily: font, fontSize: "9pt", fontWeight: 600, margin: "0 0 6pt", textTransform: "uppercase", letterSpacing: "0.08em", color: "#374151" }}>
+        Education
+      </h2>
       {education.map((ed) => (
-        <div key={ed.degree} style={{ marginBottom: "4pt" }}>
-          <p style={{ fontWeight: 600, margin: 0, fontSize: "10pt" }}>{ed.degree}</p>
-          <p style={{ fontSize: "9pt", color: "#6b7280", margin: "1pt 0 0" }}>
-            {ed.school}
-            {ed.note && ` — ${ed.note}`}
+        <div key={ed.degree} style={{ marginBottom: "3pt" }}>
+          <p style={{ fontWeight: 600, margin: 0, fontSize: "9pt" }}>
+            {ed.degree}
+            <span style={{ fontWeight: 400, color: "#6b7280" }}> · {ed.school}</span>
           </p>
+          {ed.note && (
+            <p style={{ fontSize: "8pt", color: "#6b7280", margin: "1pt 0 0", fontStyle: "italic" }}>
+              {ed.note}
+            </p>
+          )}
         </div>
       ))}
-      <div style={{ marginTop: "8pt" }}>
-        <p style={{ fontWeight: 600, margin: 0, fontSize: "10pt" }}>{teaching.role}</p>
-        <p style={{ fontSize: "9pt", color: "#6b7280", margin: "1pt 0 0" }}>{teaching.org}</p>
+      <div style={{ marginTop: "6pt" }}>
+        <p style={{ fontWeight: 600, margin: 0, fontSize: "9pt" }}>
+          {teaching.role}
+          <span style={{ fontWeight: 400, color: "#6b7280" }}> · {teaching.org}</span>
+        </p>
       </div>
     </div>
   );
