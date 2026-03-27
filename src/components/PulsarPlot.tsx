@@ -128,8 +128,8 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
         // Ease into the target velocity (don't snap to it)
         smoothVelocity += (clampedDelta - smoothVelocity) * easeIn;
         velocity = smoothVelocity;
-        // Chase raw position loosely
-        smoothProgress += (rawProgress - smoothProgress) * 0.1 + velocity * 0.5;
+        // Apply capped velocity only — no uncapped chase term
+        smoothProgress += velocity;
       } else {
         // Coast — decay velocity, ease smoothVelocity to zero too
         velocity *= friction;
