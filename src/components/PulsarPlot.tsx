@@ -131,12 +131,12 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
         }
       }
 
-      // Clamp to valid range and kill velocity at boundaries
-      if (smoothProgress <= 0 || rawProgress <= 0) {
-        smoothProgress = Math.max(0, rawProgress);
+      // Clamp — but only kill velocity if momentum would push past the edge
+      if (smoothProgress < 0) {
+        smoothProgress = 0;
         velocity = 0;
       }
-      if (smoothProgress >= 1) {
+      if (smoothProgress > 1) {
         smoothProgress = 1;
         velocity = 0;
       }
