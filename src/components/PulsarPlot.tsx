@@ -110,7 +110,7 @@ export function PulsarPlot({ scrollProgress }: PulsarPlotProps) {
     let smoothProgress = scrollProgress.get();
     let velocity = 0;
     let lastRawProgress = smoothProgress;
-    const friction = 0.95; // how slowly momentum decays (closer to 1 = longer coast)
+    const friction = 0.88; // how slowly momentum decays (closer to 1 = longer coast)
 
     const animate = () => {
       const rawProgress = scrollProgress.get();
