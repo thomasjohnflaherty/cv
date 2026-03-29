@@ -34,9 +34,9 @@ export function WorkSection({ youtubeVideoId }: { youtubeVideoId?: string }) {
         </p>
       </div>
 
-      {/* Bug Gas */}
+      {/* Bus Gas */}
       <div className="mb-12">
-        <h3 className="text-lg font-semibold mb-3">Bug Gas</h3>
+        <h3 className="text-lg font-semibold mb-3">Bus Gas</h3>
         <p className="text-sm mb-6" style={{ color: "var(--color-text-muted)" }}>
           Collaborative project; drone, post-rock, experimental
         </p>
