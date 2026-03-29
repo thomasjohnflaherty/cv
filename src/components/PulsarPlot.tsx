@@ -54,7 +54,7 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
     const width = svgRef.current.clientWidth;
     const height = svgRef.current.clientHeight;
 
-    const displayLines = 25;
+    const displayLines = 40;
     const totalObs = pulses.length;
     const lineSpacing = height / displayLines;
     const plotWidth = height * 0.7;
