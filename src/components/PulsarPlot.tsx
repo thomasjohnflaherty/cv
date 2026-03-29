@@ -109,7 +109,7 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
       const raw = scrollProgress.get();
 
       // Track raw position closely — no lag
-      smoothProgress += (raw - smoothProgress) * 0.3;
+      smoothProgress += (raw - smoothProgress) * 0.45;
 
       // Skip frame if nothing visually changed
       if (Math.abs(smoothProgress - lastRendered) < 0.000005) {
