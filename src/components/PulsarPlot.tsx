@@ -108,10 +108,8 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
     const animate = () => {
       const raw = scrollProgress.get();
 
-      // Ease toward raw — smoothProgress chases it with slight lag, speed-limited
-      const delta = (raw - smoothProgress) * 0.15;
-      const maxDelta = 0.002; // absolute speed limit per frame
-      smoothProgress += Math.max(-maxDelta, Math.min(maxDelta, delta));
+      // Track raw position closely — no lag
+      smoothProgress += (raw - smoothProgress) * 0.3;
 
       // Skip frame if nothing visually changed
       if (Math.abs(smoothProgress - lastRendered) < 0.000005) {
@@ -126,7 +124,7 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
       const gradId = music ? "url(#pg-music)" : "url(#pg-tech)";
 
       pathEls.forEach(({ baseY, fillPath, strokePath, rate, offset, xDriftRate, xDriftAmp }) => {
-        const obsRaw = (progress * totalObs * 0.8 * rate + offset) % totalObs;
+        const obsRaw = (progress * totalObs * 0.4 * rate + offset) % totalObs;
         const obsFloat = obsRaw < 0 ? obsRaw + totalObs : obsRaw;
         const obsA = Math.floor(obsFloat) % totalObs;
         const obsB = (obsA + 1) % totalObs;
@@ -134,7 +132,7 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
 
         const pointsA = pulses[obsA];
         const pointsB = pulses[obsB];
-        const xShiftBase = Math.sin(progress * 20 * xDriftRate) * xDriftAmp;
+        const xShiftBase = Math.sin(progress * 8 * xDriftRate) * xDriftAmp;
 
         const coords = pointsA.map((pA, j) => {
           const pB = pointsB[j];
