@@ -108,8 +108,10 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
     const animate = () => {
       const raw = scrollProgress.get();
 
-      // Ease toward raw — smoothProgress chases it with slight lag
-      smoothProgress += (raw - smoothProgress) * 0.15;
+      // Ease toward raw — smoothProgress chases it with slight lag, speed-limited
+      const delta = (raw - smoothProgress) * 0.15;
+      const maxDelta = 0.002; // absolute speed limit per frame
+      smoothProgress += Math.max(-maxDelta, Math.min(maxDelta, delta));
 
       // Skip frame if nothing visually changed
       if (Math.abs(smoothProgress - lastRendered) < 0.000005) {
