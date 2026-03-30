@@ -94,7 +94,7 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
       offset: Math.floor(rand() * totalObs),
       xDriftRate: (rand() - 0.5) * 2,
       xDriftAmp: 4 + rand() * 10,
-      fadeStart: 0.3 + rand() * 0.25,  // each line starts fading at a different point (0.3-0.55)
+      fadeStart: 0.1 + rand() * 0.15,  // each line fades at a different point (10-25% from left edge)
     }));
 
     // Per-line SVG masks for organic fade — each line fades at a different x-point
