@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { musicHero } from "../../data/music";
 import { useFluidText } from "../../hooks/useFluidText";
+import { GlitchText } from "../GlitchText";
 
 export function MusicHero() {
   const nameRef = useRef<HTMLDivElement>(null);
@@ -9,7 +10,12 @@ export function MusicHero() {
   return (
     <section className="py-16 sm:py-24">
       <div ref={nameRef}>
-        <h1 style={{ fontSize: `${nameSize}px`, letterSpacing: "-0.02em", lineHeight: 1.1 }}>{musicHero.name}</h1>
+        <GlitchText
+          text={musicHero.name}
+          fontFamily="'Fraunces', Georgia, serif"
+          fontSize={nameSize}
+          color="var(--color-text)"
+        />
       </div>
       <p className="mt-2 text-lg sm:text-xl font-medium" style={{ color: "var(--color-accent)" }}>
         {musicHero.tagline}
