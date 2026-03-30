@@ -174,7 +174,7 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
         right: "-18%",
         width: "60%",
         height: "110%",
-        opacity: 0.7,
+        opacity: 0.55,
       }}
     >
       <svg ref={svgRef} className="w-full h-full" preserveAspectRatio="xMidYMid meet" />
