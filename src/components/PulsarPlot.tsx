@@ -101,8 +101,9 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
     lineConfig.forEach((cfg, i) => {
       const mask = defs.append("mask").attr("id", `mask-${i}`).attr("maskContentUnits", "objectBoundingBox");
       const maskGrad = defs.append("linearGradient").attr("id", `mg-${i}`).attr("x1", "0").attr("x2", "1");
-      maskGrad.append("stop").attr("offset", `${cfg.fadeStart}`).attr("stop-color", "white");
-      maskGrad.append("stop").attr("offset", `${cfg.fadeStart + 0.2}`).attr("stop-color", "black");
+      maskGrad.append("stop").attr("offset", "0%").attr("stop-color", "black");
+      maskGrad.append("stop").attr("offset", `${cfg.fadeStart}`).attr("stop-color", "black");
+      maskGrad.append("stop").attr("offset", `${cfg.fadeStart + 0.2}`).attr("stop-color", "white");
       mask.append("rect").attr("width", "1").attr("height", "1").attr("fill", `url(#mg-${i})`);
     });
 
