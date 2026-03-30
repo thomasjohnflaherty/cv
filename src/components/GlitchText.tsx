@@ -118,9 +118,10 @@ export function GlitchText({ text, fontFamily, fontSize, color = "#e5e5e5", clas
 
           animFrameRef.current = requestAnimationFrame(animate);
         } else {
-          // Reset to scrambled when leaving viewport
+          // Clear canvas when leaving viewport
           cancelAnimationFrame(animFrameRef.current);
-          draw(0);
+          const ctx = canvas.getContext("2d");
+          if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
       },
       { threshold: 0.3 }
@@ -133,10 +134,16 @@ export function GlitchText({ text, fontFamily, fontSize, color = "#e5e5e5", clas
     };
   }, [text, draw, duration, staggerPerChar]);
 
-  // Draw initial scrambled state
+  // Set initial canvas size (blank)
   useEffect(() => {
-    draw(0);
-  }, [draw]);
+    const canvas = canvasRef.current;
+    if (!canvas || fontSize < 10) return;
+    const dpr = window.devicePixelRatio || 1;
+    const w = canvas.parentElement?.clientWidth || canvas.clientWidth;
+    canvas.width = w * dpr;
+    canvas.height = fontSize * 1.4 * dpr;
+    canvas.style.height = `${fontSize * 1.4}px`;
+  }, [fontSize]);
 
   return (
     <canvas
