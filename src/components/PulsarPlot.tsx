@@ -94,6 +94,7 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
       offset: Math.floor(rand() * totalObs),
       xDriftRate: (rand() - 0.5) * 2,
       xDriftAmp: 4 + rand() * 10,
+      fadeStart: 0.03 + rand() * 0.1,  // each line fades at a different point (3-13% from left edge)
     }));
 
     const pathEls = Array.from({ length: displayLines }, (_, i) => {
@@ -159,12 +160,12 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
       className="fixed pointer-events-none z-0"
       style={{
         top: "-5%",
-        right: "-13%",
-        width: "55%",
+        right: "-18%",
+        width: "60%",
         height: "110%",
         opacity: 0.7,
-        maskImage: "linear-gradient(to left, black 40%, transparent 90%)",
-        WebkitMaskImage: "linear-gradient(to left, black 40%, transparent 90%)",
+        maskImage: "radial-gradient(ellipse 90% 80% at 75% 50%, black 30%, transparent 70%)",
+        WebkitMaskImage: "radial-gradient(ellipse 90% 80% at 75% 50%, black 30%, transparent 70%)",
       }}
     >
       <svg ref={svgRef} className="w-full h-full" preserveAspectRatio="xMidYMid meet" />

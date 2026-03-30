@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useScroll } from "framer-motion";
 import { usePDF } from "react-to-pdf";
 
 import { THEME_MIDPOINT, colors } from "../utils/motion";
+import { useFluidText } from "../hooks/useFluidText";
 import { ScrollNav } from "../components/ScrollNav";
 import { PulsarPlot } from "../components/PulsarPlot";
 
@@ -23,6 +24,8 @@ export function SinglePage() {
   const { scrollYProgress } = useScroll();
   const [submitted, setSubmitted] = useState(false);
   const [isMusic, setIsMusic] = useState(false);
+  const techHeroRef = useRef<HTMLDivElement>(null);
+  const techNameSize = useFluidText(hero.name, "'Fraunces', Georgia, serif", techHeroRef, { minSize: 32, maxSize: 120, fontWeight: 300 });
 
   // Binary theme switch — no interpolation, no grey
   useEffect(() => {
@@ -83,7 +86,9 @@ export function SinglePage() {
         {/* ===== TECH SECTION ===== */}
         <ScrollSection id="tech">
           <section className="py-16 sm:py-24">
-            <h1 className="text-5xl sm:text-7xl tracking-tight">{hero.name}</h1>
+            <div ref={techHeroRef}>
+              <h1 style={{ fontSize: `${techNameSize}px`, letterSpacing: "-0.02em", lineHeight: 1.1 }}>{hero.name}</h1>
+            </div>
             <p className="mt-2 text-lg sm:text-xl font-medium" style={{ color: "var(--color-accent)" }}>
               {hero.tagline}
             </p>
@@ -126,7 +131,7 @@ export function SinglePage() {
 
         {/* ===== MUSIC SECTION ===== */}
         <ScrollSection id="music">
-          <MusicHero />
+          <MusicHero isMusic={isMusic} />
         </ScrollSection>
 
         <div className="space-y-16 pb-16">
