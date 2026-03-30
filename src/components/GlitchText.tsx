@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useCallback } from "react";
 
 interface GlitchTextProps {
   text: string;
@@ -17,10 +17,8 @@ const GLITCH_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012345
  */
 export function GlitchText({ text, fontFamily, fontSize, color = "#e5e5e5", className }: GlitchTextProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [revealed, setRevealed] = useState(false);
   const animFrameRef = useRef<number>(0);
   const startTimeRef = useRef<number>(0);
-  const hasStarted = useRef(false);
 
   const duration = 1200; // ms for full reveal
   const staggerPerChar = 60; // ms delay between each character starting to resolve
@@ -93,15 +91,16 @@ export function GlitchText({ text, fontFamily, fontSize, color = "#e5e5e5", clas
     [text, fontFamily, fontSize, color, staggerPerChar, duration]
   );
 
-  // Trigger animation when element enters viewport
+  // Trigger animation every time element enters viewport
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && !hasStarted.current) {
-          hasStarted.current = true;
+        if (entries[0].isIntersecting) {
+          // Reset and restart animation
+          cancelAnimationFrame(animFrameRef.current);
           startTimeRef.current = performance.now();
 
           const animate = (time: number) => {
@@ -114,12 +113,14 @@ export function GlitchText({ text, fontFamily, fontSize, color = "#e5e5e5", clas
 
             if (p < 1) {
               animFrameRef.current = requestAnimationFrame(animate);
-            } else {
-              setRevealed(true);
             }
           };
 
           animFrameRef.current = requestAnimationFrame(animate);
+        } else {
+          // Reset to scrambled when leaving viewport
+          cancelAnimationFrame(animFrameRef.current);
+          draw(0);
         }
       },
       { threshold: 0.3 }
@@ -130,26 +131,12 @@ export function GlitchText({ text, fontFamily, fontSize, color = "#e5e5e5", clas
       observer.disconnect();
       cancelAnimationFrame(animFrameRef.current);
     };
-  }, [text, draw, duration]);
+  }, [text, draw, duration, staggerPerChar]);
 
   // Draw initial scrambled state
   useEffect(() => {
-    if (!hasStarted.current) {
-      draw(0);
-    }
+    draw(0);
   }, [draw]);
-
-  // If revealed, show regular text for accessibility/selectability
-  if (revealed) {
-    return (
-      <span
-        className={className}
-        style={{ fontSize: `${fontSize}px`, fontFamily, color, lineHeight: 1.2, display: "block" }}
-      >
-        {text}
-      </span>
-    );
-  }
 
   return (
     <canvas
