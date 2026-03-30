@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { MotionValue } from "framer-motion";
 import { THEME_MIDPOINT } from "../utils/motion";
+import { MorphText } from "./MorphText";
 
 interface ScrollNavProps {
   scrollProgress: MotionValue<number>;
@@ -10,11 +11,17 @@ interface ScrollNavProps {
 export function ScrollNav({ scrollProgress }: ScrollNavProps) {
   const [isMusic, setIsMusic] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [morphProgress, setMorphProgress] = useState(0);
 
-  // Binary switch — synced with theme
+  // Track scroll for theme switch and morph progress
   useEffect(() => {
     const unsub = scrollProgress.on("change", (v) => {
       setIsMusic(v >= THEME_MIDPOINT);
+      // Morph over a narrow range around the midpoint (5% window)
+      const morphStart = THEME_MIDPOINT - 0.025;
+      const morphEnd = THEME_MIDPOINT + 0.025;
+      const p = Math.max(0, Math.min(1, (v - morphStart) / (morphEnd - morphStart)));
+      setMorphProgress(p);
     });
     return unsub;
   }, [scrollProgress]);
@@ -48,25 +55,21 @@ export function ScrollNav({ scrollProgress }: ScrollNavProps) {
       <div className="max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto px-4 sm:px-8 lg:px-12 h-14 flex items-center justify-between">
         {/* Desktop nav */}
         <div className="hidden md:flex items-center w-full justify-between">
-          <AnimatePresence mode="wait">
-            <motion.button
-              key={identityName}
-              onClick={() => scrollTo(isMusic ? "music" : "tech")}
-              className="bg-transparent border-none cursor-pointer tracking-wide transition-colors"
-              style={{
-                color: "var(--color-accent)",
-                fontFamily: "'Fraunces', Georgia, serif",
-                fontWeight: 500,
-                fontSize: "1.1rem",
-              }}
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 8 }}
-              transition={{ duration: 0.25 }}
-            >
-              {identityName}
-            </motion.button>
-          </AnimatePresence>
+          <button
+            onClick={() => scrollTo(isMusic ? "music" : "tech")}
+            className="bg-transparent border-none cursor-pointer"
+            style={{ width: "200px" }}
+          >
+            <MorphText
+              from="Thom Flaherty"
+              to="Thom Clarity"
+              progress={morphProgress}
+              fontFamily="'Fraunces', Georgia, serif"
+              fontSize={18}
+              fontWeight={500}
+              color={isMusic ? "#a78bfa" : "#2563eb"}
+            />
+          </button>
 
           <div className="flex items-center gap-6">
             <button
