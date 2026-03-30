@@ -14,7 +14,7 @@ export function MusicHero() {
           text={musicHero.name}
           fontFamily="'Fraunces', Georgia, serif"
           fontSize={nameSize}
-          color="var(--color-text)"
+          color="#e5e5e5"
         />
       </div>
       <p className="mt-2 text-lg sm:text-xl font-medium" style={{ color: "var(--color-accent)" }}>

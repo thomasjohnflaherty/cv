@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-import { prepareWithSegments, layoutWithLines } from "@chenglou/pretext";
 
 interface GlitchTextProps {
   text: string;
@@ -29,21 +28,19 @@ export function GlitchText({ text, fontFamily, fontSize, color = "#e5e5e5", clas
   const draw = useCallback(
     (currentProgress: number) => {
       const canvas = canvasRef.current;
-      if (!canvas) return;
+      if (!canvas || fontSize < 10) return;
 
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
 
       const dpr = window.devicePixelRatio || 1;
+      const canvasWidth = canvas.parentElement?.clientWidth || canvas.clientWidth;
+      if (canvasWidth === 0) return;
+
       const font = `${fontSize}px ${fontFamily}`;
 
-      // Get line data from pretext
-      const prepared = prepareWithSegments(text, font);
-      const result = layoutWithLines(prepared, canvas.width / dpr, fontSize * 1.2);
-
-      // Size canvas
-      const canvasWidth = canvas.clientWidth;
-      const canvasHeight = Math.max(fontSize * 1.4 * result.lineCount, fontSize * 1.4);
+      // Size canvas first
+      const canvasHeight = fontSize * 1.4;
       canvas.width = canvasWidth * dpr;
       canvas.height = canvasHeight * dpr;
       canvas.style.height = `${canvasHeight}px`;
@@ -52,48 +49,44 @@ export function GlitchText({ text, fontFamily, fontSize, color = "#e5e5e5", clas
       // Clear
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
       ctx.font = font;
+      ctx.textBaseline = "top";
 
       // Draw each character
       let charIndex = 0;
-      result.lines.forEach((line, lineIdx) => {
-        const y = (lineIdx + 1) * fontSize * 1.2;
-        let x = 0;
+      let x = 0;
+      const y = fontSize * 0.15; // slight top offset
 
-        for (const char of line.text) {
-          if (char === " ") {
-            x += ctx.measureText(" ").width;
-            charIndex++;
-            continue;
-          }
-
-          // Each character resolves at a staggered time
-          const charDelay = charIndex * staggerPerChar;
-          const charProgress = Math.max(0, Math.min(1, (currentProgress * duration - charDelay) / 300));
-
-          if (charProgress >= 1) {
-            // Fully resolved — draw real character
-            ctx.fillStyle = color;
-            ctx.globalAlpha = 1;
-            ctx.fillText(char, x, y);
-          } else if (charProgress > 0) {
-            // Scrambling — mix of random chars and real char
-            const isReal = Math.random() < charProgress * charProgress; // ease-in
-            const displayChar = isReal ? char : GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)];
-            ctx.fillStyle = color;
-            ctx.globalAlpha = 0.4 + charProgress * 0.6;
-            ctx.fillText(displayChar, x, y);
-          } else {
-            // Not yet started — show random char at low opacity
-            const glitchChar = GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)];
-            ctx.fillStyle = color;
-            ctx.globalAlpha = 0.15;
-            ctx.fillText(glitchChar, x, y);
-          }
-
-          x += ctx.measureText(char).width;
+      for (const char of text) {
+        if (char === " ") {
+          x += ctx.measureText(" ").width;
           charIndex++;
+          continue;
         }
-      });
+
+        const charDelay = charIndex * staggerPerChar;
+        const totalTime = currentProgress * duration + text.length * staggerPerChar * currentProgress;
+        const charProgress = Math.max(0, Math.min(1, (totalTime - charDelay) / 300));
+
+        if (charProgress >= 1) {
+          ctx.fillStyle = color;
+          ctx.globalAlpha = 1;
+          ctx.fillText(char, x, y);
+        } else if (charProgress > 0) {
+          const isReal = Math.random() < charProgress * charProgress;
+          const displayChar = isReal ? char : GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)];
+          ctx.fillStyle = color;
+          ctx.globalAlpha = 0.4 + charProgress * 0.6;
+          ctx.fillText(displayChar, x, y);
+        } else {
+          const glitchChar = GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)];
+          ctx.fillStyle = color;
+          ctx.globalAlpha = 0.15;
+          ctx.fillText(glitchChar, x, y);
+        }
+
+        x += ctx.measureText(char).width;
+        charIndex++;
+      }
 
       ctx.globalAlpha = 1;
     },
