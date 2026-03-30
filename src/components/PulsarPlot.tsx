@@ -94,11 +94,22 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
       offset: Math.floor(rand() * totalObs),
       xDriftRate: (rand() - 0.5) * 2,
       xDriftAmp: 4 + rand() * 10,
+      fadeStart: 0.3 + rand() * 0.25,  // each line starts fading at a different point (0.3-0.55)
     }));
 
+    // Per-line SVG masks for organic fade — each line fades at a different x-point
+    lineConfig.forEach((cfg, i) => {
+      const mask = defs.append("mask").attr("id", `mask-${i}`).attr("maskContentUnits", "objectBoundingBox");
+      const maskGrad = defs.append("linearGradient").attr("id", `mg-${i}`).attr("x1", "0").attr("x2", "1");
+      maskGrad.append("stop").attr("offset", `${cfg.fadeStart}`).attr("stop-color", "white");
+      maskGrad.append("stop").attr("offset", `${cfg.fadeStart + 0.2}`).attr("stop-color", "black");
+      mask.append("rect").attr("width", "1").attr("height", "1").attr("fill", `url(#mg-${i})`);
+    });
+
     const pathEls = Array.from({ length: displayLines }, (_, i) => {
-      const fillPath = svg.append("path").attr("stroke", "none");
-      const strokePath = svg.append("path").attr("fill", "none").attr("stroke-width", 1.4);
+      const g = svg.append("g").attr("mask", `url(#mask-${i})`);
+      const fillPath = g.append("path").attr("stroke", "none");
+      const strokePath = g.append("path").attr("fill", "none").attr("stroke-width", 1.4);
       return { baseY: yBase(i), fillPath, strokePath, ...lineConfig[i] };
     });
 
@@ -163,8 +174,6 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
         width: "55%",
         height: "110%",
         opacity: 0.7,
-        maskImage: "linear-gradient(to left, black 40%, transparent 90%)",
-        WebkitMaskImage: "linear-gradient(to left, black 40%, transparent 90%)",
       }}
     >
       <svg ref={svgRef} className="w-full h-full" preserveAspectRatio="xMidYMid meet" />
