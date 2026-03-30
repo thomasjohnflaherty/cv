@@ -94,7 +94,7 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
       offset: Math.floor(rand() * totalObs),
       xDriftRate: (rand() - 0.5) * 2,
       xDriftAmp: 4 + rand() * 10,
-      fadeStart: 0.1 + rand() * 0.15,  // each line fades at a different point (10-25% from left edge)
+      fadeStart: 0.03 + rand() * 0.1,  // each line fades at a different point (3-13% from left edge)
     }));
 
     // Per-line SVG masks for organic fade — each line fades at a different x-point
@@ -103,7 +103,7 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
       const maskGrad = defs.append("linearGradient").attr("id", `mg-${i}`).attr("x1", "0").attr("x2", "1");
       maskGrad.append("stop").attr("offset", "0%").attr("stop-color", "black");
       maskGrad.append("stop").attr("offset", `${cfg.fadeStart}`).attr("stop-color", "black");
-      maskGrad.append("stop").attr("offset", `${cfg.fadeStart + 0.2}`).attr("stop-color", "white");
+      maskGrad.append("stop").attr("offset", `${cfg.fadeStart + 0.1}`).attr("stop-color", "white");
       mask.append("rect").attr("width", "1").attr("height", "1").attr("fill", `url(#mg-${i})`);
     });
 
@@ -171,8 +171,8 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
       className="fixed pointer-events-none z-0"
       style={{
         top: "-5%",
-        right: "-25%",
-        width: "65%",
+        right: "-18%",
+        width: "60%",
         height: "110%",
         opacity: 0.7,
       }}
