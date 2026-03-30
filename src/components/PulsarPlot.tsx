@@ -171,7 +171,7 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
       className="fixed pointer-events-none z-0"
       style={{
         top: "-5%",
-        right: "-14%",
+        right: "-15%",
         width: "55%",
         height: "110%",
         opacity: 0.7,
