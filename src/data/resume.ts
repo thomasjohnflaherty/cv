@@ -16,7 +16,7 @@ export interface Education {
 export const hero = {
   name: "Thom Flaherty",
   tagline: "I build the infrastructure that keeps data teams moving.",
-  bio: "13 years of Databricks workspaces, ML pipelines, and teaching people to stop emailing spreadsheets. Based in Omaha.",
+  bio: "13 years of building data infrastructure, shipping models, and teaching people to stop emailing spreadsheets. Based in Omaha.",
 };
 
 export const roles: Role[] = [
