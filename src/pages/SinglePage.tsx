@@ -131,7 +131,7 @@ export function SinglePage() {
 
         {/* ===== MUSIC SECTION ===== */}
         <ScrollSection id="music">
-          <MusicHero />
+          <MusicHero isMusic={isMusic} />
         </ScrollSection>
 
         <div className="space-y-16 pb-16">
