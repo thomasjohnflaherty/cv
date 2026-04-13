@@ -30,7 +30,7 @@ export const roles: Role[] = [
       "Set the strategy for automated testing",
       "Translated between research and engineering",
     ],
-    tech: ["AWS", "Lambda", "REST APIs", "Snowflake", "Claude", "Python", "CI/CD"],
+    tech: ["AWS", "Lambda", "ONNX", "REST APIs", "Snowflake", "DuckDB", "MLflow", "Claude", "Python", "CI/CD"],
   },
   {
     title: "Staff Data Engineer",
@@ -42,7 +42,7 @@ export const roles: Role[] = [
       "Migrated BigQuery to Databricks, killed a Fivetran bill",
       "Made MLflow the standard, not just a suggestion",
     ],
-    tech: ["Databricks", "REST APIs", "GCP", "OpenTofu", "Terragrunt", "MLflow", "dbt", "Docker", "Python"],
+    tech: ["Databricks", "PyTorch", "Hugging Face", "scikit-learn", "XGBoost", "LightGBM", "LangChain", "DSPy", "PySpark", "Pandas", "Polars", "DuckDB", "BigQuery", "REST APIs", "GCP", "Kubernetes", "Cloud Run", "OpenTofu", "Terragrunt", "MLflow", "dbt", "FastAPI", "Docker", "Python"],
   },
   {
     title: "Data Science Engineer",
@@ -54,7 +54,7 @@ export const roles: Role[] = [
       "Wrote the org's Databricks playbook",
       "10x faster models, 30-40% cheaper",
     ],
-    tech: ["Azure", "Databricks", "REST APIs", "PySpark", "H2O.ai", "Python", "Apache Spark"],
+    tech: ["Azure", "Databricks", "Prophet", "XGBoost", "scikit-learn", "LightGBM", "REST APIs", "PySpark", "Pandas", "NumPy", "H2O.ai", "Python", "Apache Spark"],
   },
   {
     title: "Senior Analytics Developer",
@@ -72,7 +72,7 @@ export const roles: Role[] = [
 export const expertise = [
   "Data Science",
   "Machine Learning",
-  "MLOps",
+  "MLOps / LLMOps",
   "Data Engineering",
   "Technology Leadership",
   "Cloud Infrastructure",
@@ -82,7 +82,7 @@ export const expertise = [
 ];
 
 export const skills = {
-  tools: ["Python", "React", "TypeScript", "Databricks", "GCP", "AWS", "Lambda", "Azure", "OpenTofu", "Terragrunt", "Docker", "MLflow", "Apache Spark", "dbt", "Snowflake", "SQL", "REST APIs", "Git", "CI/CD"],
+  tools: ["Python", "PyTorch", "Hugging Face", "scikit-learn", "XGBoost", "LightGBM", "Pandas", "NumPy", "Polars", "PySpark", "React", "TypeScript", "FastAPI", "Databricks", "GCP", "AWS", "Lambda", "Azure", "Kubernetes", "Cloud Run", "OpenTofu", "Terragrunt", "Docker", "MLflow", "LangChain", "DSPy", "ONNX", "DuckDB", "BigQuery", "Apache Spark", "dbt", "Snowflake", "SQL", "REST APIs", "Prophet", "Git", "CI/CD"],
   strengths: [
     "Teaching & Mentorship",
     "Cross-Team Translation",
