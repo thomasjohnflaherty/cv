@@ -50,9 +50,9 @@ export const roles: Role[] = [
     dates: "Jun 2021 – Oct 2022",
     location: "Omaha, NE",
     bullets: [
-      "Built demand forecasting and pricing models",
-      "Wrote the org's Databricks playbook",
-      "10x faster models, 30-40% cheaper",
+      "Built ensemble demand forecasting (Prophet + XGBoost) and dynamic pricing models",
+      "First to stand up Databricks at the org — wrote the playbook and set all best practices",
+      "Moved from single-machine to distributed PySpark training — 10x faster, 30-40% cheaper",
     ],
     tech: ["Azure", "Databricks", "Prophet", "XGBoost", "scikit-learn", "LightGBM", "REST APIs", "PySpark", "Pandas", "NumPy", "H2O.ai", "Python", "Apache Spark"],
   },
@@ -62,10 +62,23 @@ export const roles: Role[] = [
     dates: "Mar 2019 – Jun 2021",
     location: "Omaha, NE",
     bullets: [
-      "Built COVID-19 forecasting models for hospital leadership",
-      "Stood up Posit Connect, killed the spreadsheet emails",
+      "Built COVID-19 forecasting models used for staffing and ICU bed conversion decisions",
+      "Owned all analytics for Clinical Effectiveness — Sepsis, length of stay, oncology, CHF",
+      "Stood up Posit Connect as the delivery platform, killed the spreadsheet emails",
     ],
-    tech: ["R", "Posit Connect", "Shiny", "SQL", "Tableau"],
+    tech: ["R", "Python", "Posit Connect", "Shiny", "Epic", "SQL", "Tableau"],
+  },
+  {
+    title: "Data Scientist",
+    company: "Nebraska Methodist",
+    dates: "May 2017 – Mar 2019",
+    location: "Omaha, NE",
+    bullets: [
+      "Built the data science function from scratch — all open-source, zero vendor spend",
+      "Developed opioid prescribing analysis and dashboards that led to a decrease in provider overprescribing",
+      "Set visualization and analytics standards for the org, mentored interns",
+    ],
+    tech: ["R", "Python", "Shiny", "Posit Connect", "Cerner", "SQL"],
   },
 ];
 
