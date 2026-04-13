@@ -30,7 +30,7 @@ export const roles: Role[] = [
       "Set the strategy for automated testing",
       "Translated between research and engineering",
     ],
-    tech: ["AWS", "Snowflake", "Claude", "Python", "CI/CD"],
+    tech: ["AWS", "Lambda", "REST APIs", "Snowflake", "Claude", "Python", "CI/CD"],
   },
   {
     title: "Staff Data Engineer",
@@ -42,7 +42,7 @@ export const roles: Role[] = [
       "Migrated BigQuery to Databricks, killed a Fivetran bill",
       "Made MLflow the standard, not just a suggestion",
     ],
-    tech: ["Databricks", "GCP", "OpenTofu", "Terragrunt", "MLflow", "dbt", "Docker", "Python"],
+    tech: ["Databricks", "REST APIs", "GCP", "OpenTofu", "Terragrunt", "MLflow", "dbt", "Docker", "Python"],
   },
   {
     title: "Data Science Engineer",
@@ -54,7 +54,7 @@ export const roles: Role[] = [
       "Wrote the org's Databricks playbook",
       "10x faster models, 30-40% cheaper",
     ],
-    tech: ["Azure", "Databricks", "PySpark", "H2O.ai", "Python", "Apache Spark"],
+    tech: ["Azure", "Databricks", "REST APIs", "PySpark", "H2O.ai", "Python", "Apache Spark"],
   },
   {
     title: "Senior Analytics Developer",
@@ -82,7 +82,7 @@ export const expertise = [
 ];
 
 export const skills = {
-  tools: ["Python", "Databricks", "GCP", "AWS", "Azure", "OpenTofu", "Terragrunt", "Docker", "MLflow", "Apache Spark", "dbt", "Snowflake", "SQL", "Git", "CI/CD"],
+  tools: ["Python", "React", "TypeScript", "Databricks", "GCP", "AWS", "Lambda", "Azure", "OpenTofu", "Terragrunt", "Docker", "MLflow", "Apache Spark", "dbt", "Snowflake", "SQL", "REST APIs", "Git", "CI/CD"],
   strengths: [
     "Teaching & Mentorship",
     "Cross-Team Translation",
