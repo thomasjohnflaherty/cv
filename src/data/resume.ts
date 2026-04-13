@@ -26,7 +26,7 @@ export const roles: Role[] = [
     dates: "Dec 2025 – Mar 2026",
     location: "Lincoln, NE",
     bullets: [
-      "Introduced agentic coding workflow to the dev team with Claude Code",
+      "Introduced agentic coding workflows and GenAI tooling to the dev team",
       "Set the strategy for automated testing",
       "Translated between research and engineering",
     ],
@@ -40,7 +40,9 @@ export const roles: Role[] = [
     bullets: [
       "Owned 8 Databricks workspaces on GCP",
       "Migrated BigQuery to Databricks, killed a Fivetran bill",
-      "Made MLflow the standard, not just a suggestion",
+      "Made MLflow the standard for experiment tracking, LLM tracing, and observability",
+      "Built document understanding and entity matching pipelines using Hugging Face vision transformers, OpenAI, and DSPy",
+      "Prototyped RAG pipelines and vector search with LangChain and Databricks Vector Search",
     ],
     tech: ["Databricks", "PyTorch", "Hugging Face", "scikit-learn", "XGBoost", "LightGBM", "LangChain", "DSPy", "PySpark", "Pandas", "Polars", "DuckDB", "BigQuery", "RESTful APIs", "GCP", "Kubernetes", "Cloud Run", "OpenTofu", "Terragrunt", "MLflow", "dbt", "FastAPI", "Docker", "Python"],
   },
