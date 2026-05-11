@@ -26,10 +26,13 @@ export const roles: Role[] = [
     dates: "Apr 2026 – Present",
     location: "Omaha, NE",
     bullets: [
-      "Building data and AI engineering capability for client engagements",
-      "Bringing agentic coding workflows and modern LLM tooling into the practice",
+      "Lead data and AI engineering across concurrent client engagements in insurance, agri-tech, and building-products distribution",
+      "Contribute to a Pydantic AI multi-agent FastAPI service on Cloud Run (Claude Sonnet 4.5 via Vertex AI, Arize Phoenix tracing) and the Python SDK wrapping the underlying ERP APIs",
+      "Took over an R→Python actuarial rater conversion (binomial + gamma GLMs, Black-Scholes pricing) and scoping a GCP quoting platform for a weather-revenue insurance MGA",
+      "Codified the firm's data-engineering archetype: Modal → Delta Lake → dbt (BigQuery + DuckDB) → Cloud SQL/Django",
+      "Built the team's codebase-mapping system — a 4-parallel-subagent skill producing canonical architecture/tech/quality/concerns maps per client repo",
     ],
-    tech: ["Python", "Databricks", "MLflow", "LangChain", "DSPy", "Claude", "FastAPI", "GCP", "AWS", "Docker", "CI/CD"],
+    tech: ["Python", "Pydantic AI", "Claude", "Vertex AI", "FastAPI", "Cloud Run", "GCP", "BigQuery", "Modal", "Delta Lake", "dbt", "DuckDB", "Polars", "Arize Phoenix", "OpenTelemetry", "Django", "Docker"],
   },
   {
     title: "Director of Technology",
@@ -39,7 +42,6 @@ export const roles: Role[] = [
     bullets: [
       "Introduced agentic coding workflows and GenAI tooling to the dev team",
       "Set the strategy for automated testing",
-      "Translated between research and engineering",
     ],
     tech: ["AWS", "Lambda", "ONNX", "RESTful APIs", "Snowflake", "DuckDB", "MLflow", "Claude", "Python", "CI/CD"],
   },
@@ -52,8 +54,7 @@ export const roles: Role[] = [
       "Owned 8 Databricks workspaces on GCP",
       "Migrated BigQuery to Databricks, killed a Fivetran bill",
       "Made MLflow the standard for experiment tracking, LLM tracing, and observability",
-      "Built document understanding and entity matching pipelines using Hugging Face vision transformers, OpenAI, and DSPy",
-      "Prototyped RAG pipelines and vector search with LangChain and Databricks Vector Search",
+      "Built document understanding and RAG/vector-search pipelines with Hugging Face vision transformers, OpenAI, DSPy, LangChain, and Databricks Vector Search",
     ],
     tech: ["Databricks", "PyTorch", "Hugging Face", "scikit-learn", "XGBoost", "LightGBM", "LangChain", "DSPy", "PySpark", "Pandas", "Polars", "DuckDB", "BigQuery", "RESTful APIs", "GCP", "Kubernetes", "Cloud Run", "OpenTofu", "Terragrunt", "MLflow", "dbt", "FastAPI", "Docker", "Python"],
   },
@@ -77,7 +78,6 @@ export const roles: Role[] = [
     bullets: [
       "Built COVID-19 forecasting models used for staffing and ICU bed conversion decisions",
       "Owned all analytics for Clinical Effectiveness: Sepsis, length of stay, oncology, CHF",
-      "Stood up Posit Connect as the delivery platform, killed the spreadsheet emails",
     ],
     tech: ["R", "Python", "Posit Connect", "Shiny", "Epic", "SQL", "Tableau"],
   },
@@ -89,7 +89,6 @@ export const roles: Role[] = [
     bullets: [
       "Built the data science function from scratch, all open-source, zero vendor spend",
       "Developed opioid prescribing analysis and dashboards that led to a decrease in provider overprescribing",
-      "Set visualization and analytics standards for the org, mentored interns",
     ],
     tech: ["R", "Python", "Shiny", "Posit Connect", "Cerner", "SQL"],
   },
