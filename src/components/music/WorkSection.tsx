@@ -24,34 +24,31 @@ export function WorkSection({ youtubeVideoId }: { youtubeVideoId?: string }) {
         </div>
       )}
 
-      {/* Subvert featured track — iframe attempt (will be blocked if X-Frame-Options/CSP set) */}
+      {/* Subvert featured track */}
       <div className="mb-12">
         <h3 className="text-lg font-semibold mb-3">Solo Release</h3>
         <div
-          className="rounded-lg border overflow-hidden"
-          style={{ borderColor: "var(--color-border)" }}
+          className="p-6 rounded-lg border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+          style={{ backgroundColor: "var(--color-surface)", borderColor: "var(--color-border)" }}
         >
-          <iframe
-            src={featuredTrack.url}
-            title={`${featuredTrack.title} on ${featuredTrack.label}`}
-            className="w-full border-0 block"
-            style={{ height: "180px" }}
-            loading="lazy"
-            allow="autoplay; encrypted-media"
-          />
-        </div>
-        <p className="mt-2 text-xs" style={{ color: "var(--color-text-muted)" }}>
-          {featuredTrack.title} — out now on {featuredTrack.label}.{" "}
+          <div>
+            <p className="text-base font-semibold" style={{ color: "var(--color-text)" }}>
+              {featuredTrack.title}
+            </p>
+            <p className="text-sm" style={{ color: "var(--color-text-muted)" }}>
+              Out now on {featuredTrack.label}
+            </p>
+          </div>
           <a
             href={featuredTrack.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="underline hover:no-underline"
-            style={{ color: "var(--color-accent)" }}
+            className="inline-block px-5 py-2 rounded-md text-sm font-medium text-white transition-opacity hover:opacity-90 whitespace-nowrap"
+            style={{ backgroundColor: "var(--color-accent)" }}
           >
-            Open on Subvert →
+            {featuredTrack.cta}
           </a>
-        </p>
+        </div>
       </div>
 
       {/* Bus Gas */}
