@@ -27,12 +27,12 @@ export function WorkSection({ youtubeVideoId }: { youtubeVideoId?: string }) {
       {/* Subvert featured track */}
       <div className="mb-12">
         <h3 className="text-lg font-semibold mb-3">Solo Release</h3>
-        <div className="flex flex-col sm:flex-row sm:items-center gap-6">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-8">
           <a
             href={featuredTrack.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group block flex-shrink-0 w-full sm:w-48"
+            className="group block flex-shrink-0 w-full sm:w-80"
             aria-label={`${featuredTrack.title} on ${featuredTrack.label}`}
           >
             <div
@@ -48,10 +48,10 @@ export function WorkSection({ youtubeVideoId }: { youtubeVideoId?: string }) {
             </div>
           </a>
           <div className="flex-1">
-            <p className="text-base font-semibold" style={{ color: "var(--color-text)" }}>
+            <p className="text-2xl font-semibold" style={{ color: "var(--color-text)" }}>
               {featuredTrack.title}
             </p>
-            <p className="text-sm mb-4" style={{ color: "var(--color-text-muted)" }}>
+            <p className="text-sm mb-5" style={{ color: "var(--color-text-muted)" }}>
               Out now on {featuredTrack.label}
             </p>
             <a
