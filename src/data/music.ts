@@ -38,6 +38,7 @@ export const featuredTrack = {
   title: "Icecap Zone",
   label: "Subvert",
   url: "https://www.subvert.fm/thom-clarity/tracks/icecap-zone",
+  cover: "/icecap-zone.jpg",
   cta: "Listen on Subvert",
 };
 

@@ -27,27 +27,43 @@ export function WorkSection({ youtubeVideoId }: { youtubeVideoId?: string }) {
       {/* Subvert featured track */}
       <div className="mb-12">
         <h3 className="text-lg font-semibold mb-3">Solo Release</h3>
-        <div
-          className="p-6 rounded-lg border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
-          style={{ backgroundColor: "var(--color-surface)", borderColor: "var(--color-border)" }}
-        >
-          <div>
-            <p className="text-base font-semibold" style={{ color: "var(--color-text)" }}>
-              {featuredTrack.title}
-            </p>
-            <p className="text-sm" style={{ color: "var(--color-text-muted)" }}>
-              Out now on {featuredTrack.label}
-            </p>
-          </div>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-6">
           <a
             href={featuredTrack.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-5 py-2 rounded-md text-sm font-medium text-white transition-opacity hover:opacity-90 whitespace-nowrap"
-            style={{ backgroundColor: "var(--color-accent)" }}
+            className="group block flex-shrink-0 w-full sm:w-48"
+            aria-label={`${featuredTrack.title} on ${featuredTrack.label}`}
           >
-            {featuredTrack.cta}
+            <div
+              className="aspect-square rounded-lg overflow-hidden border transition-all duration-200 group-hover:border-2"
+              style={{ borderColor: "var(--color-border)" }}
+            >
+              <img
+                src={featuredTrack.cover}
+                alt={`${featuredTrack.title} cover art`}
+                className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
+                loading="lazy"
+              />
+            </div>
           </a>
+          <div className="flex-1">
+            <p className="text-base font-semibold" style={{ color: "var(--color-text)" }}>
+              {featuredTrack.title}
+            </p>
+            <p className="text-sm mb-4" style={{ color: "var(--color-text-muted)" }}>
+              Out now on {featuredTrack.label}
+            </p>
+            <a
+              href={featuredTrack.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block px-5 py-2 rounded-md text-sm font-medium text-white transition-opacity hover:opacity-90"
+              style={{ backgroundColor: "var(--color-accent)" }}
+            >
+              {featuredTrack.cta}
+            </a>
+          </div>
         </div>
       </div>
 
