@@ -8,7 +8,7 @@ export function ResumeDocument() {
     <div
       style={{
         width: "8.5in",
-        minHeight: "11in",
+        height: "11in",
         padding: "0.45in 0.55in",
         fontFamily: font,
         fontSize: "9.5pt",
@@ -17,18 +17,19 @@ export function ResumeDocument() {
         backgroundColor: "#ffffff",
         position: "relative",
         overflow: "hidden",
+        boxSizing: "border-box",
       }}
     >
-      {/* Pulsar ridge plot - right side, full page height, behind all content */}
+      {/* Pulsar ridge plot - right side, exact page height to prevent scrollHeight overflow */}
       <div style={{
         position: "absolute",
-        top: "-0.5in",
+        top: 0,
         right: "-1.2in",
         width: "3in",
-        height: "12in",
+        height: "11in",
         zIndex: 0,
       }}>
-        <PulsarStatic width={288} height={1152} color="#2563eb" />
+        <PulsarStatic width={288} height={1056} color="#2563eb" />
       </div>
 
       {/* All content above pulsar */}

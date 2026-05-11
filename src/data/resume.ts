@@ -21,6 +21,19 @@ export const hero = {
 
 export const roles: Role[] = [
   {
+    title: "Senior Data and AI Engineer",
+    company: "Contemporary Analysis",
+    dates: "Apr 2026 – Present",
+    location: "Omaha, NE",
+    bullets: [
+      "Cross-domain client work in insurance, agri-tech, and ERP distribution",
+      "Contributing to a Pydantic AI multi-agent ERP service on Cloud Run",
+      "Documented the firm's data-engineering archetype (Modal, Delta Lake, dbt, DuckDB)",
+      "Adapted a parallel-subagent codebase-mapping skill for the team's workflow",
+    ],
+    tech: ["Python", "Pydantic AI", "Claude", "Vertex AI", "FastAPI", "Cloud Run", "GCP", "BigQuery", "Modal", "Delta Lake", "dbt", "DuckDB", "Polars", "Arize Phoenix", "OpenTelemetry", "Django", "Docker"],
+  },
+  {
     title: "Director of Technology",
     company: "Talent Plus, Inc.",
     dates: "Dec 2025 – Mar 2026",
@@ -28,7 +41,6 @@ export const roles: Role[] = [
     bullets: [
       "Introduced agentic coding workflows and GenAI tooling to the dev team",
       "Set the strategy for automated testing",
-      "Translated between research and engineering",
     ],
     tech: ["AWS", "Lambda", "ONNX", "RESTful APIs", "Snowflake", "DuckDB", "MLflow", "Claude", "Python", "CI/CD"],
   },
@@ -78,7 +90,6 @@ export const roles: Role[] = [
     bullets: [
       "Built the data science function from scratch, all open-source, zero vendor spend",
       "Developed opioid prescribing analysis and dashboards that led to a decrease in provider overprescribing",
-      "Set visualization and analytics standards for the org, mentored interns",
     ],
     tech: ["R", "Python", "Shiny", "Posit Connect", "Cerner", "SQL"],
   },
