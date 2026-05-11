@@ -21,6 +21,17 @@ export const hero = {
 
 export const roles: Role[] = [
   {
+    title: "Senior Data and AI Engineer",
+    company: "Contemporary Analysis",
+    dates: "Apr 2026 – Present",
+    location: "Omaha, NE",
+    bullets: [
+      "Building data and AI engineering capability for client engagements",
+      "Bringing agentic coding workflows and modern LLM tooling into the practice",
+    ],
+    tech: ["Python", "Databricks", "MLflow", "LangChain", "DSPy", "Claude", "FastAPI", "GCP", "AWS", "Docker", "CI/CD"],
+  },
+  {
     title: "Director of Technology",
     company: "Talent Plus, Inc.",
     dates: "Dec 2025 – Mar 2026",
