@@ -26,12 +26,13 @@ export const roles: Role[] = [
     dates: "Apr 2026 – Present",
     location: "Omaha, NE",
     bullets: [
-      "Cross-domain client work in insurance, agri-tech, and ERP distribution",
-      "Contributing to a Pydantic AI multi-agent ERP service on Cloud Run",
-      "Documented the firm's data-engineering archetype (Modal, Delta Lake, dbt, DuckDB)",
-      "Adapted a parallel-subagent codebase-mapping skill for the team's workflow",
+      "Client work across crop-insurance, healthcare, and distribution ERP",
+      "Led the build-out of a GCP data platform for a specialty insurer: Cloud Run services, Cloud SQL, Terragrunt/OpenTofu infra",
+      "Led delivery of a risk-aggregation engine port plus external and CRM data ingestion pipelines",
+      "Built and operate a ticket-driven coding-agent workflow that turns scoped Linear issues into PRs for human review",
+      "Lead validation for a billing-recovery system: a labor classifier plus LLM-assisted analysis of historical reviewer decisions to quantify and prioritize recoverable work",
     ],
-    tech: ["Python", "Pydantic AI", "Claude", "Vertex AI", "FastAPI", "Cloud Run", "GCP", "BigQuery", "Modal", "Delta Lake", "dbt", "DuckDB", "Polars", "Arize Phoenix", "OpenTelemetry", "Django", "Docker"],
+    tech: ["Python", "Claude Code", "MCP", "FastAPI", "Cloud Run", "Cloud SQL", "PostgreSQL", "GCP", "Terragrunt", "OpenTofu", "BigQuery", "Modal", "dbt", "DuckDB", "Polars", "Arize Phoenix", "OpenTelemetry", "Django", "Linear", "Docker"],
   },
   {
     title: "Director of Technology",
