@@ -175,7 +175,7 @@ export function SinglePage() {
                 <>
                   <h2 className="text-3xl mb-2">Get in Touch</h2>
                   <p className="mb-8" style={{ color: "var(--color-text-muted)" }}>
-                    Whether it's a tech opportunity or a music collaboration, I'd love to hear from you.
+                    Reach out about a tech role or a music project.
                   </p>
 
                   <form
