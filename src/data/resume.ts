@@ -109,7 +109,7 @@ export const expertise = [
 ];
 
 export const skills = {
-  tools: ["PyTorch", "Hugging Face", "scikit-learn", "XGBoost", "LightGBM", "Prophet", "ONNX", "LangChain", "DSPy", "MLflow", "Pandas", "NumPy", "Polars", "PySpark", "Apache Spark", "DuckDB", "dbt", "SQL", "BigQuery", "Snowflake", "GCP", "AWS", "Lambda", "Azure", "Kubernetes", "Cloud Run", "OpenTofu", "Terragrunt", "Docker", "CI/CD", "Git", "Python", "React", "TypeScript", "FastAPI", "RESTful APIs"],
+  tools: ["PyTorch", "Hugging Face", "scikit-learn", "XGBoost", "LightGBM", "Prophet", "ONNX", "LangChain", "DSPy", "MLflow", "Pandas", "NumPy", "Polars", "GeoPandas", "PySpark", "Apache Spark", "DuckDB", "dbt", "SQL", "BigQuery", "Snowflake", "GCP", "AWS", "Lambda", "Azure", "Kubernetes", "Cloud Run", "OpenTofu", "Terragrunt", "Docker", "CI/CD", "Git", "Python", "React", "TypeScript", "Django", "FastAPI", "RESTful APIs"],
   strengths: [
     "Teaching & Mentorship",
     "Cross-Team Translation",
