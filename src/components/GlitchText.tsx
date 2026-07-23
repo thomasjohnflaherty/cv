@@ -1,4 +1,5 @@
 import { useEffect, useRef, useCallback } from "react";
+import { useReducedMotion } from "framer-motion";
 
 interface GlitchTextProps {
   text: string;
@@ -19,6 +20,7 @@ export function GlitchText({ text, fontFamily, fontSize, color = "#e5e5e5", clas
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animFrameRef = useRef<number>(0);
   const startTimeRef = useRef<number>(0);
+  const reduce = useReducedMotion();
 
   const duration = 1200; // ms for full reveal
   const staggerPerChar = 60; // ms delay between each character starting to resolve
@@ -101,6 +103,13 @@ export function GlitchText({ text, fontFamily, fontSize, color = "#e5e5e5", clas
         if (entries[0].isIntersecting) {
           // Reset and restart animation
           cancelAnimationFrame(animFrameRef.current);
+
+          // Reduced motion: skip the scramble, render the resolved text.
+          if (reduce) {
+            draw(1);
+            return;
+          }
+
           startTimeRef.current = performance.now();
 
           const animate = (time: number) => {
@@ -132,7 +141,7 @@ export function GlitchText({ text, fontFamily, fontSize, color = "#e5e5e5", clas
       observer.disconnect();
       cancelAnimationFrame(animFrameRef.current);
     };
-  }, [text, draw, duration, staggerPerChar]);
+  }, [text, draw, duration, staggerPerChar, reduce]);
 
   // Set initial canvas size (blank)
   useEffect(() => {

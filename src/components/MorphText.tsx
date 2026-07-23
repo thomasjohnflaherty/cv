@@ -1,4 +1,5 @@
 import { useEffect, useRef, useCallback } from "react";
+import { useReducedMotion } from "framer-motion";
 
 interface MorphTextProps {
   from: string;
@@ -33,6 +34,8 @@ export function MorphText({
   className,
 }: MorphTextProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  const reduce = useReducedMotion();
 
   const draw = useCallback(() => {
     const canvas = canvasRef.current;
@@ -99,8 +102,11 @@ export function MorphText({
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     const y = fontSize * 0.2;
 
-    // Eased progress for smoother feel
-    const t = progress < 0.5
+    // Eased progress for smoother feel. Reduced motion: snap at the midpoint
+    // so letters don't slide.
+    const t = reduce
+      ? (progress < 0.5 ? 0 : 1)
+      : progress < 0.5
       ? 2 * progress * progress
       : 1 - Math.pow(-2 * progress + 2, 2) / 2;
 
@@ -162,7 +168,7 @@ export function MorphText({
     }
 
     ctx.globalAlpha = 1;
-  }, [from, to, progress, fontFamily, fontSize, fontWeight, color]);
+  }, [from, to, progress, fontFamily, fontSize, fontWeight, color, reduce]);
 
   useEffect(() => {
     draw();

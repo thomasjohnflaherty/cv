@@ -32,7 +32,7 @@ export const roles: Role[] = [
       "Built and operate a ticket-driven coding-agent workflow that turns scoped Linear issues into PRs for human review",
       "Lead validation for a billing-recovery system: a labor classifier plus LLM-assisted analysis of historical reviewer decisions to quantify and prioritize recoverable work",
     ],
-    tech: ["Python", "Claude Code", "MCP", "FastAPI", "Cloud Run", "Cloud SQL", "PostgreSQL", "GCP", "Terragrunt", "OpenTofu", "BigQuery", "Modal", "dbt", "DuckDB", "Polars", "Arize Phoenix", "OpenTelemetry", "Django", "Linear", "Docker"],
+    tech: ["Python", "Claude Code", "MCP", "FastAPI", "Django", "Cloud Run", "Cloud SQL", "PostgreSQL", "GCP", "Terragrunt", "OpenTofu", "Polars", "DuckDB", "GeoPandas", "OpenTelemetry", "GitHub Actions", "Linear", "Docker"],
   },
   {
     title: "Director of Technology",
@@ -109,7 +109,7 @@ export const expertise = [
 ];
 
 export const skills = {
-  tools: ["PyTorch", "Hugging Face", "scikit-learn", "XGBoost", "LightGBM", "Prophet", "ONNX", "LangChain", "DSPy", "MLflow", "Pandas", "NumPy", "Polars", "PySpark", "Apache Spark", "DuckDB", "dbt", "SQL", "BigQuery", "Snowflake", "GCP", "AWS", "Lambda", "Azure", "Kubernetes", "Cloud Run", "OpenTofu", "Terragrunt", "Docker", "CI/CD", "Git", "Python", "React", "TypeScript", "FastAPI", "RESTful APIs"],
+  tools: ["PyTorch", "Hugging Face", "scikit-learn", "XGBoost", "LightGBM", "Prophet", "ONNX", "LangChain", "DSPy", "MLflow", "Pandas", "NumPy", "Polars", "GeoPandas", "PySpark", "Apache Spark", "DuckDB", "dbt", "SQL", "BigQuery", "Snowflake", "GCP", "AWS", "Lambda", "Azure", "Kubernetes", "Cloud Run", "OpenTofu", "Terragrunt", "Docker", "CI/CD", "Git", "Python", "React", "TypeScript", "Django", "FastAPI", "RESTful APIs"],
   strengths: [
     "Teaching & Mentorship",
     "Cross-Team Translation",
