@@ -179,6 +179,7 @@ export function SinglePage() {
                   </p>
 
                   <form
+                    className="max-w-lg"
                     name="contact"
                     method="POST"
                     data-netlify="true"

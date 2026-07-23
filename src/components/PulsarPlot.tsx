@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
+import { useReducedMotion } from "framer-motion";
 import type { MotionValue } from "framer-motion";
+import { THEME_MIDPOINT } from "../utils/motion";
 
 interface PulsarPlotProps {
   scrollProgress: MotionValue<number>;
@@ -17,6 +19,7 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
   const [pulses, setPulses] = useState<DataPoint[][]>([]);
   const animRef = useRef<number>(0);
   const isMusicRef = useRef(isMusic);
+  const reduce = useReducedMotion();
 
   useEffect(() => { isMusicRef.current = isMusic; }, [isMusic]);
 
@@ -106,21 +109,7 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
     let smoothProgress = scrollProgress.get();
     let lastRendered = -1;
 
-    const animate = () => {
-      const raw = scrollProgress.get();
-
-      // Track raw position closely — no lag
-      smoothProgress += (raw - smoothProgress) * 0.45;
-
-      // Skip frame if nothing visually changed
-      if (Math.abs(smoothProgress - lastRendered) < 0.000005) {
-        animRef.current = requestAnimationFrame(animate);
-        return;
-      }
-      lastRendered = smoothProgress;
-
-      const progress = smoothProgress;
-      const music = isMusicRef.current;
+    const renderFrame = (progress: number, music: boolean) => {
       const fillColor = music ? "#0a0a0a" : "#fafafa";
       const gradId = music ? "url(#pg-music)" : "url(#pg-tech)";
 
@@ -147,13 +136,44 @@ export function PulsarPlot({ scrollProgress, isMusic }: PulsarPlotProps) {
         fillPath.attr("fill", fillColor).attr("d", areaGen(coords));
         strokePath.attr("stroke", gradId).attr("d", lineGen(coords));
       });
+    };
 
+    // Reduced motion: freeze the shape at a static frame. No scroll-driven
+    // cycling or drift; only recolor when the theme flips.
+    if (reduce) {
+      let lastMusic: boolean | null = null;
+      const paint = (v: number) => {
+        const music = v >= THEME_MIDPOINT;
+        if (music !== lastMusic) {
+          lastMusic = music;
+          renderFrame(0, music);
+        }
+      };
+      paint(scrollProgress.get());
+      const unsub = scrollProgress.on("change", paint);
+      return () => unsub();
+    }
+
+    const animate = () => {
+      const raw = scrollProgress.get();
+
+      // Track raw position closely — no lag
+      smoothProgress += (raw - smoothProgress) * 0.45;
+
+      // Skip frame if nothing visually changed
+      if (Math.abs(smoothProgress - lastRendered) < 0.000005) {
+        animRef.current = requestAnimationFrame(animate);
+        return;
+      }
+      lastRendered = smoothProgress;
+
+      renderFrame(smoothProgress, isMusicRef.current);
       animRef.current = requestAnimationFrame(animate);
     };
 
     animRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animRef.current);
-  }, [pulses, scrollProgress, resizeKey]);
+  }, [pulses, scrollProgress, resizeKey, reduce]);
 
   return (
     <div
