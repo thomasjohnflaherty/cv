@@ -32,7 +32,7 @@ export const roles: Role[] = [
       "Built and operate a ticket-driven coding-agent workflow that turns scoped Linear issues into PRs for human review",
       "Lead validation for a billing-recovery system: a labor classifier plus LLM-assisted analysis of historical reviewer decisions to quantify and prioritize recoverable work",
     ],
-    tech: ["Python", "Claude Code", "MCP", "FastAPI", "Cloud Run", "Cloud SQL", "PostgreSQL", "GCP", "Terragrunt", "OpenTofu", "BigQuery", "Modal", "dbt", "DuckDB", "Polars", "Arize Phoenix", "OpenTelemetry", "Django", "Linear", "Docker"],
+    tech: ["Python", "Claude Code", "MCP", "FastAPI", "Django", "Cloud Run", "Cloud SQL", "PostgreSQL", "GCP", "Terragrunt", "OpenTofu", "Polars", "DuckDB", "GeoPandas", "OpenTelemetry", "GitHub Actions", "Linear", "Docker"],
   },
   {
     title: "Director of Technology",
