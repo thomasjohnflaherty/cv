@@ -12,7 +12,7 @@ export function ResumeDocument() {
         padding: "0.45in 0.55in",
         fontFamily: font,
         fontSize: "9.5pt",
-        lineHeight: 1.45,
+        lineHeight: 1.4,
         color: "#1a1a2e",
         backgroundColor: "#ffffff",
         position: "relative",
@@ -44,17 +44,17 @@ export function ResumeDocument() {
         thomasflaherty@gmail.com · linkedin.com/in/thomasjohnflaherty · thomflaherty.netlify.app
       </p>
 
-      <hr style={{ border: "none", borderTop: "1px solid #d1d5db", margin: "0 0 10pt" }} />
+      <hr style={{ border: "none", borderTop: "1px solid #d1d5db", margin: "0 0 8pt" }} />
 
       {/* Expertise */}
       <h2 style={{ fontFamily: font, fontSize: "9pt", fontWeight: 600, margin: "0 0 4pt", textTransform: "uppercase", letterSpacing: "0.08em", color: "#374151" }}>
         Expertise
       </h2>
-      <p style={{ fontSize: "8.5pt", margin: "0 0 10pt", color: "#4b5563" }}>
+      <p style={{ fontSize: "8.5pt", margin: "0 0 8pt", color: "#4b5563" }}>
         {expertise.join("  ·  ")}
       </p>
 
-      <hr style={{ border: "none", borderTop: "1px solid #d1d5db", margin: "0 0 10pt" }} />
+      <hr style={{ border: "none", borderTop: "1px solid #d1d5db", margin: "0 0 8pt" }} />
 
       {/* Experience */}
       <h2 style={{ fontFamily: font, fontSize: "9pt", fontWeight: 600, margin: "0 0 6pt", textTransform: "uppercase", letterSpacing: "0.08em", color: "#374151" }}>
@@ -78,17 +78,17 @@ export function ResumeDocument() {
         </div>
       ))}
 
-      <hr style={{ border: "none", borderTop: "1px solid #d1d5db", margin: "8pt 0 10pt" }} />
+      <hr style={{ border: "none", borderTop: "1px solid #d1d5db", margin: "6pt 0 8pt" }} />
 
       {/* Tools */}
       <h2 style={{ fontFamily: font, fontSize: "9pt", fontWeight: 600, margin: "0 0 4pt", textTransform: "uppercase", letterSpacing: "0.08em", color: "#374151" }}>
         Tools
       </h2>
-      <p style={{ fontSize: "8.5pt", margin: "0 0 10pt", color: "#4b5563" }}>
+      <p style={{ fontSize: "8.5pt", margin: "0 0 8pt", color: "#4b5563" }}>
         {skills.tools.join("  ·  ")}
       </p>
 
-      <hr style={{ border: "none", borderTop: "1px solid #d1d5db", margin: "0 0 10pt" }} />
+      <hr style={{ border: "none", borderTop: "1px solid #d1d5db", margin: "0 0 8pt" }} />
 
       {/* Education */}
       <h2 style={{ fontFamily: font, fontSize: "9pt", fontWeight: 600, margin: "0 0 6pt", textTransform: "uppercase", letterSpacing: "0.08em", color: "#374151" }}>
